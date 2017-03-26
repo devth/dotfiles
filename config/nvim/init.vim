@@ -1,8 +1,8 @@
-"      _            _   _                  _                    
-"     | |          | | | |                (_)                   
-"   __| | _____   _| |_| |__    _ ____   ___ _ __ ___  _ __ ___ 
+"      _            _   _                  _
+"     | |          | | | |                (_)
+"   __| | _____   _| |_| |__    _ ____   ___ _ __ ___  _ __ ___
 "  / _` |/ _ \ \ / / __| '_ \  | '_ \ \ / / | '_ ` _ \| '__/ __|
-" | (_| |  __/\ V /| |_| | | | | | | \ V /| | | | | | | | | (__ 
+" | (_| |  __/\ V /| |_| | | | | | | \ V /| | | | | | | | | (__
 "  \__,_|\___| \_/  \__|_| |_| |_| |_|\_/ |_|_| |_| |_|_|  \___|
 "
 " Author: Trevor Hartman
@@ -81,9 +81,9 @@
   set incsearch
   set showmatch
   set hlsearch
-  nnoremap <leader><space> :nohlsearch<cr>
-  nnoremap <tab> %
-  vnoremap <tab> %
+  set noautochdir
+  set norelativenumber
+  set nonumber
   " Whitespace
   set tabstop=2
   set smarttab
@@ -116,7 +116,15 @@
 
   " Edit .zshrc
   nnoremap <leader>ez <C-w><C-v><C-l>:e ~/.zshrc<cr>
-  
+
+  " Clear searches
+  nnoremap <leader><space> :nohlsearch<cr>
+  " Tab between braces
+  nnoremap <tab> %
+  vnoremap <tab> %
+
+  " Remove trailing whitespace
+  nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>``
 " }}}
 
 " Fold settings {{{
@@ -146,6 +154,17 @@
   hi ColorColumn ctermbg=black
   set guioptions=egmt
   set bg=dark
+  let g:airline_powerline_fonts = 1
+  " Disable tmuxline overwriting so we can configure it ourselves
+  let g:airline#extensions#tmuxline#enabled = 0
+
+  " Remove vertical split pipe
+  set fillchars=
+  " and the background
+  hi VertSplit ctermbg=0 guibg=#FAF2DC
+
+  " NonText is used for chars like the ~ in blank lines
+  hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
 
 " }}}
 
@@ -193,5 +212,18 @@
   nmap <leader>r<leader>r <Plug>ReplaceLine
   vmap <leader>r <Plug>ReplaceVisual
 " }}}
+
+" git {{{
+  map <leader>gb :Gblame<cr>
+  map <leader>gh :Gbrowse<cr>
+  map <leader>ge :Gedit<cr>
+  map <leader>gl :Glog<cr>
+  map <leader>gw :Gwrite<cr>
+  map <leader>gs :Gstatus<cr>
+  map <leader>gs :Gstatus<cr>
+  map <leader>gP :Gpush<cr>
+  map <leader>gp :Gpull --rebase<cr>
+" }}}
+
 
 
