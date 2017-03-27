@@ -1,6 +1,7 @@
 # dotfiles
 
-The pristine, versioned, dotfile zen garden of @devth.
+The pristine, versioned, dotfile zen garden of
+[@devth](https://github.com/devth).
 
 ## Scope
 

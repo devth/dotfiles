@@ -55,6 +55,12 @@
   call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
   call dein#add('vim-scripts/tComment') " Comment stuff
 
+  " Superfast fuzzy file finder
+  " call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+  " call dein#add('junegunn/fzf', { 'build': './install', 'rtp': '' })
+  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
+  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+
   " Colors
   call dein#add('altercation/vim-colors-solarized')
 
@@ -262,8 +268,12 @@
   nnoremap <leader>yc :let @+=@"<cr>
   " Put system clipboard into default register
   nnoremap <leader>cy :let @"=@+<cr>
-"
+" }}}
 
 " deoplete {{{
   let g:deoplete#enable_at_startup = 1
+" }}}
+
+" fzf {{{
+  nmap <leader>p :Files<cr>
 " }}}

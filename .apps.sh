@@ -38,7 +38,6 @@ brew install cfssl
 # Linter suport {{{
   brew install shellcheck
   brew search mdl
-
 # }}}
 
 
@@ -48,8 +47,9 @@ brew info openssl
 brew install --force openssl
 brew link --force openssl
 
-
 brew install vault
+
+brew install fzf
 
 brew install jq
 
