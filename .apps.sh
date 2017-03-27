@@ -34,6 +34,11 @@ brew install graphviz
 
 brew install cfssl
 
+
+# Linter suport
+brew install shellcheck
+
+
 # This is keg only and requires an explicit PATH in ~/.zshrc
 # echo 'export PATH="/usr/local/opt/openssl/bin:$PATH"' >> ~/.zshrc
 brew info openssl
@@ -140,9 +145,11 @@ npm install -g doctoc
 #
 
 curl https://sdk.cloud.google.com | bash
-exec -l $SHELL
+echo "NOTE: you may need to reload shell your after installing gcloud"
+echo "Reloading ~/.zshrc"
+# shellcheck source=/dev/null
+. "$HOME/.zshrc"
 gcloud components install kubectl
-
 
 #
 # Manual steps (TODO automate these)
@@ -157,6 +164,3 @@ gcloud components install kubectl
 #
 # Configure IRC to connect to firrre:
 # https://firrre.com/connect/
-
-
-
