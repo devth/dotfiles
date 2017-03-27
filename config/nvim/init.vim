@@ -21,7 +21,7 @@
   "
   " tpope
   call dein#add('tpope/vim-dispatch')
-  call dein#add('tpope/vim-dispatch')
+  call dein#add('tpope/vim-fireplace')
   call dein#add('tpope/vim-fugitive')
   call dein#add('tpope/vim-repeat')
   call dein#add('tpope/vim-rhubarb')
@@ -33,6 +33,7 @@
 
   " Clojure
   call dein#add('clojure-vim/acid.nvim')
+  call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
 
   " git
   call dein#add('tommcdo/vim-fubitive') " bitbucket for fugitive
@@ -199,8 +200,7 @@
   " Stay in sync with current working directory
   let NERDTreeChDirMode=2
   let NERDTreeQuitOnOpen=1
-  " let NERDTreeQuitOnOpen=0
-  let NERDTreeQuitOnOpen=0
+  let NERDTreeMapToggleHidden=1
 " }}}
 
 " tbone {{{
@@ -249,9 +249,13 @@
   map <leader>gp :Gpull --rebase<cr>
 " }}}
 
-" dein mappings {{{
+" dein mappings & config {{{
   nnoremap <leader>du :call dein#update()<cr>
   nnoremap <leader>di :call dein#install()<cr>
+
+  " Try this out temporarily
+  let g:dein#enable_notification = 1
+
 " }}}
 
 " Neomake {{{
@@ -270,6 +274,8 @@
 
 " deoplete {{{
   let g:deoplete#enable_at_startup = 1
+  let g:deoplete#keyword_patterns = {}
+  let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
 " }}}
 
 " fzf {{{
