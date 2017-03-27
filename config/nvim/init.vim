@@ -56,8 +56,6 @@
   call dein#add('vim-scripts/tComment') " Comment stuff
 
   " Superfast fuzzy file finder
-  " call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-  " call dein#add('junegunn/fzf', { 'build': './install', 'rtp': '' })
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
