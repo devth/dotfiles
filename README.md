@@ -1,6 +1,6 @@
 # dotfiles
 
-The pristine, versioned dotfile zen garden of @devth.
+The pristine, versioned, dotfile zen garden of @devth.
 
 ## Scope
 
@@ -8,6 +8,22 @@ The pristine, versioned dotfile zen garden of @devth.
 - Terminal
   - zsh
   - homebrew
-    - CLI apps
-    - Cask macOS native apps
-  - App Store apps (via `mas`)
+- Apps
+  - CLI apps via Homebrew
+  - macOS native apps via Homebrew Cask
+  - App Store apps via `mas`
+- git
+  - [global ignore](gitignore_global)
+
+## Usage
+
+```bash
+./install.sh
+```
+
+This relies on [rcm](https://github.com/thoughtbot/rcm) to setup all the correct
+symlinks. `install.sh` installs it and runs it for you.
+
+## License
+
+[MIT](LICENSE.md)
