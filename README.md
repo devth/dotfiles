@@ -24,6 +24,11 @@ The pristine dotfile zen garden of [@devth](https://github.com/devth).
 This relies on [rcm](https://github.com/thoughtbot/rcm) to setup all the correct
 symlinks. `install.sh` installs it and runs it for you.
 
+## Inspiration
+
+- [https://github.com/christoomey/dotfiles](https://github.com/christoomey/dotfiles)
+- [https://github.com/mhartington/dotfiles](https://github.com/mhartington/dotfiles)
+
 ## License
 
 [MIT](LICENSE.md)
