@@ -17,7 +17,7 @@ The pristine, versioned, dotfile zen garden of @devth.
 
 ## Usage
 
-```bash
+```shell
 ./install.sh
 ```
 
