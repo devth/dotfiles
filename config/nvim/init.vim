@@ -50,6 +50,7 @@
 
   " Utils
   call dein#add('vim-scripts/regreplop.vim') " replace!
+  call dein#add('neomake/neomake') " async syntax checking, building
 
   " Colors
   call dein#add('altercation/vim-colors-solarized')
@@ -226,5 +227,7 @@
   map <leader>gp :Gpull --rebase<cr>
 " }}}
 
-
+" dein mappings {{{
+nnoremap <leader>du :call dein#update()<cr>
+" }}}
 
