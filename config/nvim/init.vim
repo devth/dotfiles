@@ -31,6 +31,9 @@
   call dein#add('tpope/vim-tbone')
   call dein#add('tpope/vim-unimpaired')
 
+  " Colors - some plugins rely on this
+  call dein#add('devth/vim-colors-solarized') " Note: devth-fork
+
   " Clojure
   call dein#add('clojure-vim/acid.nvim')
   call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
@@ -60,8 +63,6 @@
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
-  " Colors
-  call dein#add('altercation/vim-colors-solarized')
 
   " Powerline alternatives
   call dein#add('bling/vim-airline')
