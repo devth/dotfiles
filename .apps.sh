@@ -53,6 +53,7 @@ brew install tmux
 brew install reattach-to-user-namespace
 sudo gem install tmuxinator
 sudo gem install ghi
+gem install neovim
 
 brew install golang
 
