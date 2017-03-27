@@ -7,7 +7,6 @@
 "
 " Author: Trevor Hartman
 " https://github.com/devth/dotfiles
-"
 
 " Setup dein {{{
   if (!isdirectory(expand("$HOME/.config/nvim/repos/github.com/Shougo/dein.vim")))
@@ -94,7 +93,7 @@
   set backspace=start,indent
   set textwidth=80
   set wrapmargin=1
-	" Configure python
+  " Configure python
   let g:python2_host_prog = '/usr/local/bin/python'
   let g:python3_host_prog = '/usr/local/bin/python3'
 " }}}
@@ -231,3 +230,5 @@
 nnoremap <leader>du :call dein#update()<cr>
 " }}}
 
+" Neomake {{{
+" }}}
