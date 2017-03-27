@@ -125,6 +125,9 @@
 
   " Remove trailing whitespace
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>``
+
+  " Open the location list
+  nnoremap <leader>l :lopen<cr>
 " }}}
 
 " Fold settings {{{
@@ -231,4 +234,15 @@ nnoremap <leader>du :call dein#update()<cr>
 " }}}
 
 " Neomake {{{
+  " Enable Neomake on save on expected file types
+  " autocmd! BufWritePost sh,markdown Neomake
+  " Or just enable it everywhere all the time because it's async!
+  autocmd! BufEnter,BufRead,BufWritePost * Neomake
 " }}}
+
+" Clipboard {{{
+  " Put default register into system clipboard
+  nnoremap <leader>yc :let @+=@"<cr>
+  " Put system clipboard into default register
+  nnoremap <leader>cy :let @"=@+<cr>
+"
