@@ -19,10 +19,6 @@
 
   " Plugins to Use
   "
-
-  call dein#add('vim-scripts/YankRing.vim')
-  call dein#add('vim-scripts/tComment')
-
   " tpope
   call dein#add('tpope/vim-dispatch')
   call dein#add('tpope/vim-dispatch')
@@ -34,6 +30,9 @@
   call dein#add('tpope/vim-surround')
   call dein#add('tpope/vim-tbone')
   call dein#add('tpope/vim-unimpaired')
+
+  " Clojure
+  call dein#add('clojure-vim/acid.nvim')
 
   " git
   call dein#add('tommcdo/vim-fubitive') " bitbucket for fugitive
@@ -50,9 +49,12 @@
   " Utils
   call dein#add('vim-scripts/regreplop.vim') " replace!
   call dein#add('neomake/neomake') " async syntax checking, building
+  call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
+  call dein#add('vim-scripts/tComment') " Comment stuff
 
   " Colors
   call dein#add('altercation/vim-colors-solarized')
+
   " Powerline alternatives
   call dein#add('bling/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
@@ -230,7 +232,8 @@
 " }}}
 
 " dein mappings {{{
-nnoremap <leader>du :call dein#update()<cr>
+  nnoremap <leader>du :call dein#update()<cr>
+  nnoremap <leader>di :call dein#install()<cr>
 " }}}
 
 " Neomake {{{
