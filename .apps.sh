@@ -35,8 +35,11 @@ brew install graphviz
 brew install cfssl
 
 
-# Linter suport
-brew install shellcheck
+# Linter suport {{{
+  brew install shellcheck
+  brew search mdl
+
+# }}}
 
 
 # This is keg only and requires an explicit PATH in ~/.zshrc
@@ -44,8 +47,6 @@ brew install shellcheck
 brew info openssl
 brew install --force openssl
 brew link --force openssl
-
-
 
 
 brew install vault
@@ -56,9 +57,6 @@ brew install kubernetes-helm
 
 brew install tmux
 brew install reattach-to-user-namespace
-sudo gem install tmuxinator
-sudo gem install ghi
-gem install neovim
 
 brew install golang
 

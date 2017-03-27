@@ -1,1 +1,1 @@
-EXCLUDES=".apps.sh .macos.sh assets/* LICENSE.*"
+EXCLUDES=".apps.sh .gems.sh .macos.sh assets/* LICENSE.*"
