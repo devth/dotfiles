@@ -170,6 +170,15 @@
 " }}}
 
 " Colors / aesthetics {{{
+
+  " This must be defined before activating colorscheme
+  augroup my_neomake_signs
+      au!
+      autocmd ColorScheme *
+          \ hi NeomakeErrorSign ctermfg=red ctermbg=black |
+          \ hi NeomakeWarningSign ctermfg=yellow
+  augroup END
+
   colorscheme solarized
   set colorcolumn=80
   hi ColorColumn ctermbg=black
@@ -246,7 +255,7 @@
   map <leader>gw :Gwrite<cr>
   map <leader>gs :Gstatus<cr>
   map <leader>gs :Gstatus<cr>
-  map <leader>gP :Gpush<cr>
+  map <leader>gP :NeomakeSh git push<cr>
   map <leader>gp :Gpull --rebase<cr>
 " }}}
 
@@ -264,6 +273,9 @@
   " autocmd! BufWritePost sh,markdown Neomake
   " Or just enable it everywhere all the time because it's async!
   autocmd! BufEnter,BufRead,BufWritePost * Neomake
+
+  let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
+  let g:neomake_error_sign = {'text': '🚨', 'texthl': 'NeomakeErrorSign'}
 " }}}
 
 " Clipboard {{{
@@ -281,4 +293,9 @@
 
 " fzf {{{
   nmap <leader>p :Files<cr>
+" }}}
+
+" vim-tmux-navigator {{{
+  " Disable tmux navigator when zooming the Vim pane
+  let g:tmux_navigator_disable_when_zoomed = 1
 " }}}
