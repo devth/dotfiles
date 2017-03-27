@@ -97,6 +97,10 @@ brew install tree
 brew tap codeclimate/formulae
 brew install codeclimate
 
+# required by vim tiagofumo/vim-nerdtree-syntax-highlight plugin
+brew tap caskroom/fonts   
+brew cask install font-hack-nerd-font
+
 brew cask install selfcontrol
 
 # brew install docker

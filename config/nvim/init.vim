@@ -41,6 +41,9 @@
   " File exploration / openning
   call dein#add('scrooloose/nerdtree')
   call dein#add('Xuyuanp/nerdtree-git-plugin')
+  " Can't get these to work right - font is not configured?
+  " call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
+  " call dein#add('ryanoasis/vim-devicons')
 
   " tmux integration
   call dein#add('tmux-plugins/vim-tmux')
@@ -59,6 +62,10 @@
   call dein#add('bling/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
 
+  " Completion
+  call dein#add('Shougo/deoplete.nvim')
+
+  " End dein
   call dein#end()
   call dein#save_state()
 " }}}
@@ -95,6 +102,8 @@
   set backspace=start,indent
   set textwidth=80
   set wrapmargin=1
+  " Show glyphs from vim-devicons
+  set encoding=utf8
   " Configure python
   let g:python2_host_prog = '/usr/local/bin/python'
   let g:python3_host_prog = '/usr/local/bin/python3'
@@ -154,7 +163,7 @@
   nnoremap z<space> za " easier toggling
 " }}}
 
-" Colors {{{
+" Colors / aesthetics {{{
   colorscheme solarized
   set colorcolumn=80
   hi ColorColumn ctermbg=black
@@ -163,6 +172,11 @@
   let g:airline_powerline_fonts = 1
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
+
+  " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 12
+  " set guifont=Knack\ Nerd\ Font\ Regular:12
+  set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11
+  " Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
 
   " Remove vertical split pipe
   set fillchars=
@@ -249,3 +263,7 @@
   " Put system clipboard into default register
   nnoremap <leader>cy :let @"=@+<cr>
 "
+
+" deoplete {{{
+  let g:deoplete#enable_at_startup = 1
+" }}}
