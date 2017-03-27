@@ -146,6 +146,7 @@
   set foldtext=MyFoldText()
   autocmd FileType vim setlocal foldmethod=marker
   autocmd FileType vim setlocal foldlevel=0
+  nnoremap z<space> za " easier toggling
 " }}}
 
 " Colors {{{
