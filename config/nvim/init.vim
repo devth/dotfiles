@@ -35,7 +35,7 @@
   call dein#add('devth/vim-colors-solarized') " Note: devth-fork
 
   " Clojure
-  call dein#add('clojure-vim/acid.nvim')
+  " call dein#add('clojure-vim/acid.nvim') " TODO try this out
   call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
 
   " git
@@ -99,6 +99,8 @@
   set noautochdir
   set norelativenumber
   set nonumber
+  set nobackup
+  set noswapfile
   " Whitespace
   set tabstop=2
   set smarttab
@@ -145,6 +147,13 @@
 
   " Open the location list
   nnoremap <leader>l :lopen<cr>
+
+  " Remove last character in line
+  function! RmLastChar()
+    :s/.$/
+  endfunction
+  nnoremap <leader>ax :call RmLastChar()<cr>
+  vnoremap <leader>ax :call RmLastChar()<cr>
 " }}}
 
 " Fold settings {{{
