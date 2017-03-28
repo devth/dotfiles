@@ -35,7 +35,6 @@
   call dein#add('devth/vim-colors-solarized') " Note: devth-fork
 
   " Clojure
-  " call dein#add('clojure-vim/acid.nvim') " TODO try this out
   call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
 
   " git
@@ -58,6 +57,7 @@
   call dein#add('neomake/neomake') " async syntax checking, building
   call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
   call dein#add('vim-scripts/tComment') " Comment stuff
+  call dein#add('junegunn/goyo.vim') " Writing mode
 
   " Superfast fuzzy file finder
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
@@ -70,6 +70,7 @@
 
   " Completion
   call dein#add('Shougo/deoplete.nvim')
+
 
   " End dein
   call dein#end()
