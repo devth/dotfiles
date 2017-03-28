@@ -23,6 +23,7 @@
   call dein#add('tpope/vim-dispatch')
   call dein#add('tpope/vim-fireplace')
   call dein#add('tpope/vim-fugitive')
+  call dein#add('tpope/vim-markdown')
   call dein#add('tpope/vim-repeat')
   call dein#add('tpope/vim-rhubarb')
   call dein#add('tpope/vim-scriptease')
@@ -58,6 +59,9 @@
   call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
   call dein#add('vim-scripts/tComment') " Comment stuff
   call dein#add('junegunn/goyo.vim') " Writing mode
+  call dein#add('majutsushi/tagbar') " ctags!
+  call dein#add('michaeljsmith/vim-indent-object') " indent objects
+  call dein#add('junegunn/vim-easy-align') " alignment!
 
   " Superfast fuzzy file finder
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
@@ -308,4 +312,12 @@
 " vim-tmux-navigator {{{
   " Disable tmux navigator when zooming the Vim pane
   let g:tmux_navigator_disable_when_zoomed = 1
+" }}}
+
+" TagBar {{{
+  nmap <leader>tb :TagbarOpen fj<cr>
+" }}}
+
+" vim-markdown {{{
+  let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'clojure']
 " }}}
