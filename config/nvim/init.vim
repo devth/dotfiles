@@ -115,6 +115,10 @@
   set backspace=start,indent
   set textwidth=80
   set wrapmargin=1
+  " special characters
+  set list
+  " whitespace characters
+  set listchars=tab:>-,trail:-
   " Show glyphs from vim-devicons
   set encoding=utf8
   " Configure python
@@ -146,6 +150,9 @@
   " Tab between braces
   nnoremap <tab> %
   vnoremap <tab> %
+
+  " Yank current file path
+  nnoremap <leader>cp :let @" = expand("%")<cr>
 
   " Remove trailing whitespace
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>``
