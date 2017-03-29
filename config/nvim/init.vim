@@ -6,6 +6,7 @@
 "  \__,_|\___| \_/  \__|_| |_| |_| |_|\_/ |_|_| |_| |_|_|  \___|
 "
 " Author: Trevor Hartman
+" Part of the pristine dotfile zen garden of @devth
 " https://github.com/devth/dotfiles
 
 " Setup dein {{{
@@ -115,6 +116,7 @@
   set backspace=start,indent
   set textwidth=80
   set wrapmargin=1
+  set complete=.,w,b,u,t,i,],kspell
   " special characters
   set list
   " whitespace characters
@@ -166,6 +168,11 @@
   endfunction
   nnoremap <leader>ax :call RmLastChar()<cr>
   vnoremap <leader>ax :call RmLastChar()<cr>
+" }}}
+
+" Vim system autocmds {{{
+  " turn on spelling for markdown files
+  autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
 " }}}
 
 " Fold settings {{{
