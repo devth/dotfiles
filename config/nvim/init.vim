@@ -340,6 +340,7 @@
 " }}}
 
 " TagBar {{{
+  let g:tagbar_compact = 1
   nmap <leader>tb :TagbarOpen fj<cr>
   " Configure TagBar for markdown
   " Add support for markdown files in tagbar.
