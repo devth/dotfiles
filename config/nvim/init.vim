@@ -177,6 +177,8 @@
   " turn on spelling for markdown files
   autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
   autocmd BufRead,BufNewFile *.md set cursorline cursorcolumn
+  " yaml
+  autocmd BufRead,BufNewFile *.yaml set cursorline cursorcolumn
 " }}}
 
 " Fold settings {{{
