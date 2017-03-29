@@ -65,7 +65,7 @@
   call dein#add('junegunn/vim-easy-align') " alignment!
 
   " Superfast fuzzy file finder
-  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
+  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
 
@@ -177,6 +177,8 @@
   " turn on spelling for markdown files
   autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
   autocmd BufRead,BufNewFile *.md set cursorline cursorcolumn
+  " S-K to pull up dictionary on markdown
+  autocmd FileType markdown setlocal keywordprg=sdcv
   " yaml
   autocmd BufRead,BufNewFile *.yaml set cursorline cursorcolumn
 " }}}
