@@ -156,6 +156,9 @@
   " Yank current file path
   nnoremap <leader>cp :let @" = expand("%")<cr>
 
+  " Substitute word under cursor
+  :nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+
   " Remove trailing whitespace
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>``
 
@@ -173,6 +176,7 @@
 " Vim system autocmds {{{
   " turn on spelling for markdown files
   autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
+  autocmd BufRead,BufNewFile *.md set cursorline cursorcolumn
 " }}}
 
 " Fold settings {{{
@@ -350,4 +354,27 @@
 
 " vim-markdown {{{
   let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'clojure']
+" }}}
+
+" Clojure {{{
+  " vim-clojure-static
+  let g:clojure_align_multiline_strings = 1
+  let g:clojure_fuzzy_indent_patterns = ['s/fdef', 'params', 'with-test-env',
+    \'card', 'getInitialState', 'component', 'this-as', '^def', '^dom', 'div$',
+    \'query', 'ident', 'render', 'cmd-hook', 'defentity', 'defplan',
+    \'defproject', 'defsynth', 'group-spec', 'node-spec', 'defroutes', 'match',
+    \'deftrace', 'defproject', 'deftest']
+  let g:clojure_maxlines = 80
+  " cljx syntax highlighting
+  autocmd BufNewFile,BufReadPost *.cljx setfiletype clojure
+  " vim-fireplace / clojure
+  autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
+  autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
+  autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
+  " Clojure macros
+  autocmd FileType clojure let @i='ysabbais'
+  " Clojure should have a very large foldlevel
+  autocmd FileType clojure set foldlevel=64
+  " ClojureScript
+  nmap <leader><leader>pg :Piggieback (figwheel-sidecar.repl-api/repl-env)<cr>
 " }}}
