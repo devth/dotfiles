@@ -116,6 +116,9 @@
   set backspace=start,indent
   set textwidth=80
   set wrapmargin=1
+  " prevent double spaces when joining with C-j
+  set nojoinspaces
+  " Completion
   set complete=.,w,b,u,t,i,],kspell
   " special characters
   set list
