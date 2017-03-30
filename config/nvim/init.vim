@@ -373,6 +373,8 @@
   nmap <leader>p :Files<cr>
   " line wise completion
   imap <c-x><c-l> <plug>(fzf-complete-line)
+  " find commits
+  nnoremap <leader>fc :Commits<cr>
 " }}}
 
 " vim-tmux-navigator {{{
