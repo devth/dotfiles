@@ -9,7 +9,7 @@
 " Part of the pristine dotfile zen garden of @devth
 " https://github.com/devth/dotfiles
 
-" Setup dein {{{
+" Plugins {{{
   if (!isdirectory(expand("$HOME/.config/nvim/repos/github.com/Shougo/dein.vim")))
     call system(expand("mkdir -p $HOME/.config/nvim/repos/github.com"))
     call system(expand("git clone https://github.com/Shougo/dein.vim $HOME/.config/nvim/repos/github.com/Shougo/dein.vim"))
@@ -18,8 +18,6 @@
   call dein#begin(expand('~/.config/nvim'))
   call dein#add('Shougo/dein.vim')
 
-  " Plugins to Use
-  "
   " tpope
   call dein#add('tpope/vim-dispatch')
   call dein#add('tpope/vim-fireplace')
