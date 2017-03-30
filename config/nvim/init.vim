@@ -369,7 +369,10 @@
 " }}}
 
 " fzf {{{
+  " ctrl-p replacement
   nmap <leader>p :Files<cr>
+  " line wise completion
+  imap <c-x><c-l> <plug>(fzf-complete-line)
 " }}}
 
 " vim-tmux-navigator {{{
