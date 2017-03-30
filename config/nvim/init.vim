@@ -100,8 +100,8 @@
   set ic " case insensitive search
   set gdefault
   set incsearch
-  set showmatch
   set hlsearch
+  set showmatch
   set noautochdir
   set norelativenumber
   set nonumber
@@ -150,6 +150,9 @@
   " Edit .zshrc
   nnoremap <leader>ez <C-w><C-v><C-l>:e ~/.zshrc<cr>
 
+  " Always open help in vert split
+  autocmd FileType help wincmd L
+
   " Clear searches
   nnoremap <leader><space> :nohlsearch<cr>
   " Tab between braces
@@ -175,6 +178,9 @@
   endfunction
   nnoremap <leader>ax :call RmLastChar()<cr>
   vnoremap <leader>ax :call RmLastChar()<cr>
+
+  " Toggle Goyo
+  nnoremap <leader>go :Goyo<cr>
 " }}}
 
 " Vim system autocmds {{{
@@ -248,12 +254,13 @@
 
   " Goyo {{{
     let g:goyo_height = "100%"
+    let g:goyo_width = 84
     function! s:goyo_enter()
       silent !tmux set status off
       " silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
       set noshowmode
       set noshowcmd
-      set scrolloff=999
+      " set scrolloff=999
     endfunction
 
     function! s:goyo_leave()
@@ -261,7 +268,7 @@
       " silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
       set showmode
       set showcmd
-      set scrolloff=5
+      " set scrolloff=5
     endfunction
 
     autocmd! User GoyoEnter nested call <SID>goyo_enter()
