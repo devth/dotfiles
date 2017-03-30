@@ -2,9 +2,9 @@
 
 The pristine dotfile zen garden of [@devth](https://github.com/devth).
 
-<center>
+<p align="center">
 <img src="https://twistedsifter.files.wordpress.com/2016/12/miniature-bonsai-forests-5.jpg?w=800&h=554" />
-</center>
+</p>
 
 ## Scope
 
