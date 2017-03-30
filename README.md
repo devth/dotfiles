@@ -1,9 +1,10 @@
 # dotfiles
 
-The pristine dotfile zen garden of [@devth](https://github.com/devth).
-
 <p align="center">
-<img src="https://twistedsifter.files.wordpress.com/2016/12/miniature-bonsai-forests-5.jpg?w=800&h=554" />
+  <img src="https://twistedsifter.files.wordpress.com/2016/12/miniature-bonsai-forests-5.jpg?w=800&h=554" />
+  <i>The pristine dotfile zen garden of
+    <a href="https://github.com/devth">@devth</a>
+  </i>
 </p>
 
 ## Scope
