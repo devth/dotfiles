@@ -2,7 +2,9 @@
 
 The pristine dotfile zen garden of [@devth](https://github.com/devth).
 
-![zen garden](https://upload.wikimedia.org/wikipedia/commons/7/75/Zen_Garden%2C_Nanzen-ji_Temple_%287005735830%29_%283%29.jpg)
+<center>
+<img src="https://twistedsifter.files.wordpress.com/2016/12/miniature-bonsai-forests-5.jpg?w=800&h=554" />
+</center>
 
 ## Scope
 
