@@ -166,7 +166,8 @@
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>``
 
   " Open the location list
-  nnoremap <leader>l :lopen<cr>
+  nnoremap <leader>lo :lopen<cr>
+  nnoremap <leader>co :copen<cr>
 
   " Remove last character in line
   function! RmLastChar()
