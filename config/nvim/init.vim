@@ -209,7 +209,7 @@
   nnoremap z<space> za " easier toggling
 " }}}
 
-" Colors / aesthetics {{{
+" Aesthetics {{{
 
   " This must be defined before activating colorscheme
   augroup my_neomake_signs
@@ -219,9 +219,19 @@
           \ hi NeomakeWarningSign ctermfg=yellow
   augroup END
 
+  " Remove background on vertical splits
+  " Hide the ~ characters at end of files
+  augroup vimrc
+     autocmd!
+     autocmd ColorScheme *
+       \ hi VertSplit ctermbg=0 guibg=#FAF2DC
+       \ | hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
+       \ | hi ColorColumn ctermbg=black
+   augroup END
+
   colorscheme solarized
+
   set colorcolumn=80
-  hi ColorColumn ctermbg=black
   set guioptions=egmt
   set bg=dark
   let g:airline_powerline_fonts = 1
@@ -235,11 +245,10 @@
 
   " Remove vertical split pipe
   set fillchars=
-  " and the background
-  hi VertSplit ctermbg=0 guibg=#FAF2DC
 
-  " NonText is used for chars like the ~ in blank lines
-  hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
+  " Goyo {{{
+    let g:goyo_height = "100%"
+  " }}}
 
 " }}}
 
@@ -400,3 +409,4 @@
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
 " }}}
+
