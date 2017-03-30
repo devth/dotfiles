@@ -350,7 +350,7 @@
   autocmd! BufEnter,BufRead,BufWritePost * Neomake
 
   let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
-  let g:neomake_error_sign = {'text': '🚨', 'texthl': 'NeomakeErrorSign'}
+  let g:neomake_error_sign = {'text': '•', 'texthl': 'NeomakeErrorSign'}
 " }}}
 
 " Clipboard {{{
