@@ -100,6 +100,7 @@
   set ic " case insensitive search
   set gdefault
   set incsearch
+  set wrapscan " side effect: jumps to result as you type
   set hlsearch
   set showmatch
   set noautochdir
