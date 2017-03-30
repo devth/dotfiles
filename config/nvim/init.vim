@@ -296,6 +296,8 @@
   map <leader>gs :Gstatus<cr>
   map <leader>gP :NeomakeSh git push<cr>
   map <leader>gp :Gpull --rebase<cr>
+  map <leader>ga :NeomakeSh git add %<cr>
+  map <leader>gc :Gcommit
 " }}}
 
 " dein mappings & config {{{
