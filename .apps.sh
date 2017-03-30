@@ -101,6 +101,10 @@ brew install codeclimate
 brew tap caskroom/fonts
 brew cask install font-hack-nerd-font
 
+# minio - S3-compatible interface client
+# https://github.com/minio/mc
+brew install minio-mc
+
 brew cask install selfcontrol
 
 # brew install docker
