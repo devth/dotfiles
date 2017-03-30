@@ -375,6 +375,8 @@
   imap <c-x><c-l> <plug>(fzf-complete-line)
   " find commits
   nnoremap <leader>fc :Commits<cr>
+  " find lines
+  nnoremap <leader>fl :Lines<cr>
 " }}}
 
 " vim-tmux-navigator {{{
