@@ -1,11 +1,9 @@
 # dotfiles
 
 <p align="center">
-  <img src="https://twistedsifter.files.wordpress.com/2016/12/miniature-bonsai-forests-5.jpg?w=800&h=554" />
+  <img src="https://raw.githubusercontent.com/devth/dotfiles/master/assets/preview.png" />
   <br />
-  <i>The pristine dotfile zen garden of
-    <a href="https://github.com/devth">@devth</a>
-  </i>
+  <i>✨ Behold ✨</i>
 </p>
 
 ## Scope
