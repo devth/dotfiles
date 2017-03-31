@@ -1,9 +1,9 @@
-"      _            _   _                  _
-"     | |          | | | |                (_)
+"      _            _   _
+"     | |          | | | |                ( )
 "   __| | _____   _| |_| |__    _ ____   ___ _ __ ___  _ __ ___
-"  / _` |/ _ \ \ / / __| '_ \  | '_ \ \ / / | '_ ` _ \| '__/ __|
+"  / _  |/ _ \ \ / / __| |_ \  |  _ \ \ / / |  _   _ \|  __/ __|
 " | (_| |  __/\ V /| |_| | | | | | | \ V /| | | | | | | | | (__
-"  \__,_|\___| \_/  \__|_| |_| |_| |_|\_/ |_|_| |_| |_|_|  \___|
+"  \____|\___| \_/  \__|_| |_| |_| |_|\_/ |_|_| |_| |_|_|  \___|
 "
 " Author: Trevor Hartman
 " Part of the pristine dotfile zen garden of @devth
@@ -209,9 +209,14 @@
   endfunction " }}}
 
   set foldtext=MyFoldText()
+
+  " Use marker foldmethod for vim
   autocmd FileType vim setlocal foldmethod=marker
   autocmd FileType vim setlocal foldlevel=0
   nnoremap z<space> za " easier toggling
+  " Don't open folds for me when searching
+  " (might want to be able to toggle this)
+  set fdo-=search
 " }}}
 
 " Aesthetics {{{
@@ -226,12 +231,15 @@
 
   " Remove background on vertical splits
   " Hide the ~ characters at end of files
+  " Customize Folds
   augroup vimrc
      autocmd!
      autocmd ColorScheme *
        \ hi VertSplit ctermbg=0 guibg=#FAF2DC
        \ | hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
        \ | hi ColorColumn ctermbg=black
+       \ | hi Folded cterm=bold ctermfg=cyan ctermbg=black
+       \ | hi FoldColumn cterm=reverse
    augroup END
 
   colorscheme solarized
@@ -440,4 +448,3 @@
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
 " }}}
-
