@@ -37,7 +37,7 @@ brew install cfssl
 
 # Linter suport {{{
   brew install shellcheck
-  brew search mdl
+  brew install mdl
 # }}}
 
 
@@ -97,6 +97,9 @@ brew install tree
 brew tap codeclimate/formulae
 brew install codeclimate
 
+brew tap johanhaleby/kubetail
+brew install kubetail
+
 # required by vim tiagofumo/vim-nerdtree-syntax-highlight plugin
 brew tap caskroom/fonts
 brew cask install font-hack-nerd-font
@@ -115,6 +118,7 @@ brew cask install google-chrome
 
 brew tap caskroom/versions
 brew cask install google-chrome-canary
+
 
 brew cask install iterm2
 
