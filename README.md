@@ -10,18 +10,28 @@
 
 ## Scope
 
-- NeoVim
-- Terminal
-  - zsh
-  - homebrew
 - Apps
   - CLI apps via Homebrew
-  - macOS native apps via Homebrew Cask
-  - App Store apps via `mas`
+  - macOS native apps via:
+    - Homebrew Cask
+    - `mas` (Mac App Store)
+- NeoVim
+- Terminal
+  - [ ] TODO .zshrc
+- tmux
+  - .tmux.conf
+  - .tmuxline.conf
 - git
   - [global ignore](gitignore_global)
+- rcm
+  - [rcrc](rcrc)
+- ctags
+  - [ctags](ctags)
 
 ## Usage
+
+The install script should be idempotent but that assumption will not be verified
+until #26 and #20 are completed.
 
 ```shell
 ./install.sh
