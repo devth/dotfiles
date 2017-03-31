@@ -34,6 +34,9 @@
   " Colors - some plugins rely on this
   call dein#add('devth/vim-colors-solarized') " Note: devth-fork
 
+  " Syntax
+  call dein#add('ekalinin/Dockerfile.vim')
+
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
 
@@ -65,7 +68,6 @@
   " Superfast fuzzy file finder
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-
 
   " Powerline alternatives
   call dein#add('bling/vim-airline')
