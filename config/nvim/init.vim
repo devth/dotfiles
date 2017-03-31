@@ -6,8 +6,8 @@
 "  \____|\___| \_/  \__|_| |_| |_| |_|\_/ |_|_| |_| |_|_|  \___|
 "
 " Author: Trevor Hartman
-" Part of the pristine dotfile zen garden of @devth
-" https://github.com/devth/dotfiles
+" Source: https://github.com/devth/dotfiles
+" A part of the pristine dotfile zen garden of @devth
 
 " Plugins {{{
   if (!isdirectory(expand("$HOME/.config/nvim/repos/github.com/Shougo/dein.vim")))
@@ -204,8 +204,10 @@
       let line = substitute(line, '\t', onetab, 'g')
 
       let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-      let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - len('lines')
-      return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . ' Lines '
+      let clean_line = substitute(line, "{", "", "g")
+      let clean_line = substitute(clean_line, "\"", "", "g")
+      let fillcharcount = windowwidth - len(clean_line) - len(foldedlinecount) - len('lines')
+      return clean_line . '↯' . repeat(" ",fillcharcount) . foldedlinecount . ' lines '
   endfunction " }}}
 
   set foldtext=MyFoldText()
@@ -240,7 +242,13 @@
        \ | hi ColorColumn ctermbg=black
        \ | hi Folded cterm=bold ctermfg=cyan ctermbg=black
        \ | hi FoldColumn cterm=reverse
-   augroup END
+
+  augroup END
+
+  autocmd BufRead,BufNewFile * syn match fmrkr '"*{{{\|"*}}}' |
+    \ syn cluster vimCommentGroup contains=fmrkr |
+    \ hi fmrkr term=NONE guibg=black guifg=black
+    \ ctermbg=black ctermfg=black
 
   colorscheme solarized
 
