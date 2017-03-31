@@ -101,6 +101,7 @@
   set wrapscan " side effect: jumps to result as you type
   set hlsearch
   set showmatch
+  set hidden " allow unsaved buffers to exist in the bg
   set noautochdir
   set norelativenumber
   set nonumber
