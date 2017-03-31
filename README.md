@@ -14,6 +14,7 @@
     - Homebrew Cask
     - `mas` (Mac App Store)
 - NeoVim
+  - [init.nvim](config/nvim/init.vim)
 - Terminal
   - [ ] TODO .zshrc
 - tmux
