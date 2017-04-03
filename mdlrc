@@ -1,0 +1,12 @@
+# vi: ft=ruby
+# Config for https://github.com/mivok/markdownlint
+
+# RULES doc at https://github.com/mivok/markdownlint/blob/master/docs/RULES.md
+rules "~MD013", # Line length
+      "~MD033", # Inline HTML is ok
+      "~MD024"  # Multiple headers with the same content
+
+# TODO why doesn't this work?
+# Issue: https://github.com/mivok/markdownlint/issues/166
+# rule 'MD013', :code_blocks => false, :tables => false
+# rule 'MD013', :code_blocks => false

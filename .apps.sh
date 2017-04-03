@@ -34,6 +34,7 @@ brew install graphviz
 
 brew install cfssl
 
+brew install asciinema
 
 # Linter suport {{{
   brew install shellcheck
