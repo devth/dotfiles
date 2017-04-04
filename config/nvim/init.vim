@@ -122,6 +122,7 @@
   set nojoinspaces
   " Completion
   set complete=.,w,b,u,t,i,],kspell
+  set spelllang=en_us
   " special characters
   set list
   " whitespace characters
