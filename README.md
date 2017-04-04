@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/devth/dotfiles/master/assets/preview.png" />
   <br />
-  <i>✨ Behold ✨</i>
+  <i>✨ Behold: init.vim ✨</i>
 </p>
 
 ## Scope
