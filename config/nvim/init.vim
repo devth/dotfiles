@@ -216,8 +216,7 @@
   set foldtext=MyFoldText()
 
   " Use marker foldmethod for vim
-  autocmd FileType vim setlocal foldmethod=marker
-  autocmd FileType vim setlocal foldlevel=0
+  autocmd FileType vim,zsh setlocal foldmethod=marker foldlevel=0
   nnoremap z<space> za " easier toggling
   " Don't open folds for me when searching
   " (might want to be able to toggle this)
