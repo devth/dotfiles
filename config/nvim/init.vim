@@ -75,7 +75,7 @@
 
   " Completion
   call dein#add('Shougo/deoplete.nvim')
-
+  call dein#add('Shougo/neco-syntax')
 
   " End dein
   call dein#end()
