@@ -186,9 +186,13 @@
 " }}}
 
 " Vim system autocmds {{{
-  " turn on spelling for markdown files
+  " turn on spelling for certain files
   autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
   autocmd BufRead,BufNewFile *.md set cursorline cursorcolumn
+
+  autocmd FileType gitcommit setlocal spell complete+=kspell
+    \ cursorline cursorcolumn
+
   " S-K to pull up dictionary on markdown
   autocmd FileType markdown setlocal keywordprg=sdcv
   " yaml
