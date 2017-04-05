@@ -39,6 +39,8 @@
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
+  " needed for edn and the latest clojure syntax
+  call dein#add('guns/vim-clojure-static')
 
   " git
   call dein#add('tommcdo/vim-fubitive') " bitbucket for fugitive
