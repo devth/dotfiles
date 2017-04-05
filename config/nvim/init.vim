@@ -20,6 +20,7 @@
 
   " tpope
   call dein#add('tpope/vim-dispatch')
+  call dein#add('tpope/vim-eunuch')
   call dein#add('tpope/vim-fireplace')
   call dein#add('tpope/vim-fugitive')
   call dein#add('tpope/vim-markdown')
