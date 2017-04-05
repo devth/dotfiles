@@ -465,3 +465,9 @@
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
 " }}}
+
+" YankRing {{{
+  let yankring_persist = 1
+  let yankring_share_between_instances = 1
+  nnoremap <leader>yr :YRShow<cr>
+" }}}
