@@ -36,6 +36,8 @@ brew install cfssl
 
 brew install asciinema
 
+brew install cheat
+
 # Linter suport {{{
   brew install shellcheck
   brew install mdl
