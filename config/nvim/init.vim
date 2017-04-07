@@ -10,10 +10,14 @@
 " A part of the pristine dotfile zen garden of @devth
 
 " Plugins {{{
+
+  " Download dein if it doesn't exist yet
   if (!isdirectory(expand("$HOME/.config/nvim/repos/github.com/Shougo/dein.vim")))
     call system(expand("mkdir -p $HOME/.config/nvim/repos/github.com"))
     call system(expand("git clone https://github.com/Shougo/dein.vim $HOME/.config/nvim/repos/github.com/Shougo/dein.vim"))
   endif
+
+  " Configure dein
   set runtimepath+=~/.config/nvim/repos/github.com/Shougo/dein.vim/
   call dein#begin(expand('~/.config/nvim'))
   call dein#add('Shougo/dein.vim')
@@ -39,9 +43,9 @@
   call dein#add('ekalinin/Dockerfile.vim')
 
   " Clojure
-  call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
+  " call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
   " needed for edn and the latest clojure syntax
-  call dein#add('guns/vim-clojure-static')
+  " call dein#add('guns/vim-clojure-static')
 
   " git
   call dein#add('tommcdo/vim-fubitive') " bitbucket for fugitive
