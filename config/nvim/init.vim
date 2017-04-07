@@ -130,10 +130,8 @@
   " Completion
   set complete=.,w,b,u,t,i,],kspell
   set spelllang=en_us
-  " special characters
-  set list
   " whitespace characters
-  set listchars=tab:>-,trail:-
+  set list listchars=tab:»·,trail:·,nbsp:·
   " Show glyphs from vim-devicons
   set encoding=utf8
   " Configure python
