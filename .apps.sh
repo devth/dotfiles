@@ -2,6 +2,8 @@
 
 open ./assets/Monaco%20for%20Powerline.otf
 
+mkdir ~/.bin # this is in PATH - can put stuff here
+
 # install homebrew
 brew -v || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
@@ -153,16 +155,24 @@ open ~/Dropbox/Licenses/license-dash4.dash-license
 npm install -g doctoc
 
 
-#
-# gcloud / kubectl
-#
+# gcloud / kubectl {{{
 
 curl https://sdk.cloud.google.com | bash
 echo "NOTE: you may need to reload shell your after installing gcloud"
-echo "Reloading ~/.zshrc"
+# echo "Reloading ~/.zshrc"
 # shellcheck source=/dev/null
 . "$HOME/.zshrc"
 gcloud components install kubectl
+
+echo "Installing cloud_sql_proxy"
+curl -o cloud_sql_proxy \
+  https://dl.google.com/cloudsql/cloud_sql_proxy.darwin.amd64
+
+mv ./cloud_sql_proxy ~/.bin
+chmod +x ~/.bin/cloud_sql_proxy
+
+# }}}
+
 
 #
 # Manual steps (TODO automate these)
