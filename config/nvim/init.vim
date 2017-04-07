@@ -93,8 +93,8 @@
   " set foldmethod=marker
   set nowrap
   set nocompatible
-  filetype on
-  syntax enable
+  syntax on
+  filetype plugin indent on
   set shell=/bin/zsh
   let mapleader = ","
   let maplocalleader = ","
