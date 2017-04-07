@@ -43,7 +43,7 @@
   call dein#add('ekalinin/Dockerfile.vim')
 
   " Clojure
-  " call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
+  call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
   " needed for edn and the latest clojure syntax
   " call dein#add('guns/vim-clojure-static')
 
