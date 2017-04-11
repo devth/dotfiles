@@ -11,6 +11,8 @@ brew install zsh
 
 brew install vim --with-override-system-vi
 
+brew install watch
+
 brew install python
 brew install python3
 
