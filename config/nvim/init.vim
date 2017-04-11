@@ -71,6 +71,7 @@
   call dein#add('majutsushi/tagbar') " ctags!
   call dein#add('michaeljsmith/vim-indent-object') " indent objects
   call dein#add('junegunn/vim-easy-align') " alignment!
+  call dein#add('mileszs/ack.vim') " search file contents via ag or ack
 
   " Superfast fuzzy file finder
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -473,4 +474,10 @@
   let yankring_persist = 1
   let yankring_share_between_instances = 1
   nnoremap <leader>yr :YRShow<cr>
+" }}}
+
+" ack {{{
+  if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+  endif
 " }}}
