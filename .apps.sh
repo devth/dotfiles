@@ -95,9 +95,12 @@ brew install datomic
 
 brew install sdcv
 
+# File searching and management {{{
 brew install ag
 brew install ack
 brew install tree
+brew install ripgrep
+# }}}
 
 brew tap codeclimate/formulae
 brew install codeclimate
