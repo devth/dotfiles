@@ -72,6 +72,7 @@
   call dein#add('michaeljsmith/vim-indent-object') " indent objects
   call dein#add('junegunn/vim-easy-align') " alignment!
   call dein#add('mileszs/ack.vim') " search file contents via ag or ack
+  call dein#add('Valloric/ListToggle') " Toggle Quickfix and Location List
 
   " Superfast fuzzy file finder
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -176,10 +177,6 @@
 
   " Remove trailing whitespace
   nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>``
-
-  " Open the location list
-  nnoremap <leader>lo :lopen<cr>
-  nnoremap <leader>co :copen<cr>
 
   " Remove last character in line
   function! RmLastChar()
@@ -471,9 +468,9 @@
 " }}}
 
 " YankRing {{{
-  let yankring_persist = 1
-  let yankring_share_between_instances = 1
-  nnoremap <leader>yr :YRShow<cr>
+let yankring_persist = 1
+let yankring_share_between_instances = 1
+nnoremap <leader>yr :YRShow<cr>
 " }}}
 
 " ack {{{
@@ -481,3 +478,9 @@
     let g:ackprg = 'ag --vimgrep'
   endif
 " }}}
+
+" ListToggle {{{
+  let g:lt_location_list_toggle_map = '<leader>tl'
+  let g:lt_quickfix_list_toggle_map = '<leader>tq'
+" }}}
+
