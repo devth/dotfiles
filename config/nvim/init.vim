@@ -477,10 +477,10 @@ nnoremap <leader>yr :YRShow<cr>
   if executable('ag')
     let g:ackprg = 'ag --vimgrep'
   endif
+  nnoremap \ :Ack!<space>
 " }}}
 
 " ListToggle {{{
   let g:lt_location_list_toggle_map = '<leader>tl'
   let g:lt_quickfix_list_toggle_map = '<leader>tq'
 " }}}
-
