@@ -102,6 +102,13 @@
   let maplocalleader = ","
   set history=1000
   set undolevels=1000
+  " Persistent undo
+  let undodir = expand('~/.undo-vim')
+  if !isdirectory(undodir)
+    call mkdir(undodir)
+  endif
+  set undodir=~/.undo-vim
+  set undofile
   set wildmenu
   set wildmode=list:longest
   set visualbell
