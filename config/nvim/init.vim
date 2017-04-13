@@ -86,6 +86,12 @@
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('Shougo/neco-syntax')
 
+  " Ensure configured dein plugins are installed
+  if dein#check_install()
+    call dein#install()
+    let pluginsExist=1
+  endif
+
   " End dein
   call dein#end()
   call dein#save_state()
