@@ -27,6 +27,7 @@
   call dein#add('tpope/vim-eunuch')
   call dein#add('tpope/vim-fireplace')
   call dein#add('tpope/vim-fugitive')
+  call dein#add('tpope/vim-git')
   call dein#add('tpope/vim-markdown')
   call dein#add('tpope/vim-repeat')
   call dein#add('tpope/vim-rhubarb')
