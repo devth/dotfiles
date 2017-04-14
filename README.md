@@ -22,6 +22,7 @@
   - .tmuxline.conf
 - git
   - [global ignore](gitignore_global)
+  - [gitconfig](gitconfig)
 - rcm
   - [rcrc](rcrc)
 - ctags

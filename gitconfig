@@ -1,0 +1,89 @@
+[merge]
+  tool = opendiff
+[core]
+  excludesfile = $HOME/.gitignore_global
+  editor = nvim
+[alias]
+  st = status -sb
+  ci = commit
+  co = checkout
+  br = branch
+  sb = show-branch
+  dt = difftool
+  pu = push
+  pf = push --force-with-lease
+  cia = commit -a --amend
+  cian = commit -a --amend --no-edit
+  r = remote
+
+  branch-name = !git for-each-ref --format='%(refname:short)' `git symbolic-ref HEAD`
+  desc = !git config branch.`git branch-name`.description
+
+  # log variations
+  hist = log --pretty=format:\"%h %Cgreen%ad%Creset %s%d [%an]\" --graph --decorate --date=short
+  histc = log --pretty=format:'%h %ad  %s%x09%ae' --date=short
+  hi = !git hist --since=1.week.ago
+  h = !git hi
+  week = !git hi
+  today = !git hist --since=1.day.ago
+  last = !git --no-pager hi -n1
+  lol = log --graph --decorate --oneline
+  lola = log --graph --decorate --oneline --all
+  notify = log --pretty=oneline --abbrev-commit -n 1 --no-color
+
+  tree = log --oneline --decorate --graph
+
+  # short logs
+  h1 = !git hi -1
+  h2 = !git hi -2
+  h3 = !git hi -3
+  h4 = !git hi -4
+  h5 = !git hi -5
+  l1 = log --pretty=oneline
+  ls = !git hi --stat
+  lg = log --graph
+
+  cp = cherry-pick
+  aa = add --all :/
+
+  # since master
+  sm = !git hist master..
+  smo = !git hist origin/master..
+
+  # tags sorted by date
+  t = for-each-ref --sort='*authordate' --format='%(tag)' refs/tags
+
+  # deleted files
+  deleted = !git hist --diff-filter=D --summary
+
+  root = !pwd
+
+  tracks = !sh -c 'git rev-parse --verify "${1:-HEAD}@{upstream}" 2> /dev/null'
+
+  # vimdiff = "difftool -y -t mvimdiff"
+
+  # Find FIXME, TODO, etc
+  n = !"git ls-files | xargs notes | awk -F: '{ print $1,$2; print $3,$4; print $5}' | grcat conf.notes "
+
+  latest=describe --abbrev=0 --tags
+  lt=!git latest # latest tag
+
+  # Fetching
+  f = fetch
+  fp = fetch --prune
+  g = grep --break --heading --line-number
+  dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy | less --tabs=4 -RFX; }; f"
+  slm = !echo $(git log --author=\"$(git config user.name)\" --no-merges --before=$(date \"+%Y-%m-01T00:00\") --after=$(date -d \"-$(date +%d) days -1 month\" \"+%Y-%m-%dT23:59\") --reverse | grep commit | wc -l) commits, $(git log --author=\"$(git config user.name)\" --no-merges --before=$(date \"+%Y-%m-01T00:00\") --after=$(date -d \"-$(date +%d) days -1 month\" \"+%Y-%m-%dT23:59\") --reverse --stat | grep -Eo \"[0-9]{1,} files? changed\" | grep -Eo \"[0-9]{1,}\" | awk \"{ sum += \\$1 } END { print sum }\") files changed, $(git log --author=\"$(git config user.name)\" --no-merges --before=$(date \"+%Y-%m-01T00:00\") --after=$(date -d \"-$(date +%d) days -1 month\" \"+%Y-%m-%dT23:59\") --reverse --stat | grep -Eo \"[0-9]{1,} insertions?\" | grep -Eo \"[0-9]{1,}\" | awk \"{ sum += \\$1 } END { print sum }\") insertions and $(git log --author=\"$(git config user.name)\" --no-merges --before=$(date \"+%Y-%m-01T00:00\") --after=$(date -d \"-$(date +%d) days -1 month\" \"+%Y-%m-%dT23:59\") --reverse --stat | grep -Eo \"[0-9]{1,} deletions?\" | grep -Eo \"[0-9]{1,}\" | awk \"{ sum += \\$1 } END { print sum }\") deletions last month
+
+[color]
+  ui = auto
+[user]
+  name = Trevor Hartman
+  email = trevorhartman@gmail.com
+[difftool]
+  prompt = false
+[push]
+  default = tracking
+  followTags = true
+[grep]
+  lineNumber = true
