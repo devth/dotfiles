@@ -73,6 +73,7 @@
   call dein#add('junegunn/vim-easy-align') " alignment!
   call dein#add('mileszs/ack.vim') " search file contents via ag or ack
   call dein#add('fszymanski/ListToggle.vim') " Toggle Quickfix and Location List
+  call dein#add('simnalamburt/vim-mundo') " Vim undo tree viz
 
   " Superfast fuzzy file finder
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -491,9 +492,14 @@ nnoremap <leader>yr :YRShow<cr>
     let g:ackprg = 'ag --vimgrep'
   endif
   nnoremap \ :Ack!<space>
+  nnoremap <leader>* :Ack!<cword><cr>
 " }}}
 
 " ListToggle {{{
   nmap <Leader>tq <Plug>ListToggleQuickfixListToggle
   nmap <Leader>tl <Plug>ListToggleLocationListToggle
+" }}}
+
+" Mundo {{{
+  nnoremap <leader>mu :MundoToggle<cr>
 " }}}
