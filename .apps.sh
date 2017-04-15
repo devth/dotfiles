@@ -21,7 +21,7 @@ brew info neovim
 # brew install neovim
 # need this commit so until it's released, install neovim from master
 # https://github.com/neovim/neovim/pull/5758/commits/af2e629be4d20dda334a7c6ca817f5599956e4ff
-brew install neovim --HEAD
+brew install neovim --HEAD || brew reinstall neovim -- HEAD
 pip3 install neovim --upgrade
 pip2 install neovim --upgrade
 
