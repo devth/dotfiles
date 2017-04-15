@@ -256,25 +256,33 @@
           \ hi NeomakeWarningSign ctermfg=yellow
   augroup END
 
-  " Remove background on vertical splits
-  " Hide the ~ characters at end of files
-  " Customize Folds
-  " TODO: handle light backgrounds
-  augroup vimrc
-     autocmd!
-     autocmd ColorScheme *
-       \ hi VertSplit ctermbg=0 guibg=#FAF2DC
-       \ | hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
-       \ | hi ColorColumn ctermbg=black
-       \ | hi Folded cterm=bold ctermfg=cyan ctermbg=black
-       \ | hi FoldColumn cterm=reverse
+  fun CustomizeDarkColors()
+    " Remove background on vertical splits
+    " Hide the ~ characters at end of files
+    " Customize Folds
+    if &background == 'dark'
+      hi VertSplit ctermbg=0 guibg=#FAF2DC
+      hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
+      hi ColorColumn ctermbg=black
+      hi Folded cterm=bold ctermfg=cyan ctermbg=black
+      hi FoldColumn cterm=reverse
+      hi fmrkr ctermbg=black ctermfg=black
+    else
+      hi NonText ctermbg=7 ctermfg=7
+      hi ColorColumn ctermbg=7
+      hi VertSplit ctermbg=7
+      hi fmrkr ctermbg=7 ctermfg=7
+    endif
+  endfun
 
+  augroup vimrc
+    autocmd!
+    autocmd ColorScheme * call CustomizeDarkColors()
   augroup END
 
+  " Create syntax fmrkr for folds
   autocmd BufRead,BufNewFile * syn match fmrkr '"*{{{\|"*}}}' |
-    \ syn cluster vimCommentGroup contains=fmrkr |
-    \ hi fmrkr term=NONE guibg=black guifg=black
-    \ ctermbg=black ctermfg=black
+        \ syn cluster vimCommentGroup contains=fmrkr
 
   colorscheme solarized
 
