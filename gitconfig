@@ -87,3 +87,7 @@
   followTags = true
 [grep]
   lineNumber = true
+[github]
+  user = devth
+[ghi]
+  token = !security find-internet-password -a devth -s github.com -l 'ghi token' -w
