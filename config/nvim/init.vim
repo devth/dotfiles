@@ -259,6 +259,7 @@
   " Remove background on vertical splits
   " Hide the ~ characters at end of files
   " Customize Folds
+  " TODO: handle light backgrounds
   augroup vimrc
      autocmd!
      autocmd ColorScheme *
@@ -283,6 +284,10 @@
   let g:airline_powerline_fonts = 1
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
+
+  " Quickly switch between light and dark
+  nnoremap <leader>bgl :set bg=light<cr>
+  nnoremap <leader>bgd :set bg=dark<cr>
 
   " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 12
   " set guifont=Knack\ Nerd\ Font\ Regular:12
