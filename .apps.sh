@@ -152,13 +152,15 @@ brew cask install airfoil
 brew cask install dash
 open ~/Dropbox/Licenses/license-dash4.dash-license
 
+# Golang {{{
+  go get github.com/influxdata/kapacitor/tick/cmd/tickfmt
+# }}}
 
-#
-# Node
-#
+# Node {{{
 
 npm install -g doctoc
 
+# }}}
 
 # gcloud / kubectl {{{
 

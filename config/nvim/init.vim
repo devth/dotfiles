@@ -42,6 +42,7 @@
 
   " Syntax
   call dein#add('ekalinin/Dockerfile.vim')
+  call dein#add('nathanielc/vim-tickscript')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
@@ -157,6 +158,9 @@
 " }}}
 
 " Vim system mappings {{{
+
+  " Silent write file
+  nnoremap <leader>w :silent write<cr>
 
   " Split navigation
   nnoremap <C-h> <C-w>h
