@@ -1,1 +1,1 @@
-EXCLUDES=".apps.sh .gems.sh .macos.sh assets/* LICENSE.* markdown2ctags.py *.md"
+EXCLUDES=".apps.sh .gems.sh .macos.sh .macapps.sh assets/* LICENSE.* markdown2ctags.py *.md"

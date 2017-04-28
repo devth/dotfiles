@@ -1,4 +1,4 @@
-# macOS {{{
+# macOS Settings {{{
 # System: disable spelling
 defaults write -g NSAutomaticSpelling -bool false
 # System: disable smart quotes
