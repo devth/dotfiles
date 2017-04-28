@@ -76,6 +76,7 @@
   call dein#add('mileszs/ack.vim') " search file contents via ag or ack
   call dein#add('fszymanski/ListToggle.vim') " Toggle Quickfix and Location List
   call dein#add('simnalamburt/vim-mundo') " Vim undo tree viz
+  " call dein#add('chr4/sslsecure.vim') " Highlight insecure SSL configuration
 
   " Superfast fuzzy file finder
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -311,7 +312,7 @@
 
   " Goyo {{{
     let g:goyo_height = "100%"
-    let g:goyo_width = 84
+    let g:goyo_width = 94
     function! s:goyo_enter()
       silent !tmux set status off
       " silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
