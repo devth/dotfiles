@@ -16,18 +16,6 @@ brew install watch
 brew install python
 brew install python3
 
-brew tap neovim/neovim
-brew info neovim
-# brew install neovim
-# need this commit so until it's released, install neovim from master
-# https://github.com/neovim/neovim/pull/5758/commits/af2e629be4d20dda334a7c6ca817f5599956e4ff
-brew install neovim --HEAD || brew reinstall neovim -- HEAD
-pip3 install neovim --upgrade
-pip2 install neovim --upgrade
-
-brew tap thoughtbot/formulae
-brew install rcm
-
 brew install ctags
 
 brew install ruby
@@ -56,9 +44,13 @@ brew link --force openssl
 
 brew install vault
 
-brew install fzf
 
-brew install jq
+# json {{{
+
+  brew install jq
+
+# }}}
+
 
 brew install kubernetes-helm
 
@@ -80,24 +72,46 @@ brew install datomic
 
 brew install sdcv
 
-# File searching and management {{{
-brew install ag
-brew install ack
-brew install tree
-brew install ripgrep
-# }}}
-
-brew tap codeclimate/formulae
-brew install codeclimate
-
-brew tap johanhaleby/kubetail
-brew install kubetail
-
-# required by vim tiagofumo/vim-nerdtree-syntax-highlight plugin
-
 # minio - S3-compatible interface client
 # https://github.com/minio/mc
 brew install minio-mc
+
+# File searching and management {{{
+
+  brew install ag
+  brew install ack
+  brew install tree
+  brew install ripgrep
+  brew install fzf
+
+# }}}
+
+# Custom taps {{{
+
+  brew tap codeclimate/formulae
+  brew install codeclimate
+
+  brew tap johanhaleby/kubetail
+  brew install kubetail
+
+  brew tap neovim/neovim
+  # brew install neovim
+  # need this commit so until it's released, install neovim from master
+  # https://github.com/neovim/neovim/pull/5758/commits/af2e629be4d20dda334a7c6ca817f5599956e4ff
+  brew install neovim --HEAD || brew reinstall neovim --HEAD
+  pip3 install neovim --upgrade
+  pip2 install neovim --upgrade
+
+  brew tap thoughtbot/formulae
+  brew install rcm
+
+  # required by vim tiagofumo/vim-nerdtree-syntax-highlight plugin
+  brew tap caskroom/fonts
+  brew cask install font-hack-nerd-font
+
+# }}}
+
+
 
 # Golang {{{
   go get github.com/influxdata/kapacitor/tick/cmd/tickfmt
@@ -110,8 +124,6 @@ brew install minio-mc
   # brew cask install zooom # WTF why is this dead
   # we'll obtain it from dropbox instead
   brew cask install java
-  brew tap caskroom/fonts
-  brew cask install font-hack-nerd-font
 
   brew cask install selfcontrol
 
@@ -172,7 +184,7 @@ chmod +x ~/.bin/cloud_sql_proxy
 
 # }}}
 
-# {{{ Manual steps (TODO automate these)
+# Manual steps (TODO automate these) {{{
 
 # iTerm2 prefs (do not use native full screen, fonts, colors)
 #
@@ -185,4 +197,3 @@ chmod +x ~/.bin/cloud_sql_proxy
 # https://firrre.com/connect/
 
 # }}}
-
