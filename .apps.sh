@@ -73,11 +73,6 @@ brew install kubernetes-helm
 
 brew install git
 
-brew tap caskroom/cask
-
-# brew cask install zooom # WTF why is this dead
-# we'll obtain it from dropbox instead
-brew cask install java
 brew install drip
 brew install leiningen
 brew install boot-clj
@@ -99,49 +94,58 @@ brew tap johanhaleby/kubetail
 brew install kubetail
 
 # required by vim tiagofumo/vim-nerdtree-syntax-highlight plugin
-brew tap caskroom/fonts
-brew cask install font-hack-nerd-font
 
 # minio - S3-compatible interface client
 # https://github.com/minio/mc
 brew install minio-mc
 
-brew cask install selfcontrol
-
-# brew install docker
-# brew install docker-machine
-brew cask install docker
-
-brew cask install google-chrome
-
-brew tap caskroom/versions
-brew cask install google-chrome-canary
-
-
-brew cask install iterm2
-
-brew cask install divvy
-
-brew cask install spotify
-
-brew cask install alfred
-
-brew cask install 1password
-
-brew cask install slack
-
-brew cask install istat-menus
-
-
-# get license from gmail
-brew cask install airfoil
-
-
-brew cask install dash
-open ~/Dropbox/Licenses/license-dash4.dash-license
-
 # Golang {{{
   go get github.com/influxdata/kapacitor/tick/cmd/tickfmt
+# }}}
+
+# Brew Cask {{{
+
+  brew tap caskroom/cask
+
+  # brew cask install zooom # WTF why is this dead
+  # we'll obtain it from dropbox instead
+  brew cask install java
+  brew tap caskroom/fonts
+  brew cask install font-hack-nerd-font
+
+  brew cask install selfcontrol
+
+  # brew install docker
+  # brew install docker-machine
+  brew cask install docker
+
+  brew cask install google-chrome
+
+  brew tap caskroom/versions
+  brew cask install google-chrome-canary
+
+  brew cask install iterm2
+
+  brew cask install divvy
+
+  brew cask install spotify
+
+  brew cask install alfred
+
+  brew cask install 1password
+
+  brew cask install slack
+
+  brew cask install istat-menus
+
+  # get license from gmail
+  brew cask install airfoil
+
+  brew cask install dash
+  open ~/Dropbox/Licenses/license-dash4.dash-license
+
+  brew cask install gitter
+
 # }}}
 
 # Node {{{
@@ -168,10 +172,7 @@ chmod +x ~/.bin/cloud_sql_proxy
 
 # }}}
 
-
-#
-# Manual steps (TODO automate these)
-#
+# {{{ Manual steps (TODO automate these)
 
 # iTerm2 prefs (do not use native full screen, fonts, colors)
 #
@@ -182,3 +183,6 @@ chmod +x ~/.bin/cloud_sql_proxy
 #
 # Configure IRC to connect to firrre:
 # https://firrre.com/connect/
+
+# }}}
+
