@@ -18,8 +18,8 @@
 - Terminal
   - [ ] TODO .zshrc
 - tmux
-  - .tmux.conf
-  - .tmuxline.conf
+  - [tmux.conf](tmux.conf)
+  - [tmuxline.conf](tmuxline.conf)
 - git
   - [global ignore](gitignore_global)
   - [gitconfig](gitconfig)
