@@ -1,4 +1,3 @@
-
 echo "Applying macOS settings"
 .macos.sh
 
@@ -10,6 +9,12 @@ echo "Installing macOS App Store Apps"
 
 echo "Installing gems"
 .gems.sh
+
+echo "Installing Golang deps"
+.golang.sh
+
+echo "Installing Node.js deps"
+.nodejs.sh
 
 echo "Setting up symlinks with rcup"
 rcup

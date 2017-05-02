@@ -1,49 +1,65 @@
-# NOTE: Install Dropbox and let it sync before running this
+echo "NOTE: Install Dropbox and let it sync before running this"
 
-open ./assets/Monaco%20for%20Powerline.otf
+# Setup / Homebrew {{{
+  open ./assets/Monaco%20for%20Powerline.otf
 
-mkdir ~/.bin # this is in PATH - can put stuff here
+  mkdir -p ~/.bin # this is in PATH - can put stuff here
 
-# install homebrew
-brew -v || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  # install homebrew
+  brew -v || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# }}}
 
-brew install zsh
+# Foundations {{{
 
-brew install vim --with-override-system-vi
+  brew install zsh
+  brew install vim --with-override-system-vi
+  brew install tmux
+  brew install reattach-to-user-namespace
+  brew install git
 
-brew install watch
+# }}}
 
-brew install python
-brew install python3
+# Utils {{{
+  brew install watch
+  brew install ctags
+  brew install graphviz
+  brew install asciinema
+  brew install cheat
+  brew install autojump
+  brew install sdcv
 
-brew install ctags
+  # minio - S3-compatible interface client
+  # https://github.com/minio/mc
+  brew install minio-mc
+# }}}
 
-brew install ruby
-
-brew install nodejs
-
-brew install graphviz
-
-brew install cfssl
-
-brew install asciinema
-
-brew install cheat
+# Languages {{{
+  brew install ruby
+  brew install nodejs
+  brew install python
+  brew install python3
+  brew install golang
+# }}}
 
 # Linter suport {{{
   brew install shellcheck
   brew install mdl
 # }}}
 
+# Security {{{
 
-# This is keg only and requires an explicit PATH in ~/.zshrc
-# echo 'export PATH="/usr/local/opt/openssl/bin:$PATH"' >> ~/.zshrc
-brew info openssl
-brew install --force openssl
-brew link --force openssl
+  brew install vault
+  brew install git-crypt
+  brew install cfssl
 
-brew install vault
+  echo "Note: openssl is keg only and requires an explicit PATH in ~/.zshrc"
+  echo 'export PATH="/usr/local/opt/openssl/bin:$PATH" >> ~/.zshrc'
+  # echo 'export PATH="/usr/local/opt/openssl/bin:$PATH"' >> ~/.zshrc
+  brew info openssl
+  brew install --force openssl
+  brew link --force openssl
 
+# }}}
 
 # json {{{
 
@@ -52,30 +68,12 @@ brew install vault
 
 # }}}
 
-
-brew install kubernetes-helm
-
-brew install tmux
-brew install reattach-to-user-namespace
-
-brew install golang
-
-brew install autojump
-
-brew install kubernetes-helm
-
-brew install git
-
-brew install drip
-brew install leiningen
-brew install boot-clj
-brew install datomic
-
-brew install sdcv
-
-# minio - S3-compatible interface client
-# https://github.com/minio/mc
-brew install minio-mc
+# Clojure {{{
+  brew install drip
+  brew install leiningen
+  brew install boot-clj
+  brew install datomic
+# }}}
 
 # File searching and management {{{
 
@@ -110,12 +108,6 @@ brew install minio-mc
   brew tap caskroom/fonts
   brew cask install font-hack-nerd-font
 
-# }}}
-
-
-
-# Golang {{{
-  go get github.com/influxdata/kapacitor/tick/cmd/tickfmt
 # }}}
 
 # Brew Cask {{{
@@ -161,27 +153,23 @@ brew install minio-mc
 
 # }}}
 
-# Node {{{
+# gcloud / kubectl / helm {{{
 
-npm install -g doctoc
+  brew install kubernetes-helm
 
-# }}}
+  curl https://sdk.cloud.google.com | bash
+  echo "NOTE: you may need to reload shell your after installing gcloud"
+  # echo "Reloading ~/.zshrc"
+  # shellcheck source=/dev/null
+  . "$HOME/.zshrc"
+  gcloud components install kubectl
 
-# gcloud / kubectl {{{
+  echo "Installing cloud_sql_proxy"
+  curl -o cloud_sql_proxy \
+    https://dl.google.com/cloudsql/cloud_sql_proxy.darwin.amd64
 
-curl https://sdk.cloud.google.com | bash
-echo "NOTE: you may need to reload shell your after installing gcloud"
-# echo "Reloading ~/.zshrc"
-# shellcheck source=/dev/null
-. "$HOME/.zshrc"
-gcloud components install kubectl
-
-echo "Installing cloud_sql_proxy"
-curl -o cloud_sql_proxy \
-  https://dl.google.com/cloudsql/cloud_sql_proxy.darwin.amd64
-
-mv ./cloud_sql_proxy ~/.bin
-chmod +x ~/.bin/cloud_sql_proxy
+  mv ./cloud_sql_proxy ~/.bin
+  chmod +x ~/.bin/cloud_sql_proxy
 
 # }}}
 
