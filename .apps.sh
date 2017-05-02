@@ -48,6 +48,7 @@ brew install vault
 # json {{{
 
   brew install jq
+  brew install jsonnet
 
 # }}}
 
