@@ -43,6 +43,7 @@
   " Syntax
   call dein#add('ekalinin/Dockerfile.vim')
   call dein#add('nathanielc/vim-tickscript')
+  call dein#add('google/vim-jsonnet')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete

@@ -153,9 +153,7 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 
 # }}}
 
-# gcloud / kubectl / helm {{{
-
-  brew install kubernetes-helm
+# gcloud / kubectl {{{
 
   curl https://sdk.cloud.google.com | bash
   echo "NOTE: you may need to reload shell your after installing gcloud"
@@ -170,6 +168,13 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 
   mv ./cloud_sql_proxy ~/.bin
   chmod +x ~/.bin/cloud_sql_proxy
+
+# }}}
+
+# Cloud tools {{{
+
+  brew install kubernetes-helm
+  brew install terraform
 
 # }}}
 
