@@ -44,6 +44,7 @@
   call dein#add('ekalinin/Dockerfile.vim')
   call dein#add('nathanielc/vim-tickscript')
   call dein#add('google/vim-jsonnet')
+  call dein#add('fatih/vim-go', {'on_ft' : 'go'})
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
@@ -522,4 +523,8 @@ nnoremap <leader>yr :YRShow<cr>
 
 " Mundo {{{
   nnoremap <leader>mu :MundoToggle<cr>
+" }}}
+
+" jsonnet {{{
+  autocmd FileType jsonnet setlocal commentstring=//\ %s
 " }}}
