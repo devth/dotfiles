@@ -23,6 +23,7 @@
   call dein#add('Shougo/dein.vim')
 
   " tpope
+  call dein#add('tpope/vim-abolish')
   call dein#add('tpope/vim-dispatch')
   call dein#add('tpope/vim-eunuch')
   call dein#add('tpope/vim-fireplace')
