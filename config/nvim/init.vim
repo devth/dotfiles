@@ -69,7 +69,11 @@
 
   " Utils
   call dein#add('vim-scripts/regreplop.vim') " replace!
-  call dein#add('neomake/neomake') " async syntax checking, building
+
+  " Only enable one of these plugins - they conflict:
+  " call dein#add('neomake/neomake') " async syntax checking, building
+  call dein#add('w0rp/ale') " Async Lint Engine
+
   call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
   call dein#add('vim-scripts/tComment') " Comment stuff
   call dein#add('junegunn/goyo.vim') " Writing mode
@@ -79,7 +83,6 @@
   call dein#add('mileszs/ack.vim') " search file contents via ag or ack
   call dein#add('fszymanski/ListToggle.vim') " Toggle Quickfix and Location List
   call dein#add('simnalamburt/vim-mundo') " Vim undo tree viz
-  call dein#add('w0rp/ale') " Async Lint Engine
   " call dein#add('chr4/sslsecure.vim') " Highlight insecure SSL configuration
 
   " Superfast fuzzy file finder
@@ -258,12 +261,13 @@
 " Aesthetics {{{
 
   " This must be defined before activating colorscheme
-  augroup my_neomake_signs
-      au!
-      autocmd ColorScheme *
-          \ hi NeomakeErrorSign ctermfg=red ctermbg=black |
-          \ hi NeomakeWarningSign ctermfg=yellow
-  augroup END
+
+  " augroup my_neomake_signs
+  "     au!
+  "     autocmd ColorScheme *
+  "         \ hi NeomakeErrorSign ctermfg=red ctermbg=black |
+  "         \ hi NeomakeWarningSign ctermfg=yellow
+  " augroup END
 
   fun CustomizeDarkColors()
     " Remove background on vertical splits
@@ -406,14 +410,17 @@
 
 " }}}
 
-" Neomake {{{
+" Linting
   " Enable Neomake on save on expected file types
   " autocmd! BufWritePost sh,markdown Neomake
   " Or just enable it everywhere all the time because it's async!
-  autocmd! BufEnter,BufRead,BufWritePost * Neomake
+  " autocmd! BufEnter,BufRead,BufWritePost * Neomake
+  " let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
+  " let g:neomake_error_sign = {'text': '•', 'texthl': 'NeomakeErrorSign'}
 
-  let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
-  let g:neomake_error_sign = {'text': '•', 'texthl': 'NeomakeErrorSign'}
+  let g:ale_sign_error = '⚠'
+  let g:ale_sign_warning = '•'
+
 " }}}
 
 " Clipboard {{{
