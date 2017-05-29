@@ -79,6 +79,7 @@
   call dein#add('mileszs/ack.vim') " search file contents via ag or ack
   call dein#add('fszymanski/ListToggle.vim') " Toggle Quickfix and Location List
   call dein#add('simnalamburt/vim-mundo') " Vim undo tree viz
+  call dein#add('w0rp/ale') " Async Lint Engine
   " call dein#add('chr4/sslsecure.vim') " Highlight insecure SSL configuration
 
   " Superfast fuzzy file finder
