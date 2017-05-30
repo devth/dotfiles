@@ -48,7 +48,7 @@
   call dein#add('fatih/vim-go', {'on_ft' : 'go'})
 
   " Clojure
-  call dein#add('clojure-vim/async-clj-omni') " clj completion for deoplete
+  call dein#add('clojure-vim/async-clj-omni') " clj completion
   " needed for edn and the latest clojure syntax
   call dein#add('guns/vim-clojure-static')
 
@@ -94,8 +94,7 @@
   call dein#add('vim-airline/vim-airline-themes')
 
   " Completion
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('Shougo/neco-syntax')
+  call dein#add('roxma/nvim-completion-manager')
 
   " Ensure configured dein plugins are installed
   if dein#check_install()
@@ -410,7 +409,7 @@
 
 " }}}
 
-" Linting
+" Linting {{{
   " Enable Neomake on save on expected file types
   " autocmd! BufWritePost sh,markdown Neomake
   " Or just enable it everywhere all the time because it's async!
@@ -420,6 +419,10 @@
 
   let g:ale_sign_error = '⚠'
   let g:ale_sign_warning = '•'
+  " Disabling trailing whitespace warnings doesn't affect Markdown because
+  " markdownlint checks that too
+  let g:ale_warn_about_trailing_whitespace = 0
+  let g:ale_lint_delay = 1000
 
 " }}}
 
@@ -428,12 +431,6 @@
   nnoremap <leader>yc :let @+=@"<cr>
   " Put system clipboard into default register
   nnoremap <leader>cy :let @"=@+<cr>
-" }}}
-
-" deoplete {{{
-  let g:deoplete#enable_at_startup = 1
-  let g:deoplete#keyword_patterns = {}
-  let g:deoplete#keyword_patterns.clojure = '[\w!$%&*+/:<=>?@\^_~\-\.#]*'
 " }}}
 
 " fzf {{{
