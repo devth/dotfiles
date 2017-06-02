@@ -350,6 +350,7 @@
   let NERDTreeChDirMode=2
   let NERDTreeQuitOnOpen=1
   let NERDTreeMapToggleHidden=1
+  let NERDTreeCascadeSingleChildDir=0 " do not collapse
 " }}}
 
 " tbone {{{
