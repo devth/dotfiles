@@ -51,6 +51,12 @@
   call dein#add('clojure-vim/async-clj-omni') " clj completion
   " needed for edn and the latest clojure syntax
   call dein#add('guns/vim-clojure-static')
+  " Note: manual step:
+  " Investigate parinfer in the future when it becomes more efficient. Currently
+  " this installation method does not work with dein. Not sure what's required
+  " to get it working - the README only has instructions for Vundle:
+  " call dein#add('neovim/node-host', { 'build': 'cd ~/.config/nvim/repos/github.com/neovim/node-host && npm install -g' })
+  " call dein#add('snoe/nvim-parinfer.js')
 
   " git
   call dein#add('tommcdo/vim-fubitive') " bitbucket for fugitive
@@ -162,6 +168,15 @@
   " Configure python
   let g:python2_host_prog = '/usr/local/bin/python'
   let g:python3_host_prog = '/usr/local/bin/python3'
+
+  " Format options {{{
+
+  " Allow wrapping lines at textwidth automatically
+  set fo+=t
+  set fo-=l
+  " }}}
+
+
 " }}}
 
 " Vim system mappings {{{
@@ -492,6 +507,10 @@
     autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
     autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
     autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
+    " Re-enable gq!
+    autocmd FileType clojure set formatexpr=
+    " Enable auto formatting
+    autocmd FileType clojure set fo+=tc
     " Clojure macros
     autocmd FileType clojure let @i='ysabbais'
     " Clojure should have a very large foldlevel
@@ -535,3 +554,11 @@ nnoremap <leader>yr :YRShow<cr>
 " jsonnet {{{
   autocmd FileType jsonnet setlocal commentstring=//\ %s
 " }}}
+
+" nvim-completion-manager {{{
+
+  " When the <Enter> key is pressed while the popup menu is visible, it only
+  " hides the menu. Use this mapping to hide the menu and also start a new line.
+  inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+" }}}
+
