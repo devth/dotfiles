@@ -36,6 +36,7 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 # Languages {{{
   brew install ruby
   brew install nodejs
+  npm install -g npm # update npm
   brew install python
   brew install python3
   brew install golang
