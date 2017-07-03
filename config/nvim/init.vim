@@ -101,6 +101,9 @@
 
   " Completion
   call dein#add('roxma/nvim-completion-manager')
+  call dein#add('SirVer/ultisnips')
+  " call dein#add('Shougo/neosnippet.vim')
+  call dein#add('honza/vim-snippets')
 
   " Ensure configured dein plugins are installed
   if dein#check_install()
@@ -358,12 +361,12 @@
 " }}}
 
 " NERDTree {{{
-  map <leader>nt :NERDTreeToggle<cr>
+  map <leader>nt :NERDTreeFocus<cr>
   map <leader>ntf :NERDTreeFind<cr>
   map <leader>ntc :NERDTreeClose<cr>
   " Stay in sync with current working directory
   let NERDTreeChDirMode=2
-  let NERDTreeQuitOnOpen=1
+  let NERDTreeQuitOnOpen=0
   let NERDTreeMapToggleHidden=1
   let NERDTreeCascadeSingleChildDir=0 " do not collapse
 " }}}
@@ -555,10 +558,31 @@ nnoremap <leader>yr :YRShow<cr>
   autocmd FileType jsonnet setlocal commentstring=//\ %s
 " }}}
 
-" nvim-completion-manager {{{
+" nvim-completion-manager and UltiSnips {{{
 
   " When the <Enter> key is pressed while the popup menu is visible, it only
   " hides the menu. Use this mapping to hide the menu and also start a new line.
   inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+  let g:UltiSnipsSnippetsDir='~/.vim_snippets'
+  let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.vim_snippets']
+
+  " let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
+  let g:UltiSnipsExpandTrigger = "<tab>"
+
+  let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+  let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+  let g:UltiSnipsRemoveSelectModeMappings = 0
+  inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+
+  " noesnippet
+  " imap <c-j>     <Plug>(neosnippet_expand_or_jump)
+  " vmap <c-j>     <Plug>(neosnippet_expand_or_jump)
+  " inoremap <silent> <c-u> <c-r>=cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)")<cr>
+  " vmap <c-u>     <Plug>(neosnippet_expand_target)
+  " " expand parameters
+  " let g:neosnippet#enable_completed_snippet=1
+  " let g:neosnippet#snippets_directory=$HOME.'/.vim_snippets'
+
 " }}}
 
