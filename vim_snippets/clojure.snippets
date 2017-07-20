@@ -1,0 +1,24 @@
+
+snippet kind_da_attribute
+(s/assert
+  :kind.da/attribute
+  {:entity/uuid (datomic.api/squuid)
+   :is-kind/da.attribute? true
+   })
+endsnippet
+
+
+snippet foo
+(def foo 1)
+endsnippet
+
+snippet fdef
+(s/fdef $1
+        :args (s/cat $2)
+        :ret ${3:nil?})
+endsnippet
+
+
+snippet timbre
+[taoensso.timbre :refer [error debug info color-str]]
+endsnippet
