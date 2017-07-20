@@ -51,6 +51,10 @@
   call dein#add('clojure-vim/async-clj-omni') " clj completion
   " needed for edn and the latest clojure syntax
   call dein#add('guns/vim-clojure-static')
+
+  " Doesn't work with .cljc files yet:
+  " call dein#add('clojure-vim/acid.nvim')
+
   " Note: manual step:
   " Investigate parinfer in the future when it becomes more efficient. Currently
   " this installation method does not work with dein. Not sure what's required
@@ -195,6 +199,10 @@
 
   " Center screen on line
   nmap <space> zz
+
+  " Navigate wrapped files
+  nmap j gj
+  nmap k gk
 
   " Edit / reload .vimrc
   nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
