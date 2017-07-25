@@ -46,6 +46,7 @@
   call dein#add('nathanielc/vim-tickscript')
   call dein#add('google/vim-jsonnet')
   call dein#add('fatih/vim-go', {'on_ft' : 'go'})
+  call dein#add('hashivim/vim-vagrant')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion
