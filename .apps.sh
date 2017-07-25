@@ -150,6 +150,8 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew cask install dash
   open ~/Dropbox/Licenses/license-dash4.dash-license
 
+  brew cask install vagrant
+
   brew cask install gitter
 
 # }}}
