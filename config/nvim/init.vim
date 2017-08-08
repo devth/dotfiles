@@ -512,7 +512,8 @@
       \'query', 'ident', 'render', 'cmd-hook', 'defentity', 'defplan',
       \'defproject', 'defsynth', 'group-spec', 'node-spec', 'defroutes', 'match',
       \'deftrace', 'defproject', 'deftest']
-    let g:clojure_maxlines = 80
+    " allow syntax highlighting and indent on any number of lines
+    let g:clojure_maxlines = 0
     " cljx syntax highlighting
     autocmd BufNewFile,BufReadPost *.cljx setfiletype clojure
     " vim-fireplace / clojure
