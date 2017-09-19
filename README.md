@@ -33,6 +33,14 @@
 The install script should be idempotent but that assumption will not be verified
 until #26 and #20 are completed.
 
+Clone this repo to:
+
+```bash
+~/.dotfiles
+```
+
+Then:
+
 ```shell
 ./install.sh
 ```
