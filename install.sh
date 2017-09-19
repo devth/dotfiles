@@ -1,20 +1,20 @@
 echo "Applying macOS settings"
-.macos.sh
+./.macos.sh
 
 echo "Installing CLI apps"
-.apps.sh
+./.apps.sh
 
 echo "Installing macOS App Store Apps"
-.macapps.sh
+./.macapps.sh
 
 echo "Installing gems"
-.gems.sh
+./.gems.sh
 
 echo "Installing Golang deps"
-.golang.sh
+./.golang.sh
 
 echo "Installing Node.js deps"
-.nodejs.sh
+./.nodejs.sh
 
 echo "Setting up symlinks with rcup"
 rcup
