@@ -80,6 +80,9 @@
 
   " Utils
   call dein#add('vim-scripts/regreplop.vim') " replace!
+  " javascript formatting
+  call dein#add('prettier/vim-prettier', { 'build': 'yarn install' })
+
 
   " Only enable one of these plugins - they conflict:
   " call dein#add('neomake/neomake') " async syntax checking, building
