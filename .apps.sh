@@ -139,8 +139,6 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 
   brew cask install alfred
 
-  brew cask install 1password
-
   brew cask install slack
 
   brew cask install istat-menus
