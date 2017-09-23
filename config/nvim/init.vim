@@ -47,6 +47,7 @@
   call dein#add('google/vim-jsonnet')
   call dein#add('fatih/vim-go', {'on_ft' : 'go'})
   call dein#add('hashivim/vim-vagrant')
+  call dein#add('mxw/vim-jsx')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion
@@ -82,6 +83,8 @@
   call dein#add('vim-scripts/regreplop.vim') " replace!
   " javascript formatting
   call dein#add('prettier/vim-prettier', { 'build': 'yarn install' })
+  " Facebook Flow
+  call dein#add('flowtype/vim-flow')
 
 
   " Only enable one of these plugins - they conflict:
@@ -125,6 +128,7 @@
 " }}}
 
 " Vim system settings {{{
+  source ~/.vimrc_private
   " set foldmethod=marker
   set nowrap
   set nocompatible
@@ -599,3 +603,6 @@ nnoremap <leader>yr :YRShow<cr>
 
 " }}}
 
+" JavaScript {{{
+let g:jsx_ext_required = 0
+" }}}
