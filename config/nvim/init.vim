@@ -459,6 +459,10 @@
   let g:ale_warn_about_trailing_whitespace = 0
   let g:ale_lint_delay = 1000
 
+  let g:ale_fixers = {}
+  let g:ale_fixers['javascript'] = ['prettier']
+  let g:ale_fix_on_save = 1
+
 " }}}
 
 " Clipboard {{{

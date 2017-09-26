@@ -154,6 +154,10 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 
   brew cask install gitter
 
+  brew cask install gpgtools
+
+  brew cask install keybase
+
 # }}}
 
 # gcloud / kubectl {{{
