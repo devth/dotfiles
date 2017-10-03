@@ -48,6 +48,7 @@
   call dein#add('fatih/vim-go', {'on_ft' : 'go'})
   call dein#add('hashivim/vim-vagrant')
   call dein#add('mxw/vim-jsx')
+  call dein#add('mattn/emmet-vim')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion
@@ -461,7 +462,12 @@
 
   let g:ale_fixers = {}
   let g:ale_fixers['javascript'] = ['prettier']
+  let g:ale_fixers['css'] = ['prettier']
   " let g:ale_fix_on_save = 1
+
+  " Flow typed
+  " https://github.com/flowtype/vim-flow
+  let g:flow#showquickfix = 0
 
 " }}}
 
