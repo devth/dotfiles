@@ -474,6 +474,12 @@
   " Flow typed
   " https://github.com/flowtype/vim-flow
   let g:flow#showquickfix = 0
+  let g:flow#autoclose = 1
+  let g:flow#timeout = 4
+  autocmd FileType javascript nnoremap <leader>ft :FlowType<cr>
+  autocmd FileType javascript nnoremap <leader>fj :FlowJumpToDef<cr>
+  " TODO what about gf for non-flow projects?
+  autocmd FileType javascript nnoremap gf :FlowJumpToDef<cr>
 
 " }}}
 
