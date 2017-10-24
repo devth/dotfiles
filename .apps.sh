@@ -187,6 +187,7 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 
   brew install kubernetes-helm
   brew install terraform
+  brew install ngrep
 
 # }}}
 
