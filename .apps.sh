@@ -164,6 +164,9 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 
   brew cask install keybase
 
+  # rest client
+  brew cask install insomnia
+
 # }}}
 
 # gcloud / kubectl {{{
