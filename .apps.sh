@@ -167,6 +167,12 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   # rest client
   brew cask install insomnia
 
+  # alacritty dependencies
+  brew install rustup-init
+  rustup-init -y
+  # alacritty - a blazing fast gpu-acelerated term
+  brew install --HEAD cema-sp/homebrew-tap/alacritty
+
 # }}}
 
 # gcloud / kubectl {{{
