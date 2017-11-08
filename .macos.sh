@@ -32,7 +32,7 @@ defaults write com.apple.dock static-only -bool TRUE
 defaults write com.apple.dock showhidden -bool TRUE
 
 # defaults read -g InitialKeyRepeat
-defaults write -g KeyRepeat -int 1
+defaults write -g KeyRepeat -int 0
 defaults write -g InitialKeyRepeat -int 10
 
 # restart the dock for settings to take affect
