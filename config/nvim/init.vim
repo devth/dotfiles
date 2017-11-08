@@ -192,6 +192,10 @@
   " Allow wrapping lines at textwidth automatically
   set fo+=t
   set fo-=l
+
+  " NeoVim Terminal Mode
+  :tnoremap <C-[> <C-\><C-n>
+
   " }}}
 
 
