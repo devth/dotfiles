@@ -49,6 +49,13 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install golang
 # }}}
 
+# Database {{{
+
+brew install postgres
+brew services start postgresql
+
+# }}}
+
 # Linter suport {{{
   brew install shellcheck
   brew install mdl
