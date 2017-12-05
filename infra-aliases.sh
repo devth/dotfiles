@@ -36,7 +36,7 @@ pods() {
 
 # pods by ordinal
 pod0() { kc get pods -l app="$*" -o jsonpath='{.items[0].metadata.name}' ; }
-alias fpod=pod0
+# alias fpod=pod0
 pod1() { kc get pods -l app="$*" -o jsonpath='{.items[1].metadata.name}' ; }
 pod2() { kc get pods -l app="$*" -o jsonpath='{.items[2].metadata.name}' ; }
 
