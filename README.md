@@ -17,6 +17,7 @@
   - [init.nvim](config/nvim/init.vim)
 - Terminal
   - [ ] TODO .zshrc
+  - [infra-aliases.sh](infra-aliases.sh)
 - tmux
   - [tmux.conf](tmux.conf)
   - [tmuxline.conf](tmuxline.conf)
