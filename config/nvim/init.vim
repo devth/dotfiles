@@ -477,6 +477,7 @@
 
   " Flow typed
   " https://github.com/flowtype/vim-flow
+  let g:flow#enable = 0
   let g:flow#showquickfix = 0
   let g:flow#autoclose = 1
   let g:flow#timeout = 4
@@ -495,6 +496,7 @@
 " }}}
 
 " fzf {{{
+  let g:fzf_layout = { 'left': '~30%' }
   " ctrl-p replacement
   nmap <leader>p :Files<cr>
   " line wise completion
@@ -503,6 +505,7 @@
   nnoremap <leader>fc :Commits<cr>
   " find lines
   nnoremap <leader>fl :Lines<cr>
+
 " }}}
 
 " vim-tmux-navigator {{{
@@ -544,7 +547,7 @@
       \'card', 'getInitialState', 'component', 'this-as', '^def', '^dom', 'div$',
       \'query', 'ident', 'render', 'cmd-hook', 'defentity', 'defplan',
       \'defproject', 'defsynth', 'group-spec', 'node-spec', 'defroutes', 'match',
-      \'deftrace', 'defproject', 'deftest']
+      \'deftrace', 'defproject', 'deftest', 'with-db-connection']
     " allow syntax highlighting and indent on any number of lines
     let g:clojure_maxlines = 0
     " cljx syntax highlighting
