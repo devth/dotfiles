@@ -268,6 +268,8 @@
   autocmd FileType markdown setlocal keywordprg=sdcv
   " yaml
   autocmd BufRead,BufNewFile *.yaml set cursorline cursorcolumn
+  " FileType for EJS
+  autocmd BufNewFile,BufRead *.ejs set ft=json
 " }}}
 
 " Fold settings {{{
@@ -496,7 +498,7 @@
 " }}}
 
 " fzf {{{
-  let g:fzf_layout = { 'left': '~30%' }
+  " let g:fzf_layout = { 'left': '~30%' }
   " ctrl-p replacement
   nmap <leader>p :Files<cr>
   " line wise completion
