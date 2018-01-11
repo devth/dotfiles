@@ -134,6 +134,8 @@
   source ~/.vimrc_private
   " set foldmethod=marker
   set nowrap
+  set ttyfast
+  set lazyredraw
   set nocompatible
   syntax on
   filetype plugin indent on
