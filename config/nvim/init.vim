@@ -294,6 +294,8 @@
   tnoremap <C-[> <C-\><C-n>
   highlight TermCursor ctermfg=red guifg=red
 
+  " Don't try to auto load a term
+  " let g:neoterm.repl.loaded = 1
 
   " tbone replacement using neoterm plugin
   nmap <leader>twl <s-v>:TREPLSendLine<cr>
@@ -375,6 +377,9 @@
   set guioptions=egmt
   set bg=dark
   let g:airline_powerline_fonts = 1
+
+  " let g:airline#extensions#tabline#formatter = 'pwd'
+
   let g:airline#extensions#tabline#fnamemod = ':r'
   let g:airline#extensions#tabline#enabled = 1
   " let g:airline#extensions#tabline#formatter = 'jsformatter'

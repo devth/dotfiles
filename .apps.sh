@@ -191,11 +191,14 @@ brew services start postgresql
 
 # gcloud / kubectl {{{
 
-  curl https://sdk.cloud.google.com | bash
-  echo "NOTE: you may need to reload shell your after installing gcloud"
-  # echo "Reloading ~/.zshrc"
-  # shellcheck source=/dev/null
-  . "$HOME/.zshrc"
+  brew cask install google-cloud-sdk
+
+  # curl https://sdk.cloud.google.com | bash
+  # echo "NOTE: you may need to reload shell your after installing gcloud"
+  # # echo "Reloading ~/.zshrc"
+  # # shellcheck source=/dev/null
+  # . "$HOME/.zshrc"
+
   gcloud components install kubectl
 
   echo "Installing cloud_sql_proxy"
