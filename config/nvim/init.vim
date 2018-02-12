@@ -25,6 +25,7 @@
   " tpope
   call dein#add('tpope/vim-abolish')
   call dein#add('tpope/vim-dispatch')
+  call dein#add('radenling/vim-dispatch-neovim')
   call dein#add('tpope/vim-eunuch')
   call dein#add('tpope/vim-fireplace')
   call dein#add('tpope/vim-fugitive')
@@ -79,16 +80,17 @@
   " call dein#add('ryanoasis/vim-devicons')
 
   " tmux integration
-  call dein#add('tmux-plugins/vim-tmux')
-  call dein#add('christoomey/vim-tmux-navigator')
+  " call dein#add('tmux-plugins/vim-tmux')
+  " call dein#add('christoomey/vim-tmux-navigator')
 
   " Utils
+  call dein#add('vimlab/split-term.vim') " Terminal utils
+  call dein#add('kassio/neoterm') " Terminal utils
   call dein#add('vim-scripts/regreplop.vim') " replace!
   " javascript formatting
-  call dein#add('prettier/vim-prettier', { 'build': 'yarn install' })
+  call dein#add('prettier/vim-prettier', { 'build': 'yarn install', 'rev': '0.2.0' })
   " Facebook Flow
   call dein#add('flowtype/vim-flow')
-
 
   " Only enable one of these plugins - they conflict:
   " call dein#add('neomake/neomake') " async syntax checking, building
@@ -110,11 +112,13 @@
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
   " Powerline alternatives
-  call dein#add('bling/vim-airline')
+  call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
 
   " Completion
   call dein#add('roxma/nvim-completion-manager')
+  call dein#add('roxma/ncm-flow')
+  call dein#add('mhartington/nvim-typescript')
   call dein#add('SirVer/ultisnips')
   " call dein#add('Shougo/neosnippet.vim')
   call dein#add('honza/vim-snippets')
@@ -144,6 +148,11 @@
   let maplocalleader = ","
   set history=1000
   set undolevels=1000
+  set nocursorline nocursorcolumn " vim is slow with these on :/
+
+  " Splits
+  set splitbelow splitright
+
   " Persistent undo
   let undodir = expand('~/.undo-vim')
   if !isdirectory(undodir)
@@ -195,8 +204,6 @@
   set fo+=t
   set fo-=l
 
-  " NeoVim Terminal Mode
-  :tnoremap <C-[> <C-\><C-n>
 
   " }}}
 
@@ -256,6 +263,13 @@
 
   " Toggle Goyo
   nnoremap <leader>go :Goyo<cr>
+
+  " Tab navigation replacement for tmux
+  nnoremap <C-space>l :tabp<cr>
+  nnoremap <C-space>c :tabnew<cr>
+  nnoremap <C-space>0 1gt
+  nnoremap <C-space>1 2gt
+  nnoremap <C-space>2 3gt
 " }}}
 
 " Vim system autocmds {{{
@@ -272,6 +286,20 @@
   autocmd BufRead,BufNewFile *.yaml set cursorline cursorcolumn
   " FileType for EJS
   autocmd BufNewFile,BufRead *.ejs set ft=json
+" }}}
+
+" Vim terminal {{{
+
+  " NeoVim Terminal Mode
+  tnoremap <C-[> <C-\><C-n>
+  highlight TermCursor ctermfg=red guifg=red
+
+
+  " tbone replacement using neoterm plugin
+  nmap <leader>twl <s-v>:TREPLSendLine<cr>
+  vmap <leader>twl :TREPLSendLine<cr>
+  let g:neoterm_position = 'vertical'
+
 " }}}
 
 " Fold settings {{{
@@ -347,6 +375,9 @@
   set guioptions=egmt
   set bg=dark
   let g:airline_powerline_fonts = 1
+  let g:airline#extensions#tabline#fnamemod = ':r'
+  let g:airline#extensions#tabline#enabled = 1
+  " let g:airline#extensions#tabline#formatter = 'jsformatter'
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
 
@@ -396,13 +427,14 @@
   let NERDTreeQuitOnOpen=0
   let NERDTreeMapToggleHidden=1
   let NERDTreeCascadeSingleChildDir=0 " do not collapse
+  let NERDTreeShowHidden=1
 " }}}
 
 " tbone {{{
 
   " right
-  nnoremap <leader>twl <s-v>:Twrite right<cr>
-  vnoremap <leader>twl :Twrite right<cr>
+  " nnoremap <leader>twl <s-v>:Twrite right<cr>
+  " vnoremap <leader>twl :Twrite right<cr>
 
   " left
   nnoremap <leader>twh <s-v>:Twrite left<cr>
@@ -440,10 +472,17 @@
   map <leader>gw :Gwrite<cr>
   map <leader>gs :Gstatus<cr>
   map <leader>gs :Gstatus<cr>
-  map <leader>gP :NeomakeSh git push<cr>
-  map <leader>gp :Gpull --rebase<cr>
-  map <leader>ga :NeomakeSh git add %<cr>
+  map <leader>gP :Dispatch! git push<cr>
+  map <leader>gp :Dispatch! git pull --rebase<cr>
+  map <leader>ga :Dispatch! git add %<cr>
   map <leader>gc :Gcommit
+" }}}
+
+" Dispatch {{{
+  map <leader>dr :Dispatch<space>
+  map <leader>dl :execute 'Dispatch ' . getline('.')<cr>
+  " cmap <C-R><C-L> <C-R>=getline('.')<CR>
+
 " }}}
 
 " dein mappings & config {{{
@@ -474,6 +513,8 @@
   let g:ale_fixers['javascript'] = ['prettier']
   let g:ale_fixers['css'] = ['prettier']
 
+  nmap <Leader><Leader>p <Plug>(Prettier)
+
   " let g:ale_fix_on_save = 1
 
   " Prettier
@@ -503,6 +544,7 @@
   " let g:fzf_layout = { 'left': '~30%' }
   " ctrl-p replacement
   nmap <leader>p :Files<cr>
+  nmap <leader>bp :Buffers<cr>
   " line wise completion
   imap <c-x><c-l> <plug>(fzf-complete-line)
   " find commits
@@ -633,6 +675,7 @@ nnoremap <leader>yr :YRShow<cr>
   " " expand parameters
   " let g:neosnippet#enable_completed_snippet=1
   " let g:neosnippet#snippets_directory=$HOME.'/.vim_snippets'
+
 
 " }}}
 

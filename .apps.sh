@@ -68,6 +68,7 @@ brew services start postgresql
   brew install cfssl
 
   echo "Note: openssl is keg only and requires an explicit PATH in ~/.zshrc"
+  # shellcheck disable=SC2016
   echo 'export PATH="/usr/local/opt/openssl/bin:$PATH" >> ~/.zshrc'
   # echo 'export PATH="/usr/local/opt/openssl/bin:$PATH"' >> ~/.zshrc
   brew info openssl
@@ -108,7 +109,8 @@ brew services start postgresql
   brew tap johanhaleby/kubetail
   brew install kubetail
 
-  brew tap neovim/neovim
+  # brew tap neovim/neovim
+  # brew untap neovim/neovim
   # brew install neovim
   # need this commit so until it's released, install neovim from master
   # https://github.com/neovim/neovim/pull/5758/commits/af2e629be4d20dda334a7c6ca817f5599956e4ff
@@ -131,7 +133,10 @@ brew services start postgresql
 
   # brew cask install zooom # WTF why is this dead
   # we'll obtain it from dropbox instead
+
   brew cask install java
+
+  brew cask install vimr
 
   brew cask install selfcontrol
 
@@ -180,6 +185,8 @@ brew services start postgresql
   # alacritty - a blazing fast gpu-acelerated term
   brew install --HEAD cema-sp/homebrew-tap/alacritty
 
+  brew cask install macvim
+
 # }}}
 
 # gcloud / kubectl {{{
@@ -205,6 +212,9 @@ brew services start postgresql
   brew install kubernetes-helm
   brew install terraform
   brew install ngrep
+
+  brew tap drone/drone
+  brew install drone # --HEAD
 
 # }}}
 

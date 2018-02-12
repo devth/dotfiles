@@ -35,6 +35,10 @@ defaults write com.apple.dock showhidden -bool TRUE
 defaults write -g KeyRepeat -int 0
 defaults write -g InitialKeyRepeat -int 10
 
+# hide desktop icons
+defaults write com.apple.finder CreateDesktop -bool false
+defaults write com.apple.finder CreateDesktop false
+
 # restart the dock for settings to take affect
 killall Dock
 # }}}
