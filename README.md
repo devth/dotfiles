@@ -49,6 +49,13 @@ Then:
 This relies on [rcm](https://github.com/thoughtbot/rcm) to setup all the correct
 symlinks. `install.sh` installs it and runs it for you.
 
+Notes:
+
+1. A full run may take up to 3 hours depending on your hardware specs and
+   Internet bandwidth.
+1. The installer is not yet fully non-interactive. `homebrew` needs sudo at
+   least twice.
+
 ## Inspiration
 
 - [https://github.com/christoomey/dotfiles](https://github.com/christoomey/dotfiles)
