@@ -60,6 +60,7 @@ Notes:
 
 - [https://github.com/christoomey/dotfiles](https://github.com/christoomey/dotfiles)
 - [https://github.com/mhartington/dotfiles](https://github.com/mhartington/dotfiles)
+- [https://github.com/mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles)
 
 ## License
 

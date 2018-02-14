@@ -37,6 +37,8 @@
 
 # Global Shortcuts {{{
 
+  # TODO investigate Karabiner Elements to provide the below shortcuts
+
   # Example of reading global shortuts for reference:
   defaults read -globalDomain NSUserKeyEquivalents
   defaults find NSUserKeyEquivalents
