@@ -33,20 +33,25 @@
   defaults write com.apple.finder CreateDesktop -bool false
   defaults write com.apple.finder CreateDesktop false
 
-  # restart the dock for settings to take affect
-  killall Dock
-
 # }}}
 
 # Global Shortcuts {{{
 
   # Example of reading global shortuts for reference:
-  # defaults read -globalDomain NSUserKeyEquivalents
+  defaults read -globalDomain NSUserKeyEquivalents
+  defaults find NSUserKeyEquivalents
 
   # System Preferences: opt + cmd + ,
-  defaults write -globalDomain NSUserKeyEquivalents -dict-add \
-    "System Preferences..." "@~,";
+  defaults write -g NSUserKeyEquivalents -dict-add "System Preferences..." "@~,";
 
   # Notification center: F12
 
+  # Remap capslock to control
+
+  # F1 show terminal
+
 # }}}
+
+# restart the dock for settings to take affect
+killall Dock
+
