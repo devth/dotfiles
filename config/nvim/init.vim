@@ -80,8 +80,8 @@
   " call dein#add('ryanoasis/vim-devicons')
 
   " tmux integration
-  " call dein#add('tmux-plugins/vim-tmux')
-  " call dein#add('christoomey/vim-tmux-navigator')
+  call dein#add('tmux-plugins/vim-tmux')
+  call dein#add('christoomey/vim-tmux-navigator')
 
   " Utils
   call dein#add('vimlab/split-term.vim') " Terminal utils
@@ -90,11 +90,11 @@
   " javascript formatting
   call dein#add('prettier/vim-prettier', { 'build': 'yarn install', 'rev': '0.2.0' })
   " Facebook Flow
-  call dein#add('flowtype/vim-flow')
+  " call dein#add('flowtype/vim-flow')
 
   " Only enable one of these plugins - they conflict:
   " call dein#add('neomake/neomake') " async syntax checking, building
-  call dein#add('w0rp/ale') " Async Lint Engine
+  " call dein#add('w0rp/ale') " Async Lint Engine
 
   call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
   call dein#add('vim-scripts/tComment') " Comment stuff
@@ -117,7 +117,7 @@
 
   " Completion
   call dein#add('roxma/nvim-completion-manager')
-  call dein#add('roxma/ncm-flow')
+  " call dein#add('roxma/ncm-flow')
   call dein#add('mhartington/nvim-typescript')
   call dein#add('SirVer/ultisnips')
   " call dein#add('Shougo/neosnippet.vim')
@@ -295,7 +295,7 @@
   highlight TermCursor ctermfg=red guifg=red
 
   " Don't try to auto load a term
-  " let g:neoterm.repl.loaded = 1
+  let g:neoterm_auto_repl_cmd = 0
 
   " tbone replacement using neoterm plugin
   nmap <leader>twl <s-v>:TREPLSendLine<cr>
@@ -527,14 +527,14 @@
 
   " Flow typed
   " https://github.com/flowtype/vim-flow
-  let g:flow#enable = 0
-  let g:flow#showquickfix = 0
-  let g:flow#autoclose = 1
-  let g:flow#timeout = 4
-  autocmd FileType javascript nnoremap <leader>ft :FlowType<cr>
-  autocmd FileType javascript nnoremap <leader>fj :FlowJumpToDef<cr>
-  " TODO what about gf for non-flow projects?
-  autocmd FileType javascript nnoremap gf :FlowJumpToDef<cr>
+  " let g:flow#enable = 0
+  " let g:flow#showquickfix = 0
+  " let g:flow#autoclose = 1
+  " let g:flow#timeout = 4
+  " autocmd FileType javascript nnoremap <leader>ft :FlowType<cr>
+  " autocmd FileType javascript nnoremap <leader>fj :FlowJumpToDef<cr>
+  " " TODO what about gf for non-flow projects?
+  " autocmd FileType javascript nnoremap gf :FlowJumpToDef<cr>
 
 " }}}
 
