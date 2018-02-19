@@ -26,10 +26,6 @@
   # indicate if an app is hidden
   defaults write com.apple.dock showhidden -bool TRUE
 
-  # defaults read -g InitialKeyRepeat
-  defaults write -g KeyRepeat -int 0
-  defaults write -g InitialKeyRepeat -int 10
-
   # hide desktop icons
   defaults write com.apple.finder CreateDesktop -bool false
   defaults write com.apple.finder CreateDesktop false
@@ -45,16 +41,6 @@
   # Disable transparency in the menu bar and elsewhere on Yosemite
   defaults write com.apple.universalaccess reduceTransparency -bool true
 
-  # Menu bar: hide the Time Machine and User icons
-  defaults -currentHost write dontAutoLoad -array \
-    "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-    "/System/Library/CoreServices/Menu Extras/Clock.menu" \
-    "/System/Library/CoreServices/Menu Extras/User.menu"
-  defaults write com.apple.systemuiserver menuExtras -array \
-    "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-    "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-    "/System/Library/CoreServices/Menu Extras/Battery.menu"
-
   # Expand save panel by default
   defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
   defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
@@ -69,8 +55,26 @@
   # Restart automatically if the computer freezes
   sudo systemsetup -setrestartfreeze on
 
+  # Enable full keyboard access for all controls
+  # (e.g. enable Tab in modal dialogs)
+  defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+  # Use scroll gesture with the Ctrl (^) modifier key to zoom
+  defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+  defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+  # Follow the keyboard focus while zoomed in
+  defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+
+  # Disable press-and-hold for keys in favor of key repeat
+  defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+  # Set a blazingly fast keyboard repeat rate
+  defaults write NSGlobalDomain KeyRepeat -int 1
+  defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 # }}}
+
+
 
 # Global Shortcuts {{{
 
@@ -86,8 +90,8 @@
   # Notification center: F12
 
   # Remap capslock to control
-  defaults write -g com.apple.keyboard.modifiermapping.1452-594-0 -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>2</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
-
+  # defaults write -g com.apple.keyboard.modifiermapping.1452-594-0 -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>2</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
+  hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}'
 
   # cmd + F1 show terminal
 
