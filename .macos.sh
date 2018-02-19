@@ -34,7 +34,15 @@
   defaults write com.apple.finder CreateDesktop false
 
   # Set login shell to ZSH
-  chsh -s /bin/zsh
+  if [ -n "$ZSH_VERSION" ]; then
+    # assume Zsh
+    echo "Shell is zsh"
+  else
+    # asume something else
+    chsh -s /bin/zsh
+  fi
+
+  # Link dotfiles from Dropbox
   ln -sfn ~/Dropbox/dotfiles/.oh-my-zsh ~/.oh-my-zsh
   ln -sfn ~/Dropbox/dotfiles/.zshrc ~/.zshrc
 
