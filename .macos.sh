@@ -191,6 +191,30 @@
 
 # }}}
 
+# Dashboard, Dock {{{
+
+  # Expand the following File Info panes:
+  # “General”, “Open with”, and “Sharing & Permissions”
+  defaults write com.apple.finder FXInfoPanesExpanded -dict \
+    General -bool true \
+    OpenWith -bool true \
+    Privileges -bool true
+
+  # Don’t automatically rearrange Spaces based on most recent use
+  defaults write com.apple.dock mru-spaces -bool false
+
+  # Remove the auto-hiding Dock delay
+  defaults write com.apple.dock autohide-delay -float 0
+  # Remove the animation when hiding/showing the Dock
+  defaults write com.apple.dock autohide-time-modifier -float 0
+
+  # Automatically hide and show the Dock
+  defaults write com.apple.dock autohide -bool true
+
+  # Make Dock icons of hidden applications translucent
+
+# }}}
+
 # iTerm {{{
 
   # Don’t display the annoying prompt when quitting iTerm
