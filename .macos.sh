@@ -87,16 +87,6 @@
 
 # }}}
 
-
-# Fonts {{{
-
-  open "./Fonts/Menlo Bold for Powerline.ttf"
-  open "./Fonts/Menlo Bold Italic for Powerline.ttf"
-  open "./Fonts/Menlo for Powerline.ttf"
-  open "./Fonts/Menlo Italic for Powerline.ttf"
-
-# }}}
-
 # Global Shortcuts {{{
 
   # TODO investigate Karabiner Elements to provide the below shortcuts

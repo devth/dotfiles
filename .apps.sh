@@ -188,6 +188,28 @@ brew services start postgresql
 
   brew cask install macvim
 
+  # Powerline fonts!
+  brew cask install \
+    font-anonymous-pro \
+    font-dejavu-sans-mono-for-powerline \
+    font-droid-sans-mono-for-powerline \
+    font-meslo-lg font-input \
+    font-menlo-for-powerline \
+    font-inconsolata font-inconsolata-for-powerline \
+    font-meslo-lg \
+    font-nixie-one \
+    font-office-code-pro \
+    font-pt-mono \
+    font-raleway font-roboto \
+    font-source-code-pro font-source-code-pro-for-powerline \
+    font-source-sans-pro
+
+  # quicklook
+  brew cask install \
+    qlcolorcode qlmarkdown qlprettypatch qlstephen \
+    qlimagesize \
+    quicklook-csv quicklook-json epubquicklook 
+
 # }}}
 
 # gcloud / kubectl {{{
