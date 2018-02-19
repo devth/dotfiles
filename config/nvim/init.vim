@@ -380,7 +380,7 @@
 
   " let g:airline#extensions#tabline#formatter = 'pwd'
 
-  let g:airline#extensions#tabline#fnamemod = ':r'
+  let g:airline#extensions#tabline#fnamemod = ':t'
   let g:airline#extensions#tabline#enabled = 1
   " let g:airline#extensions#tabline#formatter = 'jsformatter'
   " Disable tmuxline overwriting so we can configure it ourselves
