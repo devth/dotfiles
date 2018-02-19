@@ -151,7 +151,8 @@ brew services start postgresql
 
   brew cask install iterm2
 
-  brew cask install divvy
+  # brew cask install divvy
+  brew cask install spectacle
 
   brew cask install spotify
 

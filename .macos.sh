@@ -224,6 +224,15 @@
   defaults write com.googlecode.iterm2 PrefsCustomFolder '~/Dropbox/dotfiles/iterm2' 
   defaults write com.googlecode.iterm2 "LoadPrefsFromCustomFolder" -bool true
 
+  # defaults read com.googlecode.iterm2
+  # Set cmd + F1 hotkey for iTerm2
+  defaults write com.googlecode.iterm2 Hotkey -int 1;
+  defaults write com.googlecode.iterm2 HotkeyChar -int 63236;
+  defaults write com.googlecode.iterm2 HotkeyCode -int 122;
+  defaults write com.googlecode.iterm2 HotkeyModifiers -int 262401;
+  defaults write com.googlecode.iterm2 HotkeyMigratedFromSingleToMulti -int 1;
+  defaults write com.googlecode.iterm2 HotkeyModifiers -int 9437448;
+
 # }}}
 
 # Mac App Store {{{
