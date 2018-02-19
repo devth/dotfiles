@@ -92,8 +92,8 @@
   # TODO investigate Karabiner Elements to provide the below shortcuts
 
   # Example of reading global shortuts for reference:
-  defaults read -globalDomain NSUserKeyEquivalents
-  defaults find NSUserKeyEquivalents
+  # defaults read -globalDomain NSUserKeyEquivalents
+  # defaults find NSUserKeyEquivalents
 
   # System Preferences: opt + cmd + ,
   defaults write -g NSUserKeyEquivalents -dict-add "System Preferences..." "@~,";
