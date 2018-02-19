@@ -33,6 +33,9 @@
   defaults write com.apple.finder CreateDesktop -bool false
   defaults write com.apple.finder CreateDesktop false
 
+  # Set login shell to ZSH
+  chsh -s /bin/zsh
+
 # }}}
 
 # Global Shortcuts {{{
@@ -50,7 +53,20 @@
 
   # Remap capslock to control
 
-  # F1 show terminal
+  # cmd + F1 show terminal
+
+  # cmd + space for Alfred
+
+# }}}
+
+# iTerm {{{
+
+  # Load iterm2 colors
+  # /Users/thartman/Dropbox/dotfiles/iterm2\ Colors
+
+  # Set default shell to zsh
+
+  # Install Solarized profiles and set it to Dark
 
 # }}}
 
