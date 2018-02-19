@@ -100,8 +100,9 @@
   # Don’t display the annoying prompt when quitting iTerm
   defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
-
-  # TODO tell iTerm to load prefs from ~/Dropbox/dotfiles/iterm2
+  # Tell iTerm to load prefs from ~/Dropbox/dotfiles/iterm2
+  defaults write com.googlecode.iterm2 PrefsCustomFolder '~/Dropbox/dotfiles/iterm2' 
+  defaults write com.googlecode.iterm2 "LoadPrefsFromCustomFolder" -bool true
 
 # }}}
 
