@@ -35,6 +35,7 @@
 
   # Set login shell to ZSH
   chsh -s /bin/zsh
+  ln -sfn ~/Dropbox/dotfiles/.oh-my-zsh ~/.oh-my-zsh
   ln -sfn ~/Dropbox/dotfiles/.zshrc ~/.zshrc
 
 # }}}
