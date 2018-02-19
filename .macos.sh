@@ -45,6 +45,8 @@
   # Link dotfiles from Dropbox
   ln -sfn ~/Dropbox/dotfiles/.oh-my-zsh ~/.oh-my-zsh
   ln -sfn ~/Dropbox/dotfiles/.zshrc ~/.zshrc
+  ln -sfn ~/Dropbox/dotfiles/.ssh ~/.ssh
+  ln -sfn ~/Dropbox/dotfiles/.tmuxinator ~/.tmuxinator
 
   # Standby delay to 24 hours
   sudo pmset -a standbydelay 86400
