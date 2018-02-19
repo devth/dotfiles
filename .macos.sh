@@ -20,6 +20,9 @@
 
   # TODO: also have to disable quotes/spelling in individual apps
 
+  # Use all F1, F2, etc. keys as standard function keys
+  defaults write -g com.apple.keyboard.fnState -bool true
+
   # only show apps that are open
   defaults write com.apple.dock static-only -bool TRUE
 
@@ -221,7 +224,7 @@
   defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
   # Tell iTerm to load prefs from ~/Dropbox/dotfiles/iterm2
-  defaults write com.googlecode.iterm2 PrefsCustomFolder '~/Dropbox/dotfiles/iterm2' 
+  defaults write com.googlecode.iterm2 PrefsCustomFolder '~/Dropbox/dotfiles/iterm2'
   defaults write com.googlecode.iterm2 "LoadPrefsFromCustomFolder" -bool true
 
   # defaults read com.googlecode.iterm2
