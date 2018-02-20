@@ -107,7 +107,9 @@
   # cmd + F1 show terminal
 
   # disable spotlight on cmd-space so Alfred can use it
-  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
+  # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
+  /usr/libexec/PlistBuddy ~/Library/Preferences/com.apple.symbolichotkeys.plist -c \
+    "Set AppleSymbolicHotKeys:64:enabled false"
 
   # Configure Alfred to use synced preferences
   deafults write com.runningwithcrayons.Alfred-Preferences-3 syncfolder "~/Dropbox";
