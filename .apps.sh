@@ -211,6 +211,9 @@ brew services start postgresql
 
   brew cask install sharemouse
 
+  # toggl time tracking
+  brew cask install toggl-beta
+
 # }}}
 
 # gcloud / kubectl {{{
