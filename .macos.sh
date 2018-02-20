@@ -91,6 +91,9 @@
   # Dark UI
   defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
+  sudo sysctl -w kern.maxfiles=5242880
+  sudo sysctl -w kern.maxfilesperproc=524288
+
 # }}}
 
 # Global Shortcuts {{{
