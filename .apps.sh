@@ -209,6 +209,8 @@ brew services start postgresql
     qlimagesize \
     quicklook-csv quicklook-json epubquicklook
 
+  brew cask install sharemouse
+
 # }}}
 
 # gcloud / kubectl {{{
