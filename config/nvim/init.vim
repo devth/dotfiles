@@ -135,7 +135,9 @@
 " }}}
 
 " Vim system settings {{{
-  source ~/.vimrc_private
+  if !empty(glob("~/.vimrc_private"))
+    source ~/.vimrc_private
+  endif
   " set foldmethod=marker
   set nowrap
   set ttyfast
