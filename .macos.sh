@@ -106,7 +106,19 @@
 
   # cmd + F1 show terminal
 
+  # disable spotlight on cmd-space so Alfred can use it
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
+
+  # Configure Alfred to use synced preferences
+  deafults write com.runningwithcrayons.Alfred-Preferences-3 syncfolder "~/Dropbox";
+  killall "Alfred 3"
+  open "/Applications/Alfred 3.app"
+
   # cmd + space for Alfred
+  # defaults read com.runningwithcrayons.Alfred-3
+  # defaults write com.runningwithcrayons.Alfred-Preferences
+  # defaults read | grep Alfred
+  # defaults write com.runningwithcrayons.Alfred-Preferences
 
 # }}}
 
