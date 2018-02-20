@@ -38,9 +38,9 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install ruby
   # brew install nodejs
   brew install nvm
-  nvm install 7.10.0
-  nvm use 7.10.0
-  nvm alias default 7.10.0
+  nvm install node
+  nvm use node
+  # nvm alias default 7.10.0
 
   npm install -g npm # update npm
   brew install yarn
