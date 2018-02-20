@@ -41,7 +41,7 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install nvm
   nvm install node
   nvm use node
-  # nvm alias default 7.10.0
+  nvm alias default node
 
   brew install python
   brew install python3
