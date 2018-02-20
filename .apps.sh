@@ -36,14 +36,13 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 
 # Languages {{{
   brew install ruby
-  # brew install nodejs
+
+  # nodejs
   brew install nvm
   nvm install node
   nvm use node
   # nvm alias default 7.10.0
 
-  npm install -g npm # update npm
-  brew install yarn
   brew install python
   brew install python3
   brew install golang
@@ -208,7 +207,7 @@ brew services start postgresql
   brew cask install \
     qlcolorcode qlmarkdown qlprettypatch qlstephen \
     qlimagesize \
-    quicklook-csv quicklook-json epubquicklook 
+    quicklook-csv quicklook-json epubquicklook
 
 # }}}
 
