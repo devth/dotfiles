@@ -48,6 +48,9 @@
   ln -sfn ~/Dropbox/dotfiles/.ssh ~/.ssh
   ln -sfn ~/Dropbox/dotfiles/.tmuxinator ~/.tmuxinator
 
+  # ssh permissions
+  chmod -R 700 ~/.ssh/
+
   # Standby delay to 24 hours
   sudo pmset -a standbydelay 86400
 
