@@ -47,6 +47,7 @@
   ln -sfn ~/Dropbox/dotfiles/.zshrc ~/.zshrc
   ln -sfn ~/Dropbox/dotfiles/.ssh ~/.ssh
   ln -sfn ~/Dropbox/dotfiles/.tmuxinator ~/.tmuxinator
+  ln -sfn ~/Dropbox/dotfiles/.vimrc_private ~/.vimrc_private
 
   # Standby delay to 24 hours
   sudo pmset -a standbydelay 86400
@@ -110,9 +111,10 @@
   # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
   /usr/libexec/PlistBuddy ~/Library/Preferences/com.apple.symbolichotkeys.plist -c \
     "Set AppleSymbolicHotKeys:64:enabled false"
+  # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "{ enabled = 0; value = { parameters = ( 32, 49, 1048576); type = standard; }; }"
 
   # Configure Alfred to use synced preferences
-  deafults write com.runningwithcrayons.Alfred-Preferences-3 syncfolder "~/Dropbox";
+  defaults write com.runningwithcrayons.Alfred-Preferences-3 syncfolder "~/Dropbox";
   killall "Alfred 3"
   open "/Applications/Alfred 3.app"
 
