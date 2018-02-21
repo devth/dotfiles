@@ -91,8 +91,28 @@
   # Dark UI
   defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
-  sudo sysctl -w kern.maxfiles=5242880
-  sudo sysctl -w kern.maxfilesperproc=524288
+
+  # Increase max files in a persistent way
+
+  # This is non-persistent:
+  # sudo sysctl -w kern.maxfiles=5242880
+  # sudo sysctl -w kern.maxfilesperproc=524288
+  # This persists:
+  if [ ! -f /Library/LaunchDaemons/limit.maxfiles.plist ]; then
+
+    echo "Configuring maxfiles and maxfiles per proc for macOS High Sierra."
+    echo "This may not work in future versions of macOS."
+
+    sudo cp resources/limit.maxfiles.plist /Library/LaunchDaemons/limit.maxfiles.plist
+    sudo cp resources/limit.maxproc.plist /Library/LaunchDaemons/limit.maxproc.plist
+    sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
+    sudo launchctl load -w /Library/LaunchDaemons/limit.maxproc.plist
+
+  fi
+
+  # Verify
+  launchctl limit maxfiles # 64000 524288
+  launchctl limit maxproc # 2048 2048
 
 # }}}
 
