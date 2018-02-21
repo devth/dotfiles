@@ -108,6 +108,8 @@
     sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
     sudo launchctl load -w /Library/LaunchDaemons/limit.maxproc.plist
 
+    # From https://gist.github.com/devinrhode2/4cbf7f02a9701510d61f5be0515b8286
+
   fi
 
   # Verify

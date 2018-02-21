@@ -28,6 +28,7 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install autojump
   brew install sdcv
   brew install hub
+  brew install watchman
 
   # minio - S3-compatible interface client
   # https://github.com/minio/mc
