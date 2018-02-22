@@ -638,7 +638,7 @@ nnoremap <leader>yr :YRShow<cr>
 
 " ack {{{
   if executable('ag')
-    let g:ackprg = 'ag --vimgrep'
+    let g:ackprg = 'ag --vimgrep --hidden'
   endif
   nnoremap \ :Ack!<space>
   nnoremap <leader>* :Ack!<cword><cr>
