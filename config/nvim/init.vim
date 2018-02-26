@@ -51,7 +51,7 @@
   call dein#add('mxw/vim-jsx')
   call dein#add('mattn/emmet-vim')
   call dein#add('jelera/vim-javascript-syntax')
-  call dein#add('leafgarland/typescript-vim')
+  " call dein#add('leafgarland/typescript-vim')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion
