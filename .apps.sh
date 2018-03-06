@@ -39,11 +39,15 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install ruby
 
   # nodejs
-  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-  nvm install node
-  nvm use node
-  nvm alias default node
+  # curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+  # nvm install node
+  # nvm use node
+  # nvm alias default node
+  # nvm is 🐢. DO NOT WANT
   brew install yarn --without-node
+  # this is gross but at least it's not NVM
+  brew install nodejs
+  # maybe someday we'll switch to Nix 🦄
 
   brew install python
   brew install python3

@@ -51,7 +51,6 @@
   call dein#add('mxw/vim-jsx')
   call dein#add('mattn/emmet-vim')
   call dein#add('jelera/vim-javascript-syntax')
-  " call dein#add('leafgarland/typescript-vim')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion
@@ -118,7 +117,10 @@
   " Completion
   call dein#add('roxma/nvim-completion-manager')
   " call dein#add('roxma/ncm-flow')
+  call dein#add('leafgarland/typescript-vim')
+  " TypeScript TSServer client
   call dein#add('mhartington/nvim-typescript')
+  " call dein#add('Quramy/tsuquyomi')
   call dein#add('SirVer/ultisnips')
   " call dein#add('Shougo/neosnippet.vim')
   call dein#add('honza/vim-snippets')
@@ -145,7 +147,7 @@
   set nocompatible
   syntax on
   filetype plugin indent on
-  set shell=/bin/zsh
+  set shell=/bin/zsh\ -l
   let mapleader = ","
   let maplocalleader = ","
   set history=1000
