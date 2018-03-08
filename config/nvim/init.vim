@@ -93,7 +93,7 @@
 
   " Only enable one of these plugins - they conflict:
   " call dein#add('neomake/neomake') " async syntax checking, building
-  " call dein#add('w0rp/ale') " Async Lint Engine
+  call dein#add('w0rp/ale') " Async Lint Engine
 
   call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
   call dein#add('vim-scripts/tComment') " Comment stuff
