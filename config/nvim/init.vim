@@ -522,6 +522,15 @@
   let g:ale_fixers['javascript'] = ['prettier']
   let g:ale_fixers['css'] = ['prettier']
 
+  " NUKE FLOW TO OBLIVION. NEVER RUN FLOW. FLOW WILL CONSUME ALL YOUR RESOURCES
+  " AND BRING YOUR modern cutting edge hardware to a pathetic crawl. You will
+  " hard reboot daily. You will pull your hair out. You will hate life.
+  "
+  " UNLESS YOU DISABLE FLOW. DO THE RIGHT THING.
+  let g:ale_linters = {
+    \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
+  \}
+
   nmap <Leader><Leader>p <Plug>(Prettier)
 
   " let g:ale_fix_on_save = 1
