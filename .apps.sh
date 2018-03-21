@@ -220,6 +220,9 @@ brew services start postgresql
   # toggl time tracking
   brew cask install toggl-beta
 
+  # choosy allows configuring which browser to open a URL in
+  brew cask install choosy
+
 # }}}
 
 # gcloud / kubectl {{{
