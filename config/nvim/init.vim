@@ -87,7 +87,9 @@
   call dein#add('kassio/neoterm') " Terminal utils
   call dein#add('vim-scripts/regreplop.vim') " replace!
   " javascript formatting
-  call dein#add('prettier/vim-prettier', { 'build': 'yarn install', 'rev': '0.2.0' })
+  " Don't need this: ale shows us prettier problems
+  " call dein#add('prettier/vim-prettier', { 'build': 'yarn install', 'rev': '1.10.2' })
+
   " Facebook Flow
   " call dein#add('flowtype/vim-flow')
 
@@ -520,7 +522,12 @@
 
   let g:ale_fixers = {}
   let g:ale_fixers['javascript'] = ['prettier']
+  let g:ale_fixers['typescript'] = ['prettier']
   let g:ale_fixers['css'] = ['prettier']
+
+  " Prettier
+  let g:prettier#config#parser = 'babylon'
+  let g:ale_javascript_prettier_use_local_config = 1
 
   " NUKE FLOW TO OBLIVION. NEVER RUN FLOW. FLOW WILL CONSUME ALL YOUR RESOURCES
   " AND BRING YOUR modern cutting edge hardware to a pathetic crawl. You will
@@ -531,12 +538,17 @@
     \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
   \}
 
+  " autocmd FileType javascript
+  let g:ale_javascript_prettier_options = '--single-quote --no-bracket-spacing --print-width 120'
+
+  let g:ale_linters = {
+    \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
+  \}
+
   nmap <Leader><Leader>p <Plug>(Prettier)
 
   " let g:ale_fix_on_save = 1
 
-  " Prettier
-  let g:prettier#config#parser = 'babylon'
 
   " Flow typed
   " https://github.com/flowtype/vim-flow
