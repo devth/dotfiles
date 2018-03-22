@@ -39,14 +39,19 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install ruby
 
   # nodejs
+  #
+  # This installs nvm, which we don't currently use.
   # curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
   # nvm install node
   # nvm use node
   # nvm alias default node
-  # nvm is 🐢. DO NOT WANT
-  brew install yarn --without-node
-  # this is gross but at least it's not NVM
+  # nvm is so slow 🐢. DO NOT WANT
+  #
+  # Installing via brew doesn't allow us to switch versions but at least it's
+  # not NVM. If we ever need to switch versions, investigate having multiple
+  # versions with node and switching between them?
   brew install nodejs
+  brew install yarn --without-node
   # maybe someday we'll switch to Nix 🦄
 
   brew install python
