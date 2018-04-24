@@ -51,6 +51,7 @@
   call dein#add('mxw/vim-jsx')
   call dein#add('mattn/emmet-vim')
   call dein#add('jelera/vim-javascript-syntax')
+  " call dein#add('jparise/vim-graphql')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion
@@ -122,6 +123,7 @@
   call dein#add('leafgarland/typescript-vim')
   " TypeScript TSServer client
   call dein#add('mhartington/nvim-typescript')
+  " tsuquyomi is busted:
   " call dein#add('Quramy/tsuquyomi')
   call dein#add('SirVer/ultisnips')
   " call dein#add('Shougo/neosnippet.vim')
@@ -306,7 +308,7 @@
   " tbone replacement using neoterm plugin
   nmap <leader>twl <s-v>:TREPLSendLine<cr>
   vmap <leader>twl :TREPLSendLine<cr>
-  let g:neoterm_position = 'vertical'
+  " let g:neoterm_position = 'vertical'
 
 " }}}
 
@@ -529,6 +531,8 @@
   let g:prettier#config#parser = 'babylon'
   let g:ale_javascript_prettier_use_local_config = 1
 
+  nnoremap <leader>af :ALEFix<cr>
+
   " NUKE FLOW TO OBLIVION. NEVER RUN FLOW. FLOW WILL CONSUME ALL YOUR RESOURCES
   " AND BRING YOUR modern cutting edge hardware to a pathetic crawl. You will
   " hard reboot daily. You will pull your hair out. You will hate life.
@@ -632,6 +636,10 @@
     autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
     autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
     autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
+
+    let g:fireplace_print_length = 80
+    let g:fireplace_print_right_margin = 80
+
     " Re-enable gq!
     autocmd FileType clojure set formatexpr=
     " Enable auto formatting

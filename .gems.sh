@@ -9,3 +9,6 @@ gem install neovim
 
 # Markdown linting
 gem install mdl
+
+# sass for stylesheet
+gem install sass

@@ -27,6 +27,17 @@ kips() {
     | jq -r '.items[] | .metadata.name + ": " + .status.podIP'
 }
 
+deploys() {
+  k get --all-namespaces deploy -ojson | jq -r \
+    '.items[] | .metadata.namespace + "\t " + .metadata.labels.app + "\t " + .metadata.labels.owner + "\t " + .metadata.labels.team' \
+    | grep -v kube-system \
+    | grep -v monitoring \
+    | cut -f2- \
+    | column -t \
+    | sort \
+    | uniq
+}
+
 # view pods for a given app
 pods() {
   app=$1
