@@ -39,10 +39,10 @@
   call dein#add('tpope/vim-tbone')
   call dein#add('tpope/vim-unimpaired')
 
-  " Colors - some plugins rely on this
+  " " Colors - some plugins rely on this
   call dein#add('devth/vim-colors-solarized') " Note: devth-fork
 
-  " Syntax
+  " " Syntax
   call dein#add('ekalinin/Dockerfile.vim')
   call dein#add('nathanielc/vim-tickscript')
   call dein#add('google/vim-jsonnet')
@@ -51,53 +51,48 @@
   call dein#add('mxw/vim-jsx')
   call dein#add('mattn/emmet-vim')
   call dein#add('jelera/vim-javascript-syntax')
-  " call dein#add('jparise/vim-graphql')
+  " " maybe kill the prev plugin in favor of:
+  " " call dein#add('pangloss/vim-javascript')
+  " " call dein#add('jparise/vim-graphql')
 
   " Clojure
   call dein#add('clojure-vim/async-clj-omni') " clj completion
   " needed for edn and the latest clojure syntax
   call dein#add('guns/vim-clojure-static')
-
+  
   " Doesn't work with .cljc files yet:
   " call dein#add('clojure-vim/acid.nvim')
-
+  
   " Note: manual step:
   " Investigate parinfer in the future when it becomes more efficient. Currently
   " this installation method does not work with dein. Not sure what's required
   " to get it working - the README only has instructions for Vundle:
   " call dein#add('neovim/node-host', { 'build': 'cd ~/.config/nvim/repos/github.com/neovim/node-host && npm install -g' })
   " call dein#add('snoe/nvim-parinfer.js')
-
+  
   " git
   call dein#add('tommcdo/vim-fubitive') " bitbucket for fugitive
   call dein#add('shumphrey/fugitive-gitlab.vim') " gitlab for fugitive
-
+  
   " File exploration / openning
   call dein#add('scrooloose/nerdtree')
   call dein#add('Xuyuanp/nerdtree-git-plugin')
   " Can't get these to work right - font is not configured?
   " call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
   " call dein#add('ryanoasis/vim-devicons')
-
+  
   " tmux integration
   call dein#add('tmux-plugins/vim-tmux')
   call dein#add('christoomey/vim-tmux-navigator')
-
+  
   " Utils
   call dein#add('vimlab/split-term.vim') " Terminal utils
   call dein#add('kassio/neoterm') " Terminal utils
   call dein#add('vim-scripts/regreplop.vim') " replace!
-  " javascript formatting
-  " Don't need this: ale shows us prettier problems
-  " call dein#add('prettier/vim-prettier', { 'build': 'yarn install', 'rev': '1.10.2' })
-
-  " Facebook Flow
-  " call dein#add('flowtype/vim-flow')
-
   " Only enable one of these plugins - they conflict:
   " call dein#add('neomake/neomake') " async syntax checking, building
   call dein#add('w0rp/ale') " Async Lint Engine
-
+  
   call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
   call dein#add('vim-scripts/tComment') " Comment stuff
   call dein#add('junegunn/goyo.vim') " Writing mode
@@ -108,33 +103,37 @@
   call dein#add('fszymanski/ListToggle.vim') " Toggle Quickfix and Location List
   call dein#add('simnalamburt/vim-mundo') " Vim undo tree viz
   " call dein#add('chr4/sslsecure.vim') " Highlight insecure SSL configuration
-
+  
   " Superfast fuzzy file finder
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-
+  
   " Powerline alternatives
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
-
+  
   " Completion
   call dein#add('roxma/nvim-completion-manager')
   " call dein#add('roxma/ncm-flow')
   call dein#add('leafgarland/typescript-vim')
+  call dein#add('peitalin/vim-jsx-typescript')
+  autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
   " TypeScript TSServer client
   call dein#add('mhartington/nvim-typescript')
+  " TSX indent
+  call dein#add('MaxMEllon/vim-jsx-pretty')
   " tsuquyomi is busted:
   " call dein#add('Quramy/tsuquyomi')
   call dein#add('SirVer/ultisnips')
   " call dein#add('Shougo/neosnippet.vim')
   call dein#add('honza/vim-snippets')
-
+  
   " Ensure configured dein plugins are installed
   if dein#check_install()
     call dein#install()
     let pluginsExist=1
   endif
-
+  
   " End dein
   call dein#end()
   call dein#save_state()
@@ -388,11 +387,12 @@
 
   " let g:airline#extensions#tabline#formatter = 'pwd'
 
-  let g:airline#extensions#tabline#fnamemod = ':t'
-  let g:airline#extensions#tabline#enabled = 1
+  " let g:airline#extensions#tabline#fnamemod = ':t'
+  let g:airline#extensions#tabline#enabled = 0
   " let g:airline#extensions#tabline#formatter = 'jsformatter'
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
+  let g:airline_extensions = []
 
   " Quickly switch between light and dark
   nnoremap <leader>bgl :set bg=light<cr>
@@ -400,7 +400,7 @@
 
   " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 12
   " set guifont=Knack\ Nerd\ Font\ Regular:12
-  set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11
+  " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11
   " Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
 
   " Remove vertical split pipe
@@ -636,6 +636,7 @@
     autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
     autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
     autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
+    autocmd FileType clojure nmap <buffer> cpR :Require!<cr>
 
     let g:fireplace_print_length = 80
     let g:fireplace_print_right_margin = 80
