@@ -148,6 +148,8 @@ brew services start postgresql
 
   brew cask install vimr
 
+  brew cask install backblaze
+
   brew cask install selfcontrol
 
   # brew install docker
@@ -194,7 +196,9 @@ brew services start postgresql
   brew install rustup-init
   rustup-init -y
   # alacritty - a blazing fast gpu-acelerated term
-  brew install --HEAD cema-sp/homebrew-tap/alacritty
+  # brew install --HEAD cema-sp/homebrew-tap/alacritty
+  brew tap mscharley/homebrew
+  brew install --HEAD alacritty
 
   brew cask install macvim
 
