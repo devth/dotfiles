@@ -1,9 +1,15 @@
 echo "NOTE: Install Dropbox and let it sync before running this"
 
+
+
 # Setup / Homebrew {{{
   open ./assets/Monaco%20for%20Powerline.otf
 
   mkdir -p ~/.bin # this is in PATH - can put stuff here
+
+  echo "NOTE: Xcode must be installed"
+
+  sudo xcodebuild -license accept
 
   # install homebrew
   brew -v || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -95,6 +101,8 @@ brew services start postgresql
 # }}}
 
 # Clojure {{{
+  # Drip requires java 8 :(
+  brew cask install homebrew/cask-versions/java8
   brew install drip
   brew install leiningen
   brew install boot-clj
