@@ -90,7 +90,9 @@
   Plug 'simnalamburt/vim-mundo' " Vim undo tree viz
   " Plug 'chr4/sslsecure.vim' " Highlight insecure SSL configuration
   " Superfast fuzzy file finder
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug '/usr/local/opt/fzf' " installed via Homebrew
+  Plug 'junegunn/fzf.vim'
 
   " Powerline alternatives
   Plug 'vim-airline/vim-airline'
