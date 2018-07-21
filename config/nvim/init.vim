@@ -11,133 +11,112 @@
 
 " Plugins {{{
 
-  " Download dein if it doesn't exist yet
-  if (!isdirectory(expand("$HOME/.config/nvim/repos/github.com/Shougo/dein.vim")))
-    call system(expand("mkdir -p $HOME/.config/nvim/repos/github.com"))
-    call system(expand("git clone https://github.com/Shougo/dein.vim $HOME/.config/nvim/repos/github.com/Shougo/dein.vim"))
+  " auto-install vim-plug if not already installed
+  if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    echo 'not installed'
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
 
-  " Configure dein
-  set runtimepath+=~/.config/nvim/repos/github.com/Shougo/dein.vim/
-  call dein#begin(expand('~/.config/nvim'))
-  call dein#add('Shougo/dein.vim')
+  " begin vim-plug
+  call plug#begin('~/.config/nvim/plugged')
 
-  " tpope
-  call dein#add('tpope/vim-abolish')
-  call dein#add('tpope/vim-dispatch')
-  call dein#add('radenling/vim-dispatch-neovim')
-  call dein#add('tpope/vim-eunuch')
-  call dein#add('tpope/vim-fireplace')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('tpope/vim-git')
-  call dein#add('tpope/vim-markdown')
-  call dein#add('tpope/vim-repeat')
-  call dein#add('tpope/vim-rhubarb')
-  call dein#add('tpope/vim-scriptease')
-  call dein#add('tpope/vim-speeddating')
-  call dein#add('tpope/vim-surround')
-  call dein#add('tpope/vim-tbone')
-  call dein#add('tpope/vim-unimpaired')
+  " Global plugins for all filetypes
+  Plug 'tpope/vim-abolish'
+  Plug 'tpope/vim-dispatch'
+  Plug 'radenling/vim-dispatch-neovim'
+  Plug 'tpope/vim-eunuch'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tommcdo/vim-fubitive' " bitbucket for fugitive
+  Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
+  Plug 'tpope/vim-git'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-scriptease'
+  Plug 'tpope/vim-speeddating'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-tbone'
+  Plug 'tpope/vim-unimpaired'
 
   " Colors - some plugins rely on this
-  call dein#add('devth/vim-colors-solarized') " Note: devth-fork
+  Plug 'devth/vim-colors-solarized' " Note: devth-fork
 
-  " Syntax
-  call dein#add('ekalinin/Dockerfile.vim')
-  call dein#add('nathanielc/vim-tickscript')
-  call dein#add('google/vim-jsonnet')
-  call dein#add('fatih/vim-go', {'on_ft' : 'go'})
-  call dein#add('hashivim/vim-vagrant')
-  call dein#add('mxw/vim-jsx')
-  call dein#add('mattn/emmet-vim')
-  call dein#add('jelera/vim-javascript-syntax')
-  " call dein#add('jparise/vim-graphql')
+  " General Syntax
+  Plug 'tpope/vim-markdown', {'for': 'markdown'}
+  Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
+  Plug 'google/vim-jsonnet', {'for': 'jsonnet'}
+  Plug 'fatih/vim-go', {'for': 'go'}
+  Plug 'hashivim/vim-vagrant', {'for': 'vagrant'}
+  Plug 'mattn/emmet-vim', {'for': 'html'}
+  " Plug 'jparise/vim-graphql', {'for': 'graphql'}
+
+  " JavaScript
+  Plug 'jelera/vim-javascript-syntax', {'for': 'javascript'}
+  Plug 'mxw/vim-jsx', {'for': 'javascript'}
 
   " Clojure
-  call dein#add('clojure-vim/async-clj-omni') " clj completion
+  Plug 'tpope/vim-fireplace', {'for': 'clojure'}
+  Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'} " clj completion
   " needed for edn and the latest clojure syntax
-  call dein#add('guns/vim-clojure-static')
-
+  Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   " Doesn't work with .cljc files yet:
-  " call dein#add('clojure-vim/acid.nvim')
-
-  " Note: manual step:
-  " Investigate parinfer in the future when it becomes more efficient. Currently
-  " this installation method does not work with dein. Not sure what's required
-  " to get it working - the README only has instructions for Vundle:
-  " call dein#add('neovim/node-host', { 'build': 'cd ~/.config/nvim/repos/github.com/neovim/node-host && npm install -g' })
-  " call dein#add('snoe/nvim-parinfer.js')
-
-  " git
-  call dein#add('tommcdo/vim-fubitive') " bitbucket for fugitive
-  call dein#add('shumphrey/fugitive-gitlab.vim') " gitlab for fugitive
+  " Plug 'clojure-vim/acid.nvim'
 
   " File exploration / openning
-  call dein#add('scrooloose/nerdtree')
-  call dein#add('Xuyuanp/nerdtree-git-plugin')
+  Plug 'scrooloose/nerdtree'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
   " Can't get these to work right - font is not configured?
-  " call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
-  " call dein#add('ryanoasis/vim-devicons')
+  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  " Plug 'ryanoasis/vim-devicons'
 
   " tmux integration
-  call dein#add('tmux-plugins/vim-tmux')
-  call dein#add('christoomey/vim-tmux-navigator')
+  Plug 'tmux-plugins/vim-tmux'
+  Plug 'christoomey/vim-tmux-navigator'
 
   " Utils
-  call dein#add('vimlab/split-term.vim') " Terminal utils
-  call dein#add('kassio/neoterm') " Terminal utils
-  call dein#add('vim-scripts/regreplop.vim') " replace!
-  " javascript formatting
-  " Don't need this: ale shows us prettier problems
-  " call dein#add('prettier/vim-prettier', { 'build': 'yarn install', 'rev': '1.10.2' })
-
-  " Facebook Flow
-  " call dein#add('flowtype/vim-flow')
-
-  " Only enable one of these plugins - they conflict:
-  " call dein#add('neomake/neomake') " async syntax checking, building
-  call dein#add('w0rp/ale') " Async Lint Engine
-
-  call dein#add('vim-scripts/YankRing.vim') " Keep track of past yanked values
-  call dein#add('vim-scripts/tComment') " Comment stuff
-  call dein#add('junegunn/goyo.vim') " Writing mode
-  call dein#add('majutsushi/tagbar') " ctags!
-  call dein#add('michaeljsmith/vim-indent-object') " indent objects
-  call dein#add('junegunn/vim-easy-align') " alignment!
-  call dein#add('mileszs/ack.vim') " search file contents via ag or ack
-  call dein#add('fszymanski/ListToggle.vim') " Toggle Quickfix and Location List
-  call dein#add('simnalamburt/vim-mundo') " Vim undo tree viz
-  " call dein#add('chr4/sslsecure.vim') " Highlight insecure SSL configuration
-
+  " Plug 'vimlab/split-term.vim' " Terminal utils
+  " Plug 'kassio/neoterm' " Terminal utils
+  Plug 'vim-scripts/regreplop.vim' " replace!
+  Plug 'w0rp/ale' " Async Lint Engine
+  Plug 'vim-scripts/YankRing.vim' " Keep track of past yanked values
+  Plug 'vim-scripts/tComment' " Comment stuff
+  Plug 'junegunn/goyo.vim' " Writing mode
+  " Plug 'majutsushi/tagbar' " ctags!
+  Plug 'michaeljsmith/vim-indent-object' " indent objects
+  Plug 'junegunn/vim-easy-align' " alignment!
+  Plug 'mileszs/ack.vim' " search file contents via ag or ack
+  Plug 'fszymanski/ListToggle.vim' " Toggle Quickfix and Location List
+  Plug 'simnalamburt/vim-mundo' " Vim undo tree viz
+  " Plug 'chr4/sslsecure.vim' " Highlight insecure SSL configuration
   " Superfast fuzzy file finder
-  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
   " Powerline alternatives
-  call dein#add('vim-airline/vim-airline')
-  call dein#add('vim-airline/vim-airline-themes')
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
 
-  " Completion
-  call dein#add('roxma/nvim-completion-manager')
-  " call dein#add('roxma/ncm-flow')
-  call dein#add('leafgarland/typescript-vim')
+  " Completion and snippets
+  Plug 'ncm2/ncm2'
+  Plug 'ncm2/ncm2-tmux'
+  " View https://github.com/ncm2/ncm2/wiki for more completion plugins
+  " Plug 'ncm2/ncm2-ultisnips' " TODO test this
+  Plug 'SirVer/ultisnips'
+  " Plug 'honza/vim-snippets' " Do we need this?
+
+  " TypeScript
+  " call dein#add('leafgarland/typescript-vim')
   " TypeScript TSServer client
-  call dein#add('mhartington/nvim-typescript')
+  " call dein#add('mhartington/nvim-typescript')
   " tsuquyomi is busted:
   " call dein#add('Quramy/tsuquyomi')
-  call dein#add('SirVer/ultisnips')
-  " call dein#add('Shougo/neosnippet.vim')
-  call dein#add('honza/vim-snippets')
 
-  " Ensure configured dein plugins are installed
-  if dein#check_install()
-    call dein#install()
-    let pluginsExist=1
-  endif
+  " Facebook Flow
+  " Very slow last I checked so it's disabled:
+  " call dein#add('flowtype/vim-flow')
 
-  " End dein
-  call dein#end()
-  call dein#save_state()
+  call plug#end()
+
 " }}}
 
 " Vim system settings {{{
@@ -351,7 +330,7 @@
   "         \ hi NeomakeWarningSign ctermfg=yellow
   " augroup END
 
-  fun CustomizeDarkColors()
+  fun! CustomizeDarkColors()
     " Remove background on vertical splits
     " Hide the ~ characters at end of files
     " Customize Folds
