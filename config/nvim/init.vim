@@ -689,6 +689,11 @@ nnoremap <leader>yr :YRShow<cr>
   autocmd FileType jsonnet setlocal commentstring=//\ %s
 " }}}
 
+" TypeScript {{{
+  autocmd FileType typescript setlocal commentstring=//\ %s
+  autocmd FileType typescript.jsx setlocal commentstring=//\ %s
+" }}}
+
 " nvim-completion-manager and UltiSnips {{{
 
   " When the <Enter> key is pressed while the popup menu is visible, it only
