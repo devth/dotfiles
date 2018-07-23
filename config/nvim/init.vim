@@ -118,7 +118,6 @@
   " call dein#add('flowtype/vim-flow')
 
   call plug#end()
-
 " }}}
 
 " Vim system settings {{{
@@ -369,11 +368,12 @@
 
   " let g:airline#extensions#tabline#formatter = 'pwd'
 
-  let g:airline#extensions#tabline#fnamemod = ':t'
-  let g:airline#extensions#tabline#enabled = 1
+  " let g:airline#extensions#tabline#fnamemod = ':t'
+  let g:airline#extensions#tabline#enabled = 0
   " let g:airline#extensions#tabline#formatter = 'jsformatter'
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
+  let g:airline_extensions = []
 
   " Quickly switch between light and dark
   nnoremap <leader>bgl :set bg=light<cr>
@@ -381,7 +381,7 @@
 
   " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 12
   " set guifont=Knack\ Nerd\ Font\ Regular:12
-  set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11
+  " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11
   " Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
 
   " Remove vertical split pipe
@@ -617,6 +617,7 @@
     autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
     autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
     autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
+    autocmd FileType clojure nmap <buffer> cpR :Require!<cr>
 
     let g:fireplace_print_length = 80
     let g:fireplace_print_right_margin = 80
@@ -667,6 +668,11 @@ nnoremap <leader>yr :YRShow<cr>
 
 " jsonnet {{{
   autocmd FileType jsonnet setlocal commentstring=//\ %s
+" }}}
+
+" TypeScript {{{
+  autocmd FileType typescript setlocal commentstring=//\ %s
+  autocmd FileType typescript.jsx setlocal commentstring=//\ %s
 " }}}
 
 " nvim-completion-manager and UltiSnips {{{
