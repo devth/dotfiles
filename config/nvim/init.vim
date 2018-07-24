@@ -52,8 +52,8 @@
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
 
   " JavaScript
-  Plug 'jelera/vim-javascript-syntax', {'for': 'javascript'}
-  Plug 'mxw/vim-jsx', {'for': 'javascript'}
+  Plug 'jelera/vim-javascript-syntax'
+  Plug 'mxw/vim-jsx'
 
   " Clojure
   Plug 'tpope/vim-fireplace', {'for': 'clojure'}
