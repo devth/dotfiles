@@ -100,16 +100,17 @@
 
   " Completion and snippets
   Plug 'ncm2/ncm2'
+  Plug 'roxma/nvim-yarp'
   Plug 'ncm2/ncm2-tmux'
   " View https://github.com/ncm2/ncm2/wiki for more completion plugins
   " Plug 'ncm2/ncm2-ultisnips' " TODO test this
-  Plug 'SirVer/ultisnips'
+  " Plug 'SirVer/ultisnips' " throws runtime errors
   " Plug 'honza/vim-snippets' " Do we need this?
 
   " TypeScript
-  " call dein#add('leafgarland/typescript-vim')
-  " TypeScript TSServer client
-  " call dein#add('mhartington/nvim-typescript')
+  " Plug 'leafgarland/typescript-vim'
+  Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+  Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TSServer client
   " tsuquyomi is busted:
   " call dein#add('Quramy/tsuquyomi')
 
@@ -505,7 +506,9 @@
 
   let g:ale_fixers = {}
   let g:ale_fixers['javascript'] = ['prettier']
+
   let g:ale_fixers['typescript'] = ['prettier']
+
   let g:ale_fixers['css'] = ['prettier']
 
   " Prettier
@@ -675,22 +678,25 @@ nnoremap <leader>yr :YRShow<cr>
   autocmd FileType typescript.jsx setlocal commentstring=//\ %s
 " }}}
 
-" nvim-completion-manager and UltiSnips {{{
+" ncm2 and UltiSnips {{{
 
   " When the <Enter> key is pressed while the popup menu is visible, it only
   " hides the menu. Use this mapping to hide the menu and also start a new line.
-  inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+  " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
-  let g:UltiSnipsSnippetsDir='~/.vim_snippets'
-  let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.vim_snippets']
+  " let g:UltiSnipsSnippetsDir='~/.vim_snippets'
+  " let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.vim_snippets']
 
   " let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
-  let g:UltiSnipsExpandTrigger = "<tab>"
+  " let g:UltiSnipsExpandTrigger = "<tab>"
 
-  let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
-  let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-  let g:UltiSnipsRemoveSelectModeMappings = 0
-  inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+  " let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+  " let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+  " let g:UltiSnipsRemoveSelectModeMappings = 0
+  " inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
+
+  " enable ncm2 for all buffers
+  " autocmd BufEnter * call ncm2#enable_for_buffer()
 
   " noesnippet
   " imap <c-j>     <Plug>(neosnippet_expand_or_jump)
