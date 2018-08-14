@@ -48,7 +48,7 @@
   Plug 'google/vim-jsonnet', {'for': 'jsonnet'}
   Plug 'fatih/vim-go', {'for': 'go'}
   Plug 'hashivim/vim-vagrant', {'for': 'vagrant'}
-  Plug 'mattn/emmet-vim', {'for': 'html'}
+  Plug 'mattn/emmet-vim'
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
 
   " JavaScript
