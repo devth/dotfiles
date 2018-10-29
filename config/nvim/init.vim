@@ -56,12 +56,16 @@
   Plug 'mxw/vim-jsx'
 
   " Clojure
-  Plug 'tpope/vim-fireplace', {'for': 'clojure'}
+  " Test out a fork of tpope/vim-fire place until
+  " https://github.com/tpope/vim-fireplace/pull/323 is merged
+  Plug 'raymond-w-ko/vim-fireplace', {'for': 'clojure'}
+  " Plug 'tpope/vim-fireplace', {'for': 'clojure'}
   Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'} " clj completion
   " needed for edn and the latest clojure syntax
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
-  " Doesn't work with .cljc files yet:
-  " Plug 'clojure-vim/acid.nvim'
+  " Note: Doesn't work with .cljc files yet:
+  " TODO get this working
+  " Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
 
   " File exploration / openning
   Plug 'scrooloose/nerdtree'
@@ -82,7 +86,7 @@
   Plug 'vim-scripts/YankRing.vim' " Keep track of past yanked values
   Plug 'vim-scripts/tComment' " Comment stuff
   Plug 'junegunn/goyo.vim' " Writing mode
-  " Plug 'majutsushi/tagbar' " ctags!
+  Plug 'majutsushi/tagbar' " ctags!
   Plug 'michaeljsmith/vim-indent-object' " indent objects
   Plug 'junegunn/vim-easy-align' " alignment!
   Plug 'mileszs/ack.vim' " search file contents via ag or ack
