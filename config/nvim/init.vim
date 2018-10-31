@@ -341,7 +341,7 @@
     " Hide the ~ characters at end of files
     " Customize Folds
     if &background == 'dark'
-      hi VertSplit ctermbg=0 guibg=#FAF2DC
+      hi VertSplit ctermbg=0 ctermfg=0 guibg=#FAF2DC
       hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
       hi ColorColumn ctermbg=black
       hi Folded cterm=bold ctermfg=cyan ctermbg=black
@@ -513,6 +513,7 @@
 
   let g:ale_fixers['typescript'] = ['prettier']
 
+
   let g:ale_fixers['css'] = ['prettier']
 
   " Prettier
@@ -522,13 +523,15 @@
   nnoremap <leader>af :ALEFix<cr>
 
   " NUKE FLOW TO OBLIVION. NEVER RUN FLOW. FLOW WILL CONSUME ALL YOUR RESOURCES
-  " AND BRING YOUR modern cutting edge hardware to a pathetic crawl. You will
-  " hard reboot daily. You will pull your hair out. You will hate life.
+  " AND BRING YOUR modern cutting edge hardware to a crawl. You will hard reboot
+  " daily. You will pull your hair out. You will hate life.
   "
   " UNLESS YOU DISABLE FLOW. DO THE RIGHT THING.
   let g:ale_linters = {
     \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
   \}
+
+  let g:ale_linters_ignore = {'typescript': ['tslint']}
 
   " autocmd FileType javascript
   let g:ale_javascript_prettier_options = '--single-quote --no-bracket-spacing --print-width 120'

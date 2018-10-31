@@ -115,6 +115,7 @@ brew services start postgresql
   brew install ack
   brew install tree
   brew install ripgrep
+  brew install fd
   brew install fzf
 
 # }}}
@@ -206,7 +207,7 @@ brew services start postgresql
   # alacritty - a blazing fast gpu-acelerated term
   # brew install --HEAD cema-sp/homebrew-tap/alacritty
   brew tap mscharley/homebrew
-  brew install --HEAD alacritty
+  brew install alacritty
 
   brew cask install macvim
 
