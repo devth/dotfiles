@@ -194,7 +194,7 @@ brew services start postgresql
 
   brew cask install gitter
 
-  brew cask install gpgtools
+  brew cask install gpg-suite
 
   brew cask install keybase
 
