@@ -149,6 +149,7 @@ brew services start postgresql
 # Brew Cask {{{
 
   brew tap caskroom/cask
+  brew tap caskroom/versions
 
   # brew cask install zooom # WTF why is this dead
   # we'll obtain it from dropbox instead
