@@ -350,7 +350,7 @@
     else
       hi NonText ctermbg=7 ctermfg=7
       hi ColorColumn ctermbg=7
-      hi VertSplit ctermbg=7
+      hi VertSplit ctermbg=7 ctermfg=7
       hi fmrkr ctermbg=7 ctermfg=7
     endif
   endfun
