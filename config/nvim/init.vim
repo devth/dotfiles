@@ -80,7 +80,7 @@
 
   " Utils
   " Plug 'vimlab/split-term.vim' " Terminal utils
-  " Plug 'kassio/neoterm' " Terminal utils
+  Plug 'kassio/neoterm' " Terminal utils
   Plug 'vim-scripts/regreplop.vim' " replace!
   Plug 'w0rp/ale' " Async Lint Engine
   Plug 'vim-scripts/YankRing.vim' " Keep track of past yanked values
@@ -287,13 +287,29 @@
   tnoremap <C-[> <C-\><C-n>
   highlight TermCursor ctermfg=red guifg=red
 
-  " Don't try to auto load a term
-  let g:neoterm_auto_repl_cmd = 0
-
   " tbone replacement using neoterm plugin
   nmap <leader>twl <s-v>:TREPLSendLine<cr>
   vmap <leader>twl :TREPLSendLine<cr>
+
+  " neoterm configuration
   " let g:neoterm_position = 'vertical'
+  " Don't try to auto load a term
+  let g:neoterm_auto_repl_cmd = 0
+  let g:neoterm_default_mod = 'vertical'
+
+  " Use gx{text-object} in normal mode
+  nmap gx <Plug>(neoterm-repl-send)
+
+  " Send selected contents in visual mode.
+  xmap gx <Plug>(neoterm-repl-send)
+
+  " Send line - can use 2gxx to send 2 lines
+  nmap gxx <Plug>(neoterm-repl-send-line)
+
+  " Toggle term visibility
+  nmap gxt :Ttoggle<cr><c-w>=
+
+
 
 " }}}
 
@@ -627,6 +643,7 @@
     autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
     autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
     autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
+    autocmd FileType clojure nmap <buffer> ctm :Eval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
     autocmd FileType clojure nmap <buffer> cpR :Require!<cr>
 
     let g:fireplace_print_length = 80
