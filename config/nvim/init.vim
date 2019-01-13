@@ -38,6 +38,7 @@
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-tbone'
   Plug 'tpope/vim-unimpaired'
+  Plug 'tpope/vim-obsession'
 
   " Colors - some plugins rely on this
   Plug 'devth/vim-colors-solarized' " Note: devth-fork
@@ -58,14 +59,20 @@
   " Clojure
   " Test out a fork of tpope/vim-fire place until
   " https://github.com/tpope/vim-fireplace/pull/323 is merged
-  Plug 'raymond-w-ko/vim-fireplace', {'for': 'clojure'}
-  " Plug 'tpope/vim-fireplace', {'for': 'clojure'}
+  " Plug 'raymond-w-ko/vim-fireplace', {'for': 'clojure'}
+  Plug 'tpope/vim-fireplace', {'for': 'clojure'}
   Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'} " clj completion
   " needed for edn and the latest clojure syntax
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
+  Plug 'guns/vim-sexp',    {'for': 'clojure'}
+  " Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
+  " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
   " TODO get this working
   " Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
+
+  " Elm
+  Plug 'ElmCast/elm-vim'
 
   " File exploration / openning
   Plug 'scrooloose/nerdtree'
@@ -97,10 +104,12 @@
   " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug '/usr/local/opt/fzf' " installed via Homebrew
   Plug 'junegunn/fzf.vim'
+  Plug 'Vigemus/nvimux' " Tmux-like key bindings for NeoVim
 
   " Powerline alternatives
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+  Plug 'gcmt/taboo.vim'
 
   " Completion and snippets
   Plug 'ncm2/ncm2'
@@ -142,6 +151,9 @@
   set history=1000
   set undolevels=1000
   set nocursorline nocursorcolumn " vim is slow with these on :/
+
+  " store tab titles and other stuff in sessions
+  set sessionoptions+=globals,tabpages
 
   " Splits
   set splitbelow splitright
@@ -258,12 +270,17 @@
   nnoremap <leader>go :Goyo<cr>
 
   " Tab navigation replacement for tmux
-  nnoremap <C-space>l :tabp<cr>
-  nnoremap <C-space>c :tabnew<cr>
-  nnoremap <C-space>0 1gt
-  nnoremap <C-space>1 2gt
-  nnoremap <C-space>2 3gt
-" }}}
+"   nnoremap <C-space>l :tabp<cr>
+"   nnoremap <C-space>c :tabnew<cr>
+"   nnoremap <C-space>0 1gt
+"   nnoremap <C-space>1 2gt
+"   nnoremap <C-space>2 3gt
+"   nnoremap <C-space>3 4gt
+"   nnoremap <C-space>4 5gt
+"   nnoremap <C-space>4 5gt
+"   nnoremap <C-space>5 6gt
+
+ " }}}
 
 " Vim system autocmds {{{
   " turn on spelling for certain files
@@ -296,6 +313,7 @@
   " Don't try to auto load a term
   let g:neoterm_auto_repl_cmd = 0
   let g:neoterm_default_mod = 'vertical'
+  let g:neoterm_term_per_tab = 1
 
   " Use gx{text-object} in normal mode
   nmap gx <Plug>(neoterm-repl-send)
@@ -387,14 +405,17 @@
   set bg=dark
   let g:airline_powerline_fonts = 1
 
-  " let g:airline#extensions#tabline#formatter = 'pwd'
-
   " let g:airline#extensions#tabline#fnamemod = ':t'
-  let g:airline#extensions#tabline#enabled = 0
-  " let g:airline#extensions#tabline#formatter = 'jsformatter'
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#formatter = 'pwd'
+  let g:airline#extensions#tabline#formatter = 'unique_tail'
+  " collapse parent dirs in buffer names
+  let g:airline#extensions#tabline#fnamecollapse = 1
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
   let g:airline_extensions = []
+  let g:airline#extensions#taboo#enabled = 1
+  set t_Co=256
 
   " Quickly switch between light and dark
   nnoremap <leader>bgl :set bg=light<cr>
@@ -600,6 +621,35 @@
   let g:tmux_navigator_disable_when_zoomed = 1
 " }}}
 
+" nvimux {{{
+
+lua << EOF
+local nvimux = require('nvimux')
+
+-- Nvimux configuration
+nvimux.config.set_all{
+  prefix = '<C-space>',
+  new_window = 'enew', -- Use 'term' if you want to open a new term for every new window
+  new_tab = nil, -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
+  new_window_buffer = 'single',
+  quickterm_direction = 'botright',
+  quickterm_orientation = 'vertical',
+  quickterm_scope = 't', -- Use 'g' for global quickterm
+  quickterm_size = '80',
+}
+
+-- Nvimux custom bindings
+nvimux.bindings.bind_all{
+  {'s', ':NvimuxHorizontalSplit', {'n', 'v', 'i', 't'}},
+  {'v', ':NvimuxVerticalSplit', {'n', 'v', 'i', 't'}},
+}
+
+-- Required so nvimux sets the mappings correctly
+nvimux.bootstrap()
+EOF
+
+" }}}
+
 " TagBar {{{
   let g:tagbar_compact = 1
   nmap <leader>tb :TagbarOpen fj<cr>
@@ -659,6 +709,16 @@
     autocmd FileType clojure set foldlevel=64
     " ClojureScript
     nmap <leader><leader>pg :Piggieback (figwheel-sidecar.repl-api/repl-env)<cr>
+
+    " vim-iced
+    let g:iced_enable_default_key_mappings = v:true
+    let g:iced_enable_auto_indent = v:false
+
+    " Replicate vim-fireplace mappings for vim-iced
+    autocmd FileType clojure nmap cqp :IcedEval
+    autocmd FileType clojure nmap cpr :IcedEvalNs<cr>
+    autocmd FileType clojure nmap cpp <Plug>(iced_eval)<Plug>(sexp_outer_list)``
+
   " }}}
 
 " }}}
