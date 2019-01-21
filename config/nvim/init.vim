@@ -405,17 +405,25 @@
   set bg=dark
   let g:airline_powerline_fonts = 1
 
+  " Only load the Airline extensions we want
+  let g:airline_extensions = ['tabline']
+
   " let g:airline#extensions#tabline#fnamemod = ':t'
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#tabline#formatter = 'pwd'
-  let g:airline#extensions#tabline#formatter = 'unique_tail'
+  " let g:airline#extensions#tabline#formatter = 'unique_tail'
   " collapse parent dirs in buffer names
   let g:airline#extensions#tabline#fnamecollapse = 1
+
+  " let g:airline#extensions#tabline#show_tab_nr = 1
+  " let g:airline#extensions#tabline#tab_nr_type= 2
+  " let g:airline#extensions#tabline#show_tab_type = 1
+
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
-  let g:airline_extensions = []
-  let g:airline#extensions#taboo#enabled = 1
+  let g:airline#extensions#taboo#enabled = 0
   set t_Co=256
+
 
   " Quickly switch between light and dark
   nnoremap <leader>bgl :set bg=light<cr>
@@ -715,9 +723,10 @@ EOF
     let g:iced_enable_auto_indent = v:false
 
     " Replicate vim-fireplace mappings for vim-iced
-    autocmd FileType clojure nmap cqp :IcedEval
-    autocmd FileType clojure nmap cpr :IcedEvalNs<cr>
-    autocmd FileType clojure nmap cpp <Plug>(iced_eval)<Plug>(sexp_outer_list)``
+    " autocmd FileType clojure nmap cqp :IcedEval
+    " autocmd FileType clojure nmap cpr :IcedEvalNs<cr>
+    " autocmd FileType clojure nmap cpp <Plug>(iced_eval)<Plug>(sexp_outer_list)``
+    let g:sexp_enable_insert_mode_mappings = 0
 
   " }}}
 
