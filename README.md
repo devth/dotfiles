@@ -56,6 +56,16 @@ Notes:
 1. The installer is not yet fully non-interactive. `homebrew` needs sudo at
    least twice.
 
+### Update
+
+After pulling updates via git on this repo, you must always re-run `rcup`:
+
+```bash
+rcup -v
+```
+
+`-v` instructs it to output what it's doing.
+
 ## Inspiration
 
 - [https://github.com/christoomey/dotfiles](https://github.com/christoomey/dotfiles)
