@@ -226,7 +226,8 @@ brew services start postgresql
     font-pt-mono \
     font-raleway font-roboto \
     font-source-code-pro font-source-code-pro-for-powerline \
-    font-source-sans-pro
+    font-source-sans-pro \
+    font-fira-code
 
   # quicklook
   brew cask install \

@@ -410,10 +410,10 @@
 
   " let g:airline#extensions#tabline#fnamemod = ':t'
   let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#formatter = 'pwd'
-  " let g:airline#extensions#tabline#formatter = 'unique_tail'
+  " let g:airline#extensions#tabline#formatter = 'pwd'
+  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
   " collapse parent dirs in buffer names
-  let g:airline#extensions#tabline#fnamecollapse = 1
+  " let g:airline#extensions#tabline#fnamecollapse = 1
 
   " let g:airline#extensions#tabline#show_tab_nr = 1
   " let g:airline#extensions#tabline#tab_nr_type= 2
@@ -421,8 +421,13 @@
 
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
-  let g:airline#extensions#taboo#enabled = 0
+
+  " Use Taboo for tabs
+  let g:airline#extensions#taboo#enabled = 1
   set t_Co=256
+
+  " Disable Taboo's tabline
+  let g:taboo_tabline = 0
 
 
   " Quickly switch between light and dark
