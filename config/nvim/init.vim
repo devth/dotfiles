@@ -406,7 +406,7 @@
   let g:airline_powerline_fonts = 1
 
   " Only load the Airline extensions we want
-  let g:airline_extensions = ['tabline', 'ale', 'fugitive', 'ctrlp']
+  let g:airline_extensions = ['tabline', 'ale', 'fugitive']
 
   " let g:airline#extensions#tabline#fnamemod = ':t'
   let g:airline#extensions#tabline#enabled = 1
