@@ -38,7 +38,7 @@
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-tbone'
   Plug 'tpope/vim-unimpaired'
-  Plug 'tpope/vim-obsession'
+  " Plug 'tpope/vim-obsession'
 
   " Colors - some plugins rely on this
   Plug 'devth/vim-colors-solarized' " Note: devth-fork
@@ -406,7 +406,7 @@
   let g:airline_powerline_fonts = 1
 
   " Only load the Airline extensions we want
-  let g:airline_extensions = ['tabline']
+  let g:airline_extensions = ['tabline', 'ale', 'fugitive', 'ctrlp']
 
   " let g:airline#extensions#tabline#fnamemod = ':t'
   let g:airline#extensions#tabline#enabled = 1
@@ -419,6 +419,10 @@
   " let g:airline#extensions#tabline#tab_nr_type= 2
   " let g:airline#extensions#tabline#show_tab_type = 1
 
+  " Use tab index
+  let g:airline#extensions#tabline#tab_nr_type = 1
+  let g:airline#extensions#tabline#show_tab_nr = 1
+
   " Disable tmuxline overwriting so we can configure it ourselves
   let g:airline#extensions#tmuxline#enabled = 0
 
@@ -429,6 +433,10 @@
   " Disable Taboo's tabline
   let g:taboo_tabline = 0
 
+  let taboo_renamed_tab_format = "%l"
+  " if the above includes %m it looks all messed up with %#TabModifiedSelected
+  " in the tab when it gets modified. Might be a Taboo bug ?
+  let taboo_modified_tab_flag = "⚡️"
 
   " Quickly switch between light and dark
   nnoremap <leader>bgl :set bg=light<cr>
