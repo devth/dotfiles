@@ -416,7 +416,6 @@
   " let g:airline#extensions#tabline#fnamecollapse = 1
 
   " let g:airline#extensions#tabline#show_tab_nr = 1
-  " let g:airline#extensions#tabline#tab_nr_type= 2
   " let g:airline#extensions#tabline#show_tab_type = 1
 
   " Use tab index
