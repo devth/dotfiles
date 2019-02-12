@@ -87,6 +87,7 @@
 
   " Utils
   " Plug 'vimlab/split-term.vim' " Terminal utils
+  Plug 'mhinz/vim-signify'
   Plug 'kassio/neoterm' " Terminal utils
   Plug 'vim-scripts/regreplop.vim' " replace!
   Plug 'w0rp/ale' " Async Lint Engine
@@ -209,6 +210,9 @@
   set fo+=t
   set fo-=l
 
+  " Set correct filetypes
+  autocmd BufNewFile,BufRead Jenkinsfile set syntax=groovy
+
 
   " }}}
 
@@ -296,6 +300,8 @@
   autocmd BufRead,BufNewFile *.yaml set cursorline cursorcolumn
   " FileType for EJS
   autocmd BufNewFile,BufRead *.ejs set ft=json
+  " FileType for eslint
+  autocmd BufNewFile,BufRead .eslintrc set ft=json
 " }}}
 
 " Vim terminal {{{
