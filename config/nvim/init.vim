@@ -261,7 +261,7 @@
   :nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
   " Remove trailing whitespace
-  nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<cr>``
+  nnoremap <leader>aw :%s/\s\+$//<cr>:let @/=''<cr>``
 
   " Remove last character in line
   function! RmLastChar()
@@ -534,8 +534,8 @@
   map <leader>gw :Gwrite<cr>
   map <leader>gs :Gstatus<cr>
   map <leader>gs :Gstatus<cr>
-  map <leader>gP :Dispatch! git push<cr>
-  map <leader>gp :Dispatch! git pull --rebase<cr>
+  map <leader>gP :Gpush -u origin `git rev-parse --abbrev-ref HEAD`<cr>
+  map <leader>gp :Gpull --rebase<cr>
   map <leader>ga :Dispatch! git add %<cr>
   map <leader>gc :Gcommit
 " }}}
@@ -656,7 +656,7 @@ local nvimux = require('nvimux')
 nvimux.config.set_all{
   prefix = '<C-space>',
   new_window = 'enew', -- Use 'term' if you want to open a new term for every new window
-  new_tab = nil, -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
+  new_tab = 'term', -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
   new_window_buffer = 'single',
   quickterm_direction = 'botright',
   quickterm_orientation = 'vertical',
@@ -745,6 +745,8 @@ EOF
     " autocmd FileType clojure nmap cpr :IcedEvalNs<cr>
     " autocmd FileType clojure nmap cpp <Plug>(iced_eval)<Plug>(sexp_outer_list)``
     let g:sexp_enable_insert_mode_mappings = 0
+    " Disable all sexp mappings
+    let g:sexp_filetypes = ''
 
   " }}}
 
