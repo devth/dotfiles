@@ -243,6 +243,12 @@ brew services start postgresql
   # choosy allows configuring which browser to open a URL in
   brew cask install choosy
 
+  # kitty gpu accelerated terminal
+  brew cask install kitty
+
+  # keep mac awake
+  brew cask install caffeine
+
 # }}}
 
 # gcloud / kubectl {{{
