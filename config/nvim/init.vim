@@ -116,6 +116,8 @@
   Plug 'ncm2/ncm2'
   Plug 'roxma/nvim-yarp'
   Plug 'ncm2/ncm2-tmux'
+  Plug 'ncm2/ncm2-path' " bufpath, cwdpath, rootpath
+  Plug 'ncm2/ncm2-github' " github users, repos, links, issues, emoji
   " View https://github.com/ncm2/ncm2/wiki for more completion plugins
   " Plug 'ncm2/ncm2-ultisnips' " TODO test this
   " Plug 'SirVer/ultisnips' " throws runtime errors
