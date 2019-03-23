@@ -9,6 +9,7 @@ mas install 406056744 # Evernote - stay organized
 mas install 416581096 # QuickCal
 mas install 417602904 # CloudApp: Capture&Share, GIFs, Videos, Screencasts
 mas install 497799835 # Xcode
+mas install 409183694 # Keynote
 
 mas outdated
 

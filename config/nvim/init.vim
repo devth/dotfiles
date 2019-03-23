@@ -60,7 +60,8 @@
   " Test out a fork of tpope/vim-fire place until
   " https://github.com/tpope/vim-fireplace/pull/323 is merged
   " Plug 'raymond-w-ko/vim-fireplace', {'for': 'clojure'}
-  Plug 'tpope/vim-fireplace', {'for': 'clojure'}
+  " Plug 'tpope/vim-fireplace', {'for': 'clojure'}
+
   Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'} " clj completion
   " needed for edn and the latest clojure syntax
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
@@ -69,7 +70,7 @@
   " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
   " TODO get this working
-  " Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
 
   " Elm
   Plug 'ElmCast/elm-vim'
@@ -289,6 +290,10 @@
  " }}}
 
 " Vim system autocmds {{{
+
+  " watch for dir changed
+  " autocmd DirChanged * echomsg string(v:event)
+
   " turn on spelling for certain files
   autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
   autocmd BufRead,BufNewFile *.md set cursorline cursorcolumn

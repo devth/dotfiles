@@ -249,6 +249,10 @@ brew services start postgresql
   # keep mac awake
   brew cask install caffeine
 
+  brew cask install graphql-playground
+
+  brew cask install keybase
+
 # }}}
 
 # gcloud / kubectl {{{
