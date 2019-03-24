@@ -66,11 +66,11 @@
   " needed for edn and the latest clojure syntax
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   Plug 'guns/vim-sexp',    {'for': 'clojure'}
-  " Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'feature/iced-command-color'}
   " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
   " TODO get this working
-  Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
 
   " Elm
   Plug 'ElmCast/elm-vim'
@@ -116,9 +116,10 @@
   " Completion and snippets
   Plug 'ncm2/ncm2'
   Plug 'roxma/nvim-yarp'
-  Plug 'ncm2/ncm2-tmux'
+  " Plug 'ncm2/ncm2-tmux' " don't use tmux anymore
   Plug 'ncm2/ncm2-path' " bufpath, cwdpath, rootpath
   Plug 'ncm2/ncm2-github' " github users, repos, links, issues, emoji
+  Plug 'ncm2/ncm2-bufword' " words from current buffer for completion
   " View https://github.com/ncm2/ncm2/wiki for more completion plugins
   " Plug 'ncm2/ncm2-ultisnips' " TODO test this
   " Plug 'SirVer/ultisnips' " throws runtime errors
@@ -723,11 +724,11 @@ EOF
     " cljx syntax highlighting
     autocmd BufNewFile,BufReadPost *.cljx setfiletype clojure
     " vim-fireplace / clojure
-    autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
-    autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
-    autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
-    autocmd FileType clojure nmap <buffer> ctm :Eval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
-    autocmd FileType clojure nmap <buffer> cpR :Require!<cr>
+    " autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
+    " autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
+    " autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
+    " autocmd FileType clojure nmap <buffer> ctm :Eval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
+    " autocmd FileType clojure nmap <buffer> cpR :Require!<cr>
 
     let g:fireplace_print_length = 80
     let g:fireplace_print_right_margin = 80
@@ -748,12 +749,15 @@ EOF
     let g:iced_enable_auto_indent = v:false
 
     " Replicate vim-fireplace mappings for vim-iced
-    " autocmd FileType clojure nmap cqp :IcedEval
-    " autocmd FileType clojure nmap cpr :IcedEvalNs<cr>
-    " autocmd FileType clojure nmap cpp <Plug>(iced_eval)<Plug>(sexp_outer_list)``
+    autocmd FileType clojure nmap cqp :IcedEval 
+    autocmd FileType clojure nmap cpr :IcedEvalNs<cr>
+    autocmd FileType clojure nmap cpp <Plug>(iced_eval)<Plug>(sexp_outer_list)``
     let g:sexp_enable_insert_mode_mappings = 0
     " Disable all sexp mappings
     let g:sexp_filetypes = ''
+
+    " acid.nvim
+    " autocmd FileType clojure nmap cpr :AcidRequire<cr>
 
   " }}}
 
