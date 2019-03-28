@@ -66,7 +66,7 @@
   " needed for edn and the latest clojure syntax
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   Plug 'guns/vim-sexp',    {'for': 'clojure'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'feature/iced-command-color'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'master'}
   " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
   " TODO get this working
@@ -83,8 +83,8 @@
   " Plug 'ryanoasis/vim-devicons'
 
   " tmux integration
-  Plug 'tmux-plugins/vim-tmux'
-  Plug 'christoomey/vim-tmux-navigator'
+  " Plug 'tmux-plugins/vim-tmux'
+  " Plug 'christoomey/vim-tmux-navigator'
 
   " Utils
   " Plug 'vimlab/split-term.vim' " Terminal utils
@@ -250,7 +250,8 @@
   nnoremap <leader>ez <C-w><C-v><C-l>:e ~/.zshrc<cr>
 
   " Always open help in vert split
-  autocmd FileType help wincmd L
+  " Disable this because vim-iced uses the help for doc strings
+  " autocmd FileType help wincmd L
 
   " Clear searches
   nnoremap <leader><space> :nohlsearch<cr>
@@ -750,8 +751,10 @@ EOF
 
     " Replicate vim-fireplace mappings for vim-iced
     autocmd FileType clojure nmap cqp :IcedEval 
-    autocmd FileType clojure nmap cpr :IcedEvalNs<cr>
-    autocmd FileType clojure nmap cpp <Plug>(iced_eval)<Plug>(sexp_outer_list)``
+    autocmd FileType clojure nmap cpr :IcedRequireAll<cr>
+    autocmd FileType clojure nmap cpp :IcedEvalOuterTopList<cr>
+    autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval)
+    autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
     let g:sexp_enable_insert_mode_mappings = 0
     " Disable all sexp mappings
     let g:sexp_filetypes = ''
