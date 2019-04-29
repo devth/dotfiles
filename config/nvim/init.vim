@@ -27,10 +27,14 @@
   Plug 'tpope/vim-dispatch'
   Plug 'radenling/vim-dispatch-neovim'
   Plug 'tpope/vim-eunuch'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tommcdo/vim-fubitive' " bitbucket for fugitive
-  Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
-  Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
+
+  " Git
+  " Plug 'tpope/vim-fugitive'
+  " Plug 'tommcdo/vim-fubitive' " bitbucket for fugitive
+  " Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
+  " Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
+  Plug 'lambdalisue/gina.vim'
+
   Plug 'tpope/vim-git'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-rhubarb'
