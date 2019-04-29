@@ -35,6 +35,7 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install sdcv
   brew install hub
   brew install watchman
+  brew install pstree # process tree, like `ps fax`
 
   # minio - S3-compatible interface client
   # https://github.com/minio/mc
@@ -284,6 +285,12 @@ brew services start postgresql
 
   brew tap drone/drone
   brew install drone # --HEAD
+
+# }}}
+
+# Low priority {{{
+
+brew install gource
 
 # }}}
 

@@ -3,7 +3,9 @@
 
 # Setup kubectl and gcloud aliases {{{
 
-export KUBE_NAMESPACE="${KUBE_NAMESPACE:-staging}"
+# Set default KUBE_NAMESPACE:
+# export KUBE_NAMESPACE="${KUBE_NAMESPACE:-staging}"
+#
 # main alias for working with kubectl in a specific namespace
 # most other k8s aliases depend on this
 kc() {

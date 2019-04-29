@@ -30,6 +30,7 @@
   Plug 'tpope/vim-fugitive'
   Plug 'tommcdo/vim-fubitive' " bitbucket for fugitive
   Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
+  Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
   Plug 'tpope/vim-git'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-rhubarb'
@@ -66,7 +67,8 @@
   " needed for edn and the latest clojure syntax
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   Plug 'guns/vim-sexp',    {'for': 'clojure'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'master'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'bugfix/neovim-detect-disconnection'}
+  Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
   " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
   " TODO get this working
@@ -156,6 +158,9 @@
   set history=1000
   set undolevels=1000
   set nocursorline nocursorcolumn " vim is slow with these on :/
+
+  " don't auto resize window on splitting
+  " set noequalalways
 
   " store tab titles and other stuff in sessions
   set sessionoptions+=globals,tabpages
@@ -541,8 +546,7 @@
   map <leader>ge :Gedit<cr>
   map <leader>gl :Glog<cr>
   map <leader>gw :Gwrite<cr>
-  map <leader>gs :Gstatus<cr>
-  map <leader>gs :Gstatus<cr>
+  map <leader>gs :Gtabedit :<cr>
   map <leader>gP :Gpush -u origin `git rev-parse --abbrev-ref HEAD`<cr>
   map <leader>gp :Gpull --rebase<cr>
   map <leader>ga :Dispatch! git add %<cr>
@@ -754,6 +758,7 @@ EOF
     autocmd FileType clojure nmap cpr :IcedRequireAll<cr>
     autocmd FileType clojure nmap cpp :IcedEvalOuterTopList<cr>
     autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval)
+    autocmd FileType clojure nmap <buffer> c! <Plug>(iced_eval)<Plug>(iced_print_last) 
     autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
     let g:sexp_enable_insert_mode_mappings = 0
     " Disable all sexp mappings
