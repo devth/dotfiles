@@ -70,8 +70,9 @@
   Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'} " clj completion
   " needed for edn and the latest clojure syntax
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
-  Plug 'guns/vim-sexp',    {'for': 'clojure'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'bugfix/neovim-detect-disconnection'}
+  Plug 'guns/vim-sexp', {'for': 'clojure'}
+  Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'neovim-detect-disconnection'}
   Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
   " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
@@ -550,11 +551,11 @@
   map <leader>ge :Gedit<cr>
   map <leader>gl :Glog<cr>
   map <leader>gw :Gwrite<cr>
-  map <leader>gs :Gtabedit :<cr>
-  map <leader>gP :Gpush -u origin `git rev-parse --abbrev-ref HEAD`<cr>
-  map <leader>gp :Gpull --rebase<cr>
+  map <leader>gs :Gina status<cr>
+  map <leader>gP :Gina push -u origin<cr>
+  map <leader>gp :Gina pull --rebase<cr>
+  map <leader>gc :Gina commit<cr>
   map <leader>ga :Dispatch! git add %<cr>
-  map <leader>gc :Gcommit
 " }}}
 
 " Dispatch {{{
@@ -755,18 +756,20 @@ EOF
 
     " vim-iced
     let g:iced_enable_default_key_mappings = v:true
-    let g:iced_enable_auto_indent = v:false
+    " let g:iced_enable_auto_indent = v:false
 
     " Replicate vim-fireplace mappings for vim-iced
     autocmd FileType clojure nmap cqp :IcedEval 
     autocmd FileType clojure nmap cpr :IcedRequireAll<cr>
     autocmd FileType clojure nmap cpp :IcedEvalOuterTopList<cr>
     autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval)
-    autocmd FileType clojure nmap <buffer> c! <Plug>(iced_eval)<Plug>(iced_print_last) 
+    autocmd FileType clojure nmap <buffer> c! <Plug>(iced_print_last)
     autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
-    let g:sexp_enable_insert_mode_mappings = 0
+
+    " vim-sexp
+    let g:sexp_enable_insert_mode_mappings = 1
     " Disable all sexp mappings
-    let g:sexp_filetypes = ''
+    " let g:sexp_filetypes = ''
 
     " acid.nvim
     " autocmd FileType clojure nmap cpr :AcidRequire<cr>
