@@ -72,7 +72,7 @@
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   Plug 'guns/vim-sexp', {'for': 'clojure'}
   Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'neovim-detect-disconnection'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'master'}
   Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
   " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
@@ -551,8 +551,8 @@
   map <leader>ge :Gedit<cr>
   map <leader>gl :Glog<cr>
   map <leader>gw :Gwrite<cr>
-  map <leader>gs :Gina status<cr>
-  map <leader>gP :Gina push -u origin<cr>
+  map <leader>gs :Gina status --opener=new<cr>
+  map <leader>gP :Gina push<cr>
   map <leader>gp :Gina pull --rebase<cr>
   map <leader>gc :Gina commit<cr>
   map <leader>ga :Dispatch! git add %<cr>
@@ -728,7 +728,7 @@ EOF
       \'card', 'getInitialState', 'component', 'this-as', '^def', '^dom', 'div$',
       \'query', 'ident', 'render', 'cmd-hook', 'defentity', 'defplan',
       \'defproject', 'defsynth', 'group-spec', 'node-spec', 'defroutes', 'match',
-      \'deftrace', 'defproject', 'deftest', 'with-db-connection']
+      \'deftrace', 'defproject', 'deftest', 'with-db-connection', 'fact']
     " allow syntax highlighting and indent on any number of lines
     let g:clojure_maxlines = 0
     " cljx syntax highlighting
@@ -762,7 +762,8 @@ EOF
     autocmd FileType clojure nmap cqp :IcedEval 
     autocmd FileType clojure nmap cpr :IcedRequireAll<cr>
     autocmd FileType clojure nmap cpp :IcedEvalOuterTopList<cr>
-    autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval)
+    " autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval)
+    autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval_and_print)
     autocmd FileType clojure nmap <buffer> c! <Plug>(iced_print_last)
     autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
 
