@@ -547,7 +547,7 @@
 
 " git {{{
   map <leader>gb :Gblame<cr>
-  map <leader>gh :Gbrowse<cr>
+  map <leader>gh :Gina browse :<cr>
   map <leader>ge :Gedit<cr>
   map <leader>gl :Glog<cr>
   map <leader>gw :Gwrite<cr>
