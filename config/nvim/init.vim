@@ -72,7 +72,7 @@
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   Plug 'guns/vim-sexp', {'for': 'clojure'}
   Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'master'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
   Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
   " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
