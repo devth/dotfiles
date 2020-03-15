@@ -18,3 +18,6 @@ echo "Installing Node.js deps"
 
 echo "Setting up symlinks with rcup"
 rcup
+
+echo "Importing gpg keys from Keybase"
+./gpg_setup.sh

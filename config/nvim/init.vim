@@ -29,11 +29,11 @@
   Plug 'tpope/vim-eunuch'
 
   " Git
-  " Plug 'tpope/vim-fugitive'
-  " Plug 'tommcdo/vim-fubitive' " bitbucket for fugitive
-  " Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
-  " Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
-  Plug 'lambdalisue/gina.vim'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tommcdo/vim-fubitive' " bitbucket for fugitive
+  Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
+  Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
+  " Plug 'lambdalisue/gina.vim'
 
   Plug 'tpope/vim-git'
   Plug 'tpope/vim-repeat'
@@ -72,8 +72,10 @@
   Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   Plug 'guns/vim-sexp', {'for': 'clojure'}
   Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
+  " Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure'}
   Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
+  Plug 'liquidz/vim-iced-kaocha'
   " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " Note: Doesn't work with .cljc files yet:
   " TODO get this working
@@ -98,7 +100,7 @@
   Plug 'mhinz/vim-signify'
   Plug 'kassio/neoterm' " Terminal utils
   Plug 'vim-scripts/regreplop.vim' " replace!
-  Plug 'w0rp/ale' " Async Lint Engine
+  Plug 'dense-analysis/ale' " Async Lint Engine
   Plug 'vim-scripts/YankRing.vim' " Keep track of past yanked values
   Plug 'vim-scripts/tComment' " Comment stuff
   Plug 'junegunn/goyo.vim' " Writing mode
@@ -106,18 +108,24 @@
   Plug 'michaeljsmith/vim-indent-object' " indent objects
   Plug 'junegunn/vim-easy-align' " alignment!
   Plug 'mileszs/ack.vim' " search file contents via ag or ack
-  Plug 'fszymanski/ListToggle.vim' " Toggle Quickfix and Location List
   Plug 'simnalamburt/vim-mundo' " Vim undo tree viz
   " Plug 'chr4/sslsecure.vim' " Highlight insecure SSL configuration
   " Superfast fuzzy file finder
   " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug '/usr/local/opt/fzf' " installed via Homebrew
+  " Plug '/usr/local/opt/fzf' " installed via Homebrew
+
+  " Plug 'junegunn/fzf.vim' " if you want latest fzf use this instead
+  " Plug 'junegunn/fzf', { 'do': './install --all' }
+  Plug 'junegunn/fzf', { 'do': './install --bin' }
   Plug 'junegunn/fzf.vim'
-  Plug 'Vigemus/nvimux' " Tmux-like key bindings for NeoVim
+
+  " Use actual tmux instead
+  " Plug 'Vigemus/nvimux' " Tmux-like key bindings for NeoVim
 
   " Powerline alternatives
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+
   Plug 'gcmt/taboo.vim'
 
   " Completion and snippets
@@ -136,12 +144,6 @@
   " Plug 'leafgarland/typescript-vim'
   Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
   Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TSServer client
-  " tsuquyomi is busted:
-  " call dein#add('Quramy/tsuquyomi')
-
-  " Facebook Flow
-  " Very slow last I checked so it's disabled:
-  " call dein#add('flowtype/vim-flow')
 
   call plug#end()
 " }}}
@@ -157,7 +159,8 @@
   set nocompatible
   syntax on
   filetype plugin indent on
-  set shell=/bin/zsh\ -l
+  set shell=/bin/zsh
+  " set shellcmdflag=-l
   let mapleader = ","
   let maplocalleader = ","
   set history=1000
@@ -330,8 +333,8 @@
   highlight TermCursor ctermfg=red guifg=red
 
   " tbone replacement using neoterm plugin
-  nmap <leader>twl <s-v>:TREPLSendLine<cr>
-  vmap <leader>twl :TREPLSendLine<cr>
+  " nmap <leader>twl <s-v>:TREPLSendLine<cr>
+  " vmap <leader>twl :TREPLSendLine<cr>
 
   " neoterm configuration
   " let g:neoterm_position = 'vertical'
@@ -518,24 +521,24 @@
   " vnoremap <leader>twl :Twrite right<cr>
 
   " left
-  nnoremap <leader>twh <s-v>:Twrite left<cr>
-  vnoremap <leader>twh :Twrite left<cr>
+  " nnoremap <leader>twh <s-v>:Twrite left<cr>
+  " vnoremap <leader>twh :Twrite left<cr>
 
   " bottom left
-  nnoremap <leader>twjh <s-v>:Twrite bottom-left<cr>
-  vnoremap <leader>twjh :Twrite bottom-left<cr>
+  " nnoremap <leader>twjh <s-v>:Twrite bottom-left<cr>
+  " vnoremap <leader>twjh :Twrite bottom-left<cr>
 
   " bottom right
-  nnoremap <leader>twjl <s-v>:Twrite bottom-right<cr>
-  vnoremap <leader>twjl :Twrite bottom-right<cr>
+  " nnoremap <leader>twjl <s-v>:Twrite bottom-right<cr>
+  " vnoremap <leader>twjl :Twrite bottom-right<cr>
 
   " top left
-  nnoremap <leader>twkh <s-v>:Twrite top-left<cr>
-  vnoremap <leader>twkh :Twrite top-left<cr>
+  " nnoremap <leader>twkh <s-v>:Twrite top-left<cr>
+  " vnoremap <leader>twkh :Twrite top-left<cr>
 
   " top right
-  nnoremap <leader>twkl <s-v>:Twrite top-right<cr>
-  vnoremap <leader>twkl :Twrite top-right<cr>
+  " nnoremap <leader>twkl <s-v>:Twrite top-right<cr>
+  " vnoremap <leader>twkl :Twrite top-right<cr>
 
 " }}}
 
@@ -546,15 +549,17 @@
 " }}}
 
 " git {{{
-  map <leader>gb :Gblame<cr>
-  map <leader>gh :Gina browse :<cr>
+  map <leader>gb :Git blame<cr>
+  map <leader>gh :Gbrowse<cr>
   map <leader>ge :Gedit<cr>
   map <leader>gl :Glog<cr>
   map <leader>gw :Gwrite<cr>
-  map <leader>gs :Gina status --opener=new<cr>
-  map <leader>gP :Gina push<cr>
-  map <leader>gp :Gina pull --rebase<cr>
-  map <leader>gc :Gina commit<cr>
+
+  map <leader>gs :G
+
+  map <leader>gP :Git push<cr>
+  map <leader>gp :Git pull --rebase<cr>
+  map <leader>gc :Git commit<cr>
   map <leader>ga :Dispatch! git add %<cr>
 " }}}
 
@@ -589,13 +594,11 @@
   let g:ale_warn_about_trailing_whitespace = 0
   let g:ale_lint_delay = 1000
 
-  let g:ale_fixers = {}
-  let g:ale_fixers['javascript'] = ['prettier']
-
-  let g:ale_fixers['typescript'] = ['prettier']
-
-
-  let g:ale_fixers['css'] = ['prettier']
+  " let b:ale_fixers = {}
+  " let b:ale_fixers['javascript'] = ['prettier']
+  " let b:ale_fixers['typescript'] = ['prettier']
+  " let b:ale_fixers['css'] = ['prettier']
+  " let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
 
   " Prettier
   let g:prettier#config#parser = 'babylon'
@@ -608,18 +611,21 @@
   " daily. You will pull your hair out. You will hate life.
   "
   " UNLESS YOU DISABLE FLOW. DO THE RIGHT THING.
-  let g:ale_linters = {
-    \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
-  \}
 
-  let g:ale_linters_ignore = {'typescript': ['tslint']}
+  " let g:ale_linters = {
+  "   \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
+  " \}
+
+  let g:ale_linters = {'clojure': ['clj-kondo']}
+
+  " let g:ale_linters_ignore = {'typescript': ['tslint']}
 
   " autocmd FileType javascript
-  let g:ale_javascript_prettier_options = '--single-quote --no-bracket-spacing --print-width 120'
+  " let g:ale_javascript_prettier_options = '--single-quote --no-bracket-spacing --print-width 120'
 
-  let g:ale_linters = {
-    \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
-  \}
+  " let g:ale_linters = {
+  "   \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
+  " \}
 
   nmap <Leader><Leader>p <Plug>(Prettier)
 
@@ -665,32 +671,33 @@
   let g:tmux_navigator_disable_when_zoomed = 1
 " }}}
 
+" TODO remove since we're using actual tmux now
 " nvimux {{{
 
-lua << EOF
-local nvimux = require('nvimux')
-
--- Nvimux configuration
-nvimux.config.set_all{
-  prefix = '<C-space>',
-  new_window = 'enew', -- Use 'term' if you want to open a new term for every new window
-  new_tab = 'term', -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
-  new_window_buffer = 'single',
-  quickterm_direction = 'botright',
-  quickterm_orientation = 'vertical',
-  quickterm_scope = 't', -- Use 'g' for global quickterm
-  quickterm_size = '80',
-}
-
--- Nvimux custom bindings
-nvimux.bindings.bind_all{
-  {'s', ':NvimuxHorizontalSplit', {'n', 'v', 'i', 't'}},
-  {'v', ':NvimuxVerticalSplit', {'n', 'v', 'i', 't'}},
-}
-
--- Required so nvimux sets the mappings correctly
-nvimux.bootstrap()
-EOF
+" lua << EOF
+" local nvimux = require('nvimux')
+"
+" -- Nvimux configuration
+" nvimux.config.set_all{
+"   prefix = '<C-space>',
+"   new_window = 'enew', -- Use 'term' if you want to open a new term for every new window
+"   new_tab = 'term', -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
+"   new_window_buffer = 'single',
+"   quickterm_direction = 'botright',
+"   quickterm_orientation = 'vertical',
+"   quickterm_scope = 't', -- Use 'g' for global quickterm
+"   quickterm_size = '80',
+" }
+"
+" -- Nvimux custom bindings
+" nvimux.bindings.bind_all{
+"   {'s', ':NvimuxHorizontalSplit', {'n', 'v', 'i', 't'}},
+"   {'v', ':NvimuxVerticalSplit', {'n', 'v', 'i', 't'}},
+" }
+"
+" -- Required so nvimux sets the mappings correctly
+" nvimux.bootstrap()
+" EOF
 
 " }}}
 
@@ -759,7 +766,7 @@ EOF
     " let g:iced_enable_auto_indent = v:false
 
     " Replicate vim-fireplace mappings for vim-iced
-    autocmd FileType clojure nmap cqp :IcedEval 
+    autocmd FileType clojure nmap cqp :IcedEval
     autocmd FileType clojure nmap cpr :IcedRequireAll<cr>
     autocmd FileType clojure nmap cpp :IcedEvalOuterTopList<cr>
     " autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval)
@@ -800,10 +807,11 @@ nnoremap <leader>yr :YRShow<cr>
   nnoremap <leader>* :Ack!<cword><cr>
 " }}}
 
-" ListToggle {{{
-  nmap <Leader>tq <Plug>ListToggleQuickfixListToggle
-  nmap <Leader>tl <Plug>ListToggleLocationListToggle
-" }}}
+" This plugin no longer exists
+" " ListToggle {{{
+"   nmap <Leader>tq <Plug>ListToggleQuickfixListToggle
+"   nmap <Leader>tl <Plug>ListToggleLocationListToggle
+" " }}}
 
 " Mundo {{{
   nnoremap <leader>mu :MundoToggle<cr>
@@ -852,4 +860,40 @@ nnoremap <leader>yr :YRShow<cr>
 
 " JavaScript {{{
 let g:jsx_ext_required = 0
+" }}}
+
+" kitty {{{
+
+" tbone replacement using kitty
+"
+
+ls -al
+
+  " system('tmux send-keys -t '.pane_id.' "" '.shellescape(a:keys))
+  " system('kitty @ send-text --match title:left hi')
+  " :Dispatch! kitty @ send-text --match title:left echo hi $line
+  " :call dispatch#start("kitty @ send-text --match title:left ls")
+  " :call dispatch#start("kitty @ send-text --match title:left ls")
+
+function! TerminalH()
+  let line=getline('.')
+  " execute "Spawn! kitty @ send-text --match title:left ".line."\r"
+  " execute "!kitty  @ send-text --match title:left " . line . "\r"
+  let ignore = system("kitty  @ send-text --match title:left " . line . "\r", "")
+  echo ignore
+endfunction
+nnoremap <leader>twh :call TerminalH()<cr>
+
+function! TerminalL()
+  let line=getline('.')
+  execute "Spawn! kitty @ send-text --match title:right ".line."\r"
+endfunction
+nnoremap <leader>twl :call TerminalL()<cr>
+
+" nmap <leader>twl <s-v>:Dispatch
+
+
+" vmap <leader>twl :TREPLSendLine<cr>
+
+
 " }}}

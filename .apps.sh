@@ -107,7 +107,8 @@ brew services start postgresql
   brew install drip
   brew install leiningen
   brew install boot-clj
-  brew install datomic
+  # brew install datomic
+  brew install borkdude/brew/clj-kondo
 # }}}
 
 # File searching and management {{{
@@ -215,8 +216,7 @@ brew services start postgresql
 
   # Powerline fonts!
   brew cask install \
-    font-anonymous-pro \
-    font-dejavu-sans-mono-for-powerline \
+    font-fira-code \
     font-droid-sans-mono-for-powerline \
     font-meslo-lg font-input \
     font-menlo-for-powerline \
@@ -228,7 +228,6 @@ brew services start postgresql
     font-raleway font-roboto \
     font-source-code-pro font-source-code-pro-for-powerline \
     font-source-sans-pro \
-    font-fira-code
 
   # quicklook
   brew cask install \
