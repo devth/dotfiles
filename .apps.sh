@@ -124,6 +124,8 @@ brew services start postgresql
 
 # Custom taps {{{
 
+  brew install github/gh/gh
+
   brew tap codeclimate/formulae
   brew install codeclimate
 

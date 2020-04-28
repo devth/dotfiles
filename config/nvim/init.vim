@@ -30,6 +30,7 @@
 
   " Git
   Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb' " GH Enterprise support
   Plug 'tommcdo/vim-fubitive' " bitbucket for fugitive
   Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
   Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
@@ -55,6 +56,7 @@
   Plug 'fatih/vim-go', {'for': 'go'}
   Plug 'hashivim/vim-vagrant', {'for': 'vagrant'}
   Plug 'mattn/emmet-vim'
+  Plug 'mustache/vim-mustache-handlebars'
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
 
   " JavaScript
@@ -555,7 +557,7 @@
   map <leader>gl :Glog<cr>
   map <leader>gw :Gwrite<cr>
 
-  map <leader>gs :G
+  map <leader>gs :G<cr>
 
   map <leader>gP :Git push<cr>
   map <leader>gp :Git pull --rebase<cr>
@@ -766,11 +768,12 @@
     " let g:iced_enable_auto_indent = v:false
 
     " Replicate vim-fireplace mappings for vim-iced
-    autocmd FileType clojure nmap cqp :IcedEval
+    autocmd FileType clojure nmap cqp :IcedEval<space>
     autocmd FileType clojure nmap cpr :IcedRequireAll<cr>
     autocmd FileType clojure nmap cpp :IcedEvalOuterTopList<cr>
     " autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval)
     autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval_and_print)
+    autocmd FileType clojure nmap <buffer> ct <Plug>(iced_eval_and_tap)
     autocmd FileType clojure nmap <buffer> c! <Plug>(iced_print_last)
     autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
 
@@ -867,7 +870,7 @@ let g:jsx_ext_required = 0
 " tbone replacement using kitty
 "
 
-ls -al
+" ls -al
 
   " system('tmux send-keys -t '.pane_id.' "" '.shellescape(a:keys))
   " system('kitty @ send-text --match title:left hi')
@@ -886,7 +889,8 @@ nnoremap <leader>twh :call TerminalH()<cr>
 
 function! TerminalL()
   let line=getline('.')
-  execute "Spawn! kitty @ send-text --match title:right ".line."\r"
+  " execute "Spawn! kitty @ send-text --match title:ia ".line."\r"
+  let result = system("kitty @ send-text --match title:right " . line . "\r")
 endfunction
 nnoremap <leader>twl :call TerminalL()<cr>
 
