@@ -58,10 +58,12 @@
   Plug 'mattn/emmet-vim'
   Plug 'mustache/vim-mustache-handlebars'
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
+  Plug 'jparise/vim-graphql', {'for': 'graphql'}
 
   " JavaScript
   Plug 'pangloss/vim-javascript'
-  Plug 'mxw/vim-jsx'
+  " Plug 'mxw/vim-jsx'
+  Plug 'neoclide/vim-jsx-improve'
 
   " Clojure
   " Test out a fork of tpope/vim-fire place until
