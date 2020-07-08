@@ -769,15 +769,27 @@
     let g:iced_enable_default_key_mappings = v:true
     " let g:iced_enable_auto_indent = v:false
 
+    let g:iced#format#rule = {
+      \ 'midje.sweet/fact': '[[:inner 0]]',
+      \ 'midje.sweet/facts': '[[:inner 1]]',
+    \ }
+
     " Replicate vim-fireplace mappings for vim-iced
     autocmd FileType clojure nmap cqp :IcedEval<space>
     autocmd FileType clojure nmap cpr :IcedRequireAll<cr>
     autocmd FileType clojure nmap cpp :IcedEvalOuterTopList<cr>
     " autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval)
     autocmd FileType clojure nmap <buffer> cp <Plug>(iced_eval_and_print)
-    autocmd FileType clojure nmap <buffer> ct <Plug>(iced_eval_and_tap)
-    autocmd FileType clojure nmap <buffer> c! <Plug>(iced_print_last)
+    " autocmd FileType clojure nmap <buffer> ct <Plug>(iced_eval_and_tap)
+    " autocmd FileType clojure nmap <buffer> c! <Plug>(iced_print_last)
+    autocmd FileType clojure nmap <buffer> c! <Plug>(iced_eval_and_tap)
+    " this has potential to override "change till m" - might need a different
+    " mapping, or get kaocha working
     autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
+
+    " add namespace
+    autocmd FileType clojure nmap <buffer> <leader>an :IcedAddNs<cr>
+    autocmd FileType clojure nmap <buffer> <leader>am :IcedAddMissing<cr>
 
     " vim-sexp
     let g:sexp_enable_insert_mode_mappings = 1
