@@ -148,6 +148,9 @@ brew services start postgresql
   brew tap caskroom/fonts
   brew cask install font-hack-nerd-font
 
+  brew tap unisonweb/unison
+  brew install unison-language
+
 # }}}
 
 # Brew Cask {{{
