@@ -291,6 +291,8 @@ brew services start postgresql
   brew tap drone/drone
   brew install drone # --HEAD
 
+  brew install awscli
+
 # }}}
 
 # Low priority {{{
