@@ -210,12 +210,13 @@ brew services start postgresql
   brew cask install insomnia
 
   # alacritty dependencies
-  brew install rustup-init
-  rustup-init -y
-  # alacritty - a blazing fast gpu-acelerated term
-  # brew install --HEAD cema-sp/homebrew-tap/alacritty
-  brew tap mscharley/homebrew
-  brew install alacritty
+  # NOTE: no longer using alacritty. using kitty instead
+  # brew install rustup-init
+  # rustup-init -y
+  # # alacritty - a blazing fast gpu-acelerated term
+  # # brew install --HEAD cema-sp/homebrew-tap/alacritty
+  # brew tap mscharley/homebrew
+  # # brew install alacritty
 
   brew cask install macvim
 
