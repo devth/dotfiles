@@ -263,7 +263,8 @@ brew services start postgresql
 
 # gcloud / kubectl {{{
 
-  brew cask install google-cloud-sdk
+  # brew cask install google-cloud-sdk
+  # brew cask uninstall google-cloud-sdk
 
   # curl https://sdk.cloud.google.com | bash
   # echo "NOTE: you may need to reload shell your after installing gcloud"

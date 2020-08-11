@@ -14,6 +14,7 @@ kc() {
 # namespace switching
 alias knkube="export KUBE_NAMESPACE=kube-system"
 alias kndefault="export KUBE_NAMESPACE=default"
+alias knapplications="export KUBE_NAMESPACE=applications"
 alias knstaging="export KUBE_NAMESPACE=staging"
 alias knprod="export KUBE_NAMESPACE=prod"
 alias kndev="export KUBE_NAMESPACE=dev"
