@@ -101,6 +101,8 @@
 
   " Utils
   " Plug 'vimlab/split-term.vim' " Terminal utils
+  Plug 'christianrondeau/vim-base64' 
+
   Plug 'mhinz/vim-signify'
   Plug 'kassio/neoterm' " Terminal utils
   Plug 'vim-scripts/regreplop.vim' " replace!
@@ -755,7 +757,7 @@
     let g:fireplace_print_right_margin = 80
 
     " Re-enable gq!
-    autocmd FileType clojure set formatexpr=
+    " autocmd FileType clojure set formatexpr=
     " Enable auto formatting
     autocmd FileType clojure set fo+=tc
     " Clojure macros

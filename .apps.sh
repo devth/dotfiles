@@ -36,6 +36,7 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install hub
   brew install watchman
   brew install pstree # process tree, like `ps fax`
+  brew install cloc # lines of code counter
 
   # minio - S3-compatible interface client
   # https://github.com/minio/mc
@@ -208,6 +209,9 @@ brew services start postgresql
 
   # rest client
   brew cask install insomnia
+
+  # kubernetes IDE
+  brew cask install lens
 
   # alacritty dependencies
   # NOTE: no longer using alacritty. using kitty instead
