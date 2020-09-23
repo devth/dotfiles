@@ -147,9 +147,21 @@
   " Plug 'honza/vim-snippets' " Do we need this?
 
   " TypeScript
-  " Plug 'leafgarland/typescript-vim'
-  Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-  Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TSServer client
+  Plug 'pangloss/vim-javascript'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'peitalin/vim-jsx-typescript'
+
+  " Language Service Client
+  " Originally configured for TypeScript following
+  " https://thoughtbot.com/blog/modern-typescript-and-react-development-in-vim
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  let g:coc_global_extensions = [
+        \ 'coc-tsserver'
+        \ ]
+
+  " Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+  " Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TSServer client
 
   call plug#end()
 " }}}
@@ -600,6 +612,14 @@
   let g:ale_warn_about_trailing_whitespace = 0
   let g:ale_lint_delay = 1000
 
+  let g:ale_fixers = {
+  \   'javascript': ['prettier', 'eslint'],
+  \   'typescript': ['prettier'],
+  \   'css': ['prettier'],
+  \}
+
+  let g:ale_fix_on_save = 1
+
   " let b:ale_fixers = {}
   " let b:ale_fixers['javascript'] = ['prettier']
   " let b:ale_fixers['typescript'] = ['prettier']
@@ -800,6 +820,87 @@
 
     " acid.nvim
     " autocmd FileType clojure nmap cpr :AcidRequire<cr>
+
+  " }}}
+
+  " TypeScript {{{
+  " From https://github.com/peitalin/vim-jsx-typescript
+  autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+
+  hi tsxTag guifg=#F99575 ctermfg=lightgray
+  hi tsxTagName guifg=#E06C75 ctermfg=darkblue
+  hi tsxCloseString guifg=#F99575 ctermfg=darkblue
+  hi tsxCloseTag guifg=#F99575 ctermfg=lightgray
+  hi tsxCloseTagName guifg=#F99575 ctermfg=darkblue
+  hi tsxAttributeBraces guifg=#F99575 ctermfg=white
+  hi tsxJsBlock guifg=#F99575 ctermfg=darkcyan
+  hi tsxEqual guifg=#F99575 ctermfg=brown
+  hi tsxAttrib guifg=#F8BD7F cterm=italic ctermfg=darkmagenta
+
+  " light-grey
+  hi tsxTypeBraces guifg=#999999 ctermfg=lightgray
+  hi tsxTypes guifg=#666666 ctermfg=lightgray
+
+  hi ReactState guifg=#C176A7
+  hi ReactProps guifg=#D19A66
+  hi ApolloGraphQL guifg=#CB886B
+  hi Events ctermfg=204 guifg=#56B6C2
+  hi ReduxKeywords ctermfg=204 guifg=#C678DD
+  hi ReduxHooksKeywords ctermfg=204 guifg=#C176A7
+  hi WebBrowser ctermfg=204 guifg=#56B6C2
+  hi ReactLifeCycleMethods ctermfg=204 guifg=#D19A66
+
+
+  " COC for TypeScript
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gr <Plug>(coc-references)
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+  " Apply AutoFix to problem on the current line.
+  nmap <leader>qf  <Plug>(coc-fix-current)
+  nmap <leader>do <Plug>(coc-codeaction)
+
+  " Symbol renaming.
+  nmap <leader>rn <Plug>(coc-rename)
+
+  " Applying codeAction to the selected region.
+  " Example: `<leader>aap` for current paragraph
+  xmap <leader>a  <Plug>(coc-codeaction-selected)
+  nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+  " In the future we could allow this shortcut for other languages that use LSP
+  " Use K to show documentation in preview window
+  autocmd FileType typescript nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+    let g:coc_global_extensions += ['coc-prettier']
+  endif
+
+  if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+    let g:coc_global_extensions += ['coc-eslint']
+  endif
+
+  " Give more space for displaying messages.
+  set cmdheight=2
+
+  " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+  " delays and poor user experience.
+  set updatetime=300
+
+  " Don't pass messages to |ins-completion-menu|.
+  set shortmess+=c
+
+
 
   " }}}
 
