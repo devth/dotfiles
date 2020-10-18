@@ -87,4 +87,52 @@ alias kcpf="kc port-forward"
 # kubetail
 kt() { kubetail "$@" --namespace "$KUBE_NAMESPACE" ; }
 
+
+# pending pods
+pp() {
+  kubectl get pods --all-namespaces -o json \
+    | jq -r '.items[] | select(.status.phase != "Running" or ([ .status.conditions[] | select(.type == "Ready" and .state == false) ] | length ) == 1 ) | .metadata.namespace + "/" + .metadata.name'
+}
+
+
+# K8S RBAC
+
+kroles() {
+  kubectl get rolebindings,clusterrolebindings \
+    --all-namespaces  \
+    -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind=="ServiceAccount")].name'
+}
+
+ksecret() {
+  kubectl get secret $1 -o json | jq -r '.data | map_values(@base64d)'
+}
+
+# kroles() {
+#   # from https://stackoverflow.com/questions/55646821/how-to-find-which-role-or-clusterrole-binded-to-a-service-account-in-kubernetes
+#   kubectl get rolebindings,clusterrolebindings \
+#   --all-namespaces  \
+#   -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind=="ServiceAccount")].name' \
+#     | grep "$@"
+# }
+
+kperms() {
+  # examples from 
+  # https://stackoverflow.com/questions/54889458/kubernetes-check-serviceaccount-permissions
+
+  k auth can-i create secret \
+    --as=system:serviceaccount:yetibot:yetibot-vault-auth
+
+  k auth can-i create secret \
+    --as=system:serviceaccount:yetibot:default
+
+  k auth can-i create deployments --namespace yetibot
+
+  k auth can-i create deployments --namespace yetibot --as trevor.hartman@carta.com
+
+  kcd clusterrole admin
+
+  kcd clusterroles system:discovery
+
+}
+
 # }}}
