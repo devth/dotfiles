@@ -1,3 +1,5 @@
 .nrepl-port
 **/.DS_Store
 .env
+ctags
+tags

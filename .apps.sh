@@ -27,7 +27,9 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 
 # Utils {{{
   brew install watch
-  brew install ctags
+  # brew install ctags # this is outdated, use below instead for
+  # https://github.com/universal-ctags/ctags
+  brew install --HEAD universal-ctags/universal-ctags/universal-ctags
   brew install graphviz
   brew install asciinema
   brew install cheat
