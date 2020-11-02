@@ -59,6 +59,7 @@
   Plug 'mustache/vim-mustache-handlebars'
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
   Plug 'jparise/vim-graphql', {'for': 'graphql'}
+  Plug 'delphinus/vim-firestore' " firestore highlighting
 
   " JavaScript
   Plug 'pangloss/vim-javascript'
@@ -106,7 +107,10 @@
   Plug 'mhinz/vim-signify'
   Plug 'kassio/neoterm' " Terminal utils
   Plug 'vim-scripts/regreplop.vim' " replace!
-  Plug 'dense-analysis/ale' " Async Lint Engine
+
+  " TODO possibly re-enable this but figure out how to make it not conflict with
+  " CoC.nvim
+  " Plug 'dense-analysis/ale' " Async Lint Engine
   Plug 'vim-scripts/YankRing.vim' " Keep track of past yanked values
   Plug 'vim-scripts/tComment' " Comment stuff
   Plug 'junegunn/goyo.vim' " Writing mode

@@ -65,7 +65,7 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   # maybe someday we'll switch to Nix 🦄
 
   brew install python
-  brew install python3
+  # brew install python3
   brew install golang
 # }}}
 
