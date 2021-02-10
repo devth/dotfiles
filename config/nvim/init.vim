@@ -60,6 +60,7 @@
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
   Plug 'jparise/vim-graphql', {'for': 'graphql'}
   Plug 'delphinus/vim-firestore' " firestore highlighting
+  Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
 
   " JavaScript
   Plug 'pangloss/vim-javascript'
@@ -160,7 +161,6 @@
   " Originally configured for TypeScript following
   " https://thoughtbot.com/blog/modern-typescript-and-react-development-in-vim
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   let g:coc_global_extensions = [
         \ 'coc-tsserver'
         \ ]
@@ -177,6 +177,7 @@
   endif
   " set foldmethod=marker
   set nowrap
+  set linebreak " for when we do need wrapping
   set ttyfast
   set lazyredraw
   set nocompatible
@@ -862,6 +863,10 @@
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> [g <Plug>(coc-diagnostic-prev)
   nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+  command! -nargs=0 Prettier :CocCommand prettier.formatFile
+  vmap <leader>fo  <Plug>(coc-format-selected)
+  nmap <leader>fo  <Plug>(coc-format-selected)
 
   " Apply AutoFix to problem on the current line.
   nmap <leader>qf  <Plug>(coc-fix-current)

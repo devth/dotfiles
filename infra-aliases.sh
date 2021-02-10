@@ -26,7 +26,7 @@ knswitch() {
 
 # view the IPs of pods
 kips() {
-  kc get pods -l app="$*" -o json \
+  kc get pods -l app.kubernetes.io/component="$*" -o json \
     | jq -r '.items[] | .metadata.name + ": " + .status.podIP'
 }
 
@@ -126,8 +126,6 @@ kperms() {
     --as=system:serviceaccount:yetibot:default
 
   k auth can-i create deployments --namespace yetibot
-
-  k auth can-i create deployments --namespace yetibot --as trevor.hartman@carta.com
 
   kcd clusterrole admin
 
