@@ -66,11 +66,24 @@ rcup -v
 
 `-v` instructs it to output what it's doing.
 
+## Vim Profiling
+
+From https://github.com/hyiltiz/vim-plugins-profile
+
+```bash
+
+ruby ./vim-plugins-profile-master/vim-plugins-profile.rb
+
+python ./vim-plugins-profile-master/vim-plugins-profile.py # -p flag plots a bar chart
+
+```
+
 ## Inspiration
 
 - [https://github.com/christoomey/dotfiles](https://github.com/christoomey/dotfiles)
 - [https://github.com/mhartington/dotfiles](https://github.com/mhartington/dotfiles)
 - [https://github.com/mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles)
+
 
 ## License
 
