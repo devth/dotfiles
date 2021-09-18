@@ -77,6 +77,7 @@
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
   Plug 'delphinus/vim-firestore' " firestore highlighting
   " Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+  Plug 'hashivim/vim-terraform'
 
   Plug 'mattn/emmet-vim' " expanding abbreviations (HTML mostly)
 
@@ -119,7 +120,7 @@
   " Plug 'vimlab/split-term.vim' " Terminal utils
   " Plug 'christianrondeau/vim-base64'
   " Plug 'mhinz/vim-signify'
-  " Plug 'kassio/neoterm' " Terminal utils
+  Plug 'kassio/neoterm' " Terminal utils
   " Plug 'vim-scripts/regreplop.vim' " replace!
 
   Plug 'svermeulen/vim-subversive' " Replace stuff
@@ -371,7 +372,8 @@
   highlight TermCursor ctermfg=red guifg=red
 
   " tbone replacement using neoterm plugin
-  " nmap <leader>twl <s-v>:TREPLSendLine<cr>
+  nmap <leader>twl <s-v>:TREPLSendLine<cr>
+  nmap gxx <s-v>:TREPLSendLine<cr>
   " vmap <leader>twl :TREPLSendLine<cr>
 
   " neoterm configuration
@@ -381,17 +383,19 @@
   let g:neoterm_default_mod = 'vertical'
   let g:neoterm_term_per_tab = 1
 
+  nmap gxt :Ttoggle<cr>
+
   " Use gx{text-object} in normal mode
-  nmap gx <Plug>(neoterm-repl-send)
+  " nmap gx <Plug>(neoterm-repl-send)
 
   " Send selected contents in visual mode.
-  xmap gx <Plug>(neoterm-repl-send)
+  " xmap gx <Plug>(neoterm-repl-send)
 
   " Send line - can use 2gxx to send 2 lines
-  nmap gxx <Plug>(neoterm-repl-send-line)
+  " nmap gxx <Plug>(neoterm-repl-send-line)
 
   " Toggle term visibility
-  nmap gxt :Ttoggle<cr><c-w>=
+  " nmap gxt :Ttoggle<cr><c-w>=
 
 
 
