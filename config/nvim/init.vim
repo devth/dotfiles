@@ -525,8 +525,8 @@ EOF
   nnoremap <leader>bgl :set bg=light<cr>
   nnoremap <leader>bgd :set bg=dark<cr>
 
-  " Remove vertical split pipe
-  set fillchars=
+  " controls vertical split pipe, end of buffer
+  set fillchars=fold:\ ,vert:\│,eob:\.,msgsep:‾
 
   " Goyo {{{
     let g:goyo_height = "100%"
@@ -1015,6 +1015,9 @@ let g:completion_chain_complete_list = [
   nnoremap <leader>tgb <cmd>Telescope git_branches<cr>
   nnoremap <leader>tts <cmd>Telescope treesitter<cr>
 
+  nnoremap \ <cmd>Telescope live_grep<cr>
+  nnoremap <leader>* <cmd>Telescope grep_string<cr>
+
   " :lua require'telescope.builtin'.planets{}
   " :nnoremap <Leader>pp :lua require'telescope.builtin'.planets{}
 
@@ -1214,8 +1217,9 @@ nnoremap <leader>yr :YRShow<cr>
   if executable('ag')
     let g:ackprg = 'ag --vimgrep --hidden'
   endif
-  nnoremap \ :Ack!<space>
-  nnoremap <leader>* :Ack!<cword><cr>
+  " use telescope instead
+  " nnoremap \ :Ack!<space>
+  " nnoremap <leader>* :Ack!<cword><cr>
 " }}}
 
 " This plugin no longer exists
