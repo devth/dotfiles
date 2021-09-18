@@ -11,6 +11,11 @@
 kc() {
   kubectl --namespace "$KUBE_NAMESPACE" "$@"
 }
+
+ka() {
+  kubectl "$@" -A
+}
+
 # namespace switching
 alias knkube="export KUBE_NAMESPACE=kube-system"
 alias kndefault="export KUBE_NAMESPACE=default"
@@ -105,6 +110,12 @@ kroles() {
 
 ksecret() {
   kubectl get secret $1 -o json | jq -r '.data | map_values(@base64d)'
+}
+
+kcopysecret() {
+  kubectl get secret $1 -n $2 -o json | \
+    jq '{apiVersion,data,kind,metadata,type} | .metadata |= {"annotations", "name", "labels"}' \
+    | kubectl apply -n $3 -f -
 }
 
 # kroles() {

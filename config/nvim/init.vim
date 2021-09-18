@@ -55,17 +55,25 @@
   Plug 'google/vim-jsonnet', {'for': 'jsonnet'}
   Plug 'fatih/vim-go', {'for': 'go'}
   Plug 'hashivim/vim-vagrant', {'for': 'vagrant'}
-  Plug 'mattn/emmet-vim'
+  " Plug 'mattn/emmet-vim'
   Plug 'mustache/vim-mustache-handlebars'
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
   Plug 'jparise/vim-graphql', {'for': 'graphql'}
   Plug 'delphinus/vim-firestore' " firestore highlighting
   Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
-
+  Plug 'hashivim/vim-terraform'
   " JavaScript
   Plug 'pangloss/vim-javascript'
   " Plug 'mxw/vim-jsx'
   Plug 'neoclide/vim-jsx-improve'
+  Plug 'cespare/vim-toml'
+  " Python
+  " Plug 'psf/black', { 'branch': 'stable' }
+  " Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }
+
+  " JSON
+  Plug 'mogelbrod/vim-jsonpath'
+
 
   " Clojure
   " Test out a fork of tpope/vim-fire place until
@@ -107,12 +115,13 @@
 
   Plug 'mhinz/vim-signify'
   Plug 'kassio/neoterm' " Terminal utils
-  Plug 'vim-scripts/regreplop.vim' " replace!
+  " Plug 'vim-scripts/regreplop.vim' " replace!
+  Plug 'svermeulen/vim-subversive' " replace / substitute!
 
   " TODO possibly re-enable this but figure out how to make it not conflict with
   " CoC.nvim
   " Plug 'dense-analysis/ale' " Async Lint Engine
-  Plug 'vim-scripts/YankRing.vim' " Keep track of past yanked values
+  Plug 'svermeulen/vim-yoink' " Keep track of past yanked values
   Plug 'vim-scripts/tComment' " Comment stuff
   Plug 'junegunn/goyo.vim' " Writing mode
   Plug 'preservim/tagbar' " ctags!
@@ -135,8 +144,9 @@
   " Plug 'Vigemus/nvimux' " Tmux-like key bindings for NeoVim
 
   " Powerline alternatives
-  Plug 'vim-airline/vim-airline'
-  Plug 'vim-airline/vim-airline-themes'
+  " Too slow - debug before enabling
+  " Plug 'vim-airline/vim-airline'
+  " Plug 'vim-airline/vim-airline-themes'
 
   Plug 'gcmt/taboo.vim'
 
@@ -295,6 +305,10 @@
   " Tab between braces
   nnoremap <tab> %
   vnoremap <tab> %
+
+  " Show next matched string at eh center of screen
+  nnoremap n nzz
+  nnoremap N Nzz
 
   " Yank current file path
   nnoremap <leader>cp :let @" = expand("%")<cr>
@@ -458,7 +472,11 @@
   let g:airline_powerline_fonts = 1
 
   " Only load the Airline extensions we want
-  " let g:airline_extensions = ['tabline', 'ale', 'fugitive']
+  let g:airline_extensions = ['tabline', 'coc', 'fugitiveline']
+
+  let g:airline_highlighting_cache = 1
+
+  set ttimeoutlen=10
 
   " let g:airline#extensions#tabline#fnamemod = ':t'
   let g:airline#extensions#tabline#enabled = 1
@@ -905,7 +923,7 @@
 
   " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
   " delays and poor user experience.
-  set updatetime=300
+  set updatetime=100
 
   " Don't pass messages to |ins-completion-menu|.
   set shortmess+=c
@@ -923,10 +941,33 @@
   nmap ga <Plug>(EasyAlign)
 " }}}
 
-" YankRing {{{
-let yankring_persist = 1
-let yankring_share_between_instances = 1
-nnoremap <leader>yr :YRShow<cr>
+" yoink (previously YankRing) {{{
+" let yankring_persist = 1
+" let yankring_share_between_instances = 1
+" nnoremap <leader>yr :YRShow<cr>
+
+nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+
+" Also replace the default gp with yoink paste so we can toggle paste in this
+" case too
+nmap gp <plug>(YoinkPaste_gp)
+nmap gP <plug>(YoinkPaste_gP)
+
+" vim subversive integration
+nmap [y <plug>(YoinkRotateBack)
+nmap ]y <plug>(YoinkRotateForward)
+
+nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
+
+nmap y <plug>(YoinkYankPreserveCursorPosition)
+xmap y <plug>(YoinkYankPreserveCursorPosition)
+
+let g:yoinkSavePersistently = 1
+
 " }}}
 
 " ack {{{
