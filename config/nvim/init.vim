@@ -30,7 +30,7 @@
 
   " Git
   Plug 'tpope/vim-fugitive'
-  " Plug 'tpope/vim-rhubarb' " GH Enterprise support
+  Plug 'tpope/vim-rhubarb' " GBrowse and GH enterprise
   " Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
   " Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
   " Plug 'lambdalisue/gina.vim'
@@ -898,7 +898,7 @@ let g:completion_chain_complete_list = [
 
 " git {{{
   map <leader>gb :Git blame<cr>
-  map <leader>gh :Gbrowse<cr>
+  map <leader>gh :GBrowse<cr>
   map <leader>ge :Gedit<cr>
   map <leader>gl :Glog<cr>
   map <leader>gw :Gwrite<cr>
