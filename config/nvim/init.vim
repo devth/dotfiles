@@ -29,7 +29,7 @@
   " Plug 'tpope/vim-eunuch'
 
   " Git
-  " Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-fugitive'
   " Plug 'tpope/vim-rhubarb' " GH Enterprise support
   " Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
   " Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
