@@ -32,7 +32,7 @@
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb' " GBrowse and GH enterprise
   Plug 'APZelos/blamer.nvim'
-  " Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
+  Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
   " Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
   " Plug 'lambdalisue/gina.vim'
   Plug 'tpope/vim-git'
@@ -845,21 +845,8 @@ let g:completion_chain_complete_list = [
 
 " File explorer {{{
 
-  " NERDTree
-  " map <leader>nt :NERDTreeFocus<cr>
-  " map <leader>ntf :NERDTreeFind<cr>
-  " map <leader>ntc :NERDTreeClose<cr>
-  " " Stay in sync with current working directory
-  " let NERDTreeChDirMode=2
-  " let NERDTreeQuitOnOpen=0
-  " let NERDTreeMapToggleHidden=1
-  " let NERDTreeCascadeSingleChildDir=0 " do not collapse
-  " let NERDTreeShowHidden=1
 
-  " NvimTree
-
-lua << EOF
-
+lua <<EOF
 -- following options are the default
 require'nvim-tree'.setup {
   -- disables netrw completely
@@ -883,7 +870,7 @@ require'nvim-tree'.setup {
   },
   -- hijack the cursor in the tree to put it at the start of the filename
   hijack_cursor       = false,
-  -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually) 
+  -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
   update_cwd          = false,
   -- show lsp diagnostics in the signcolumn
   lsp_diagnostics     = false,
@@ -907,8 +894,10 @@ require'nvim-tree'.setup {
   },
 
   view = {
-    -- width of the window, can be either a number (columns) or a string in `%`
+    -- width of the window, can be either a number (columns) or a string in `%`, for left or right side placement
     width = 30,
+    -- height of the window, can be either a number (columns) or a string in `%`, for top or bottom side placement
+    height = 30,
     -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
     side = 'left',
     -- if true the tree will resize itself after opening a file
@@ -922,8 +911,22 @@ require'nvim-tree'.setup {
     }
   }
 }
-
 EOF
+
+
+  " NERDTree
+  " map <leader>nt :NERDTreeFocus<cr>
+  " map <leader>ntf :NERDTreeFind<cr>
+  " map <leader>ntc :NERDTreeClose<cr>
+  " " Stay in sync with current working directory
+  " let NERDTreeChDirMode=2
+  " let NERDTreeQuitOnOpen=0
+  " let NERDTreeMapToggleHidden=1
+  " let NERDTreeCascadeSingleChildDir=0 " do not collapse
+  " let NERDTreeShowHidden=1
+
+  " NvimTree
+
 
   nnoremap <leader>tt :NvimTreeToggle<CR>
   nnoremap <leader>tr :NvimTreeRefresh<CR>
