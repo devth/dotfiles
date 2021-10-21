@@ -229,6 +229,7 @@
   set wildmode=list:longest
   set visualbell
   set shortmess=I " hide the startup message
+  set shortmess+=F " don't show file info when editing
   set ic " case insensitive search
   set gdefault
   set incsearch
@@ -854,13 +855,13 @@ require'nvim-tree'.setup {
   -- hijack netrw window on startup
   hijack_netrw        = true,
   -- open the tree when running this setup function
-  open_on_setup       = false,
+  open_on_setup       = true,
   -- will not open on setup if the filetype is in this list
   ignore_ft_on_setup  = {},
   -- closes neovim automatically when the tree is the last **WINDOW** in the view
   auto_close          = false,
   -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
-  open_on_tab         = false,
+  open_on_tab         = true,
   -- hijacks new directory buffers when they are opened.
   update_to_buf_dir   = {
     -- enable the feature
@@ -913,22 +914,7 @@ require'nvim-tree'.setup {
 }
 EOF
 
-
-  " NERDTree
-  " map <leader>nt :NERDTreeFocus<cr>
-  " map <leader>ntf :NERDTreeFind<cr>
-  " map <leader>ntc :NERDTreeClose<cr>
-  " " Stay in sync with current working directory
-  " let NERDTreeChDirMode=2
-  " let NERDTreeQuitOnOpen=0
-  " let NERDTreeMapToggleHidden=1
-  " let NERDTreeCascadeSingleChildDir=0 " do not collapse
-  " let NERDTreeShowHidden=1
-
-  " NvimTree
-
-
-  nnoremap <leader>tt :NvimTreeToggle<CR>
+  nnoremap <leader>nt :NvimTreeToggle<CR>
   nnoremap <leader>tr :NvimTreeRefresh<CR>
   nnoremap <leader>tf :NvimTreeFindFile<CR>
 
@@ -1088,6 +1074,8 @@ EOF
   nnoremap <leader>p <cmd>Telescope git_files<cr>
   nnoremap <leader>fg <cmd>Telescope live_grep<cr>
   nnoremap <leader>fb <cmd>Telescope buffers<cr>
+  nnoremap <leader>fd <cmd>Telescope lsp_definitions<cr>
+  nnoremap <leader>fa <cmd>Telescope lsp_code_actions<cr>
   nnoremap <leader>fh <cmd>Telescope help_tags<cr>
   nnoremap <leader>fl <cmd>Telescope git_files<cr>
   nnoremap <leader>tgb <cmd>Telescope git_branches<cr>
