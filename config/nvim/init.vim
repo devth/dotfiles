@@ -90,11 +90,11 @@
   " Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'} " clj completion
   " " needed for edn and the latest clojure syntax
   " Plug 'guns/vim-clojure-static', {'for': 'clojure'}
-  " Plug 'guns/vim-sexp', {'for': 'clojure'}
   " Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
   " " Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
-  " Plug 'liquidz/vim-iced', {'for': 'clojure'}
-  " Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure'}
+  Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
+  Plug 'guns/vim-sexp', {'for': 'clojure'} " NOTE: required for vim-iced
   " Plug 'liquidz/vim-iced-kaocha'
   " " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
   " " Note: Doesn't work with .cljc files yet:
@@ -376,6 +376,9 @@
   " tbone replacement using neoterm plugin
   nmap <leader>twl <s-v>:TREPLSendLine<cr>
   nmap gxx <s-v>:TREPLSendLine<cr>
+  vmap gx :TREPLSendSelection<cr>
+
+
   " vmap <leader>twl :TREPLSendLine<cr>
 
   " neoterm configuration
@@ -957,6 +960,7 @@ EOF
 
 " git {{{
   let g:blamer_enabled = 1
+  let g:blamer_date_format = '%y/%m/%d'
   map <leader>gb :Git blame<cr>
   map <leader>gh :GBrowse<cr>
   map <leader>ge :Gedit<cr>
