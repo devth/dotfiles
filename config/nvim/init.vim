@@ -133,6 +133,7 @@
   " CoC.nvim
   " Plug 'dense-analysis/ale' " Async Lint Engine
   " Plug 'vim-scripts/YankRing.vim' " (SLOW) Keep track of past yanked values
+  Plug 'svermeulen/vim-yoink'
   " Plug 'vim-scripts/tComment' " Comment stuff
   " Plug 'junegunn/goyo.vim' " Writing mode
   " Plug 'preservim/tagbar' " ctags!
@@ -1275,6 +1276,41 @@ EOF
   xmap ga <Plug>(EasyAlign)
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
+" }}}
+"
+
+" yoink {{{
+nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+
+" Also replace the default gp with yoink paste so we can toggle paste in this
+" case too
+nmap gp <plug>(YoinkPaste_gp)
+nmap gP <plug>(YoinkPaste_gP)
+
+" Now when you hit [y/]y the current yank will change and you will see a preview
+" of it in the status bar
+nmap [y <plug>(YoinkRotateBack)
+nmap ]y <plug>(YoinkRotateForward)
+
+" You might also want to add a map for toggling whether the current paste is
+" formatted or not:
+nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
+" Now, hitting <c-=> after a paste will toggle between formatted and unformatted
+" (equivalent to using the = key).
+
+" Finally, you can also optionally add the following map:
+nmap y <plug>(YoinkYankPreserveCursorPosition)
+xmap y <plug>(YoinkYankPreserveCursorPosition)
+
+" After adding this map, yank will function exactly the same as previously with
+" the one difference being that the cursor position will not change after
+" performing a yank. This can be more useful especially when yanking a large
+" text object such as a paragraph.
+
 " }}}
 
 " YankRing {{{
