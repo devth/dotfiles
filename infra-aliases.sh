@@ -107,6 +107,10 @@ ksecret() {
   kubectl get secret $1 -o json | jq -r '.data | map_values(@base64d)'
 }
 
+kcert() {
+  kubectl get secret $1 -o json | jq -r --arg KEY "$2" '.data[$KEY]' | base64 -D | openssl x509 -noout -text
+}
+
 # kroles() {
 #   # from https://stackoverflow.com/questions/55646821/how-to-find-which-role-or-clusterrole-binded-to-a-service-account-in-kubernetes
 #   kubectl get rolebindings,clusterrolebindings \
