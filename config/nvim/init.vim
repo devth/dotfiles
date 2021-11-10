@@ -918,6 +918,11 @@ require'nvim-tree'.setup {
 }
 EOF
 
+  " Can be `0` or `1`. When `1`, will close the tree when a file is opened.
+  " Applies to: `edit`, `vsplit`, `split`, `tabnew`.
+  " Default is 0
+  let g:nvim_tree_quit_on_open = 1
+
   nnoremap <leader>nt :NvimTreeToggle<CR>
   nnoremap <leader>tr :NvimTreeRefresh<CR>
   nnoremap <leader>tf :NvimTreeFindFile<CR>
