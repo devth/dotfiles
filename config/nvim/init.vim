@@ -80,6 +80,7 @@
   Plug 'delphinus/vim-firestore' " firestore highlighting
   " Plug 'pangloss/vim-javascript', {'for': 'javascript'}
   Plug 'hashivim/vim-terraform'
+  Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
 
   Plug 'mattn/emmet-vim' " expanding abbreviations (HTML mostly)
 
@@ -93,7 +94,7 @@
   " Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   " Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
   " " Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'main'}
   Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
   Plug 'guns/vim-sexp', {'for': 'clojure'} " NOTE: required for vim-iced
   " Plug 'liquidz/vim-iced-kaocha'
@@ -759,6 +760,7 @@ local formatFiletypes = {
     typescript = "prettier",
     typescriptreact = "prettier"
 }
+
 nvim_lsp.diagnosticls.setup {
     on_attach = on_attach,
     filetypes = vim.tbl_keys(filetypes),
@@ -1191,7 +1193,7 @@ EOF
     " vim-fireplace / clojure
     " autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
     " autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
-    " autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
+    autocmd FileType clojure nmap <buffer> ctt :IcedTestUnderCursor<cr>
     " autocmd FileType clojure nmap <buffer> ctm :Eval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
     " autocmd FileType clojure nmap <buffer> cpR :Require!<cr>
 

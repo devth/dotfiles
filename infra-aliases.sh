@@ -3,6 +3,14 @@
 
 # Setup kubectl and gcloud aliases {{{
 
+alias knonrunning="watch 'kubectl get pods --all-namespaces | grep -v Running'"
+alias knodecounts="k get node --no-headers | awk '{print \$2}' | sort | uniq -c"
+
+alias k="kubectl"
+alias kx="kubectx"
+alias kn="kubens"
+kt() { kubetail --namespace $KUBE_NAMESPACE }
+
 # Set default KUBE_NAMESPACE:
 # export KUBE_NAMESPACE="${KUBE_NAMESPACE:-staging}"
 #
@@ -139,4 +147,41 @@ kperms() {
 
 }
 
+kversions() {
+  alias copyver="k version -ojson | jq -r '.serverVersion.gitVersion' | pbcopy"
+  alias printver="k version -ojson | jq -r '.serverVersion.gitVersion'"
+
+  for k in $(kx | grep carta); do
+    kx $k
+    v=$(printver)
+    echo $v
+    echo
+  done
+}
+
+kimages() {
+  echo -n "Prod: "
+  kubectl get deployment -nprod $1 -o jsonpath='{.spec.template.spec.containers[0].image}'
+  echo
+  echo -n "Dev: "
+  kubectl get deployment -ndev $1 -o jsonpath='{.spec.template.spec.containers[0].image}'
+  echo
+  echo -n "Test: "
+  kubectl get deployment -ntest $1 -o jsonpath='{.spec.template.spec.containers[0].image}'
+  echo
+}
+
+# secret manager pod
+alias smpod="k get po -l app.kubernetes.io/name=secret-manager -oname"
+
+clusterdnsperf() {
+  # kc exec -it $(kc get pods -l app=cluster-utils -o jsonpath="{.items[*].metadata.name}") sh
+  kubectl run --namespace $KUBE_NAMESPACE -i --tty --rm dnsperf --image mrlesmithjr/dnsperf --command sh
+}
+
+alias nodeports="kc get svc -o json | jq -r '.items[] | \
+  .np = .spec.ports[0].nodePort | select(.np != null) | \
+  .metadata.name + \": \" + (.np | tostring)'"
+
 # }}}
+
