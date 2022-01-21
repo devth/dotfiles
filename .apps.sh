@@ -142,6 +142,14 @@ brew services start postgresql
   brew tap johanhaleby/kubetail
   brew install kubetail
 
+  # brew tap neovim/neovim
+  # brew untap neovim/neovim
+  # brew install neovim
+  # need this commit so until it's released, install neovim from master
+  # https://github.com/neovim/neovim/pull/5758/commits/af2e629be4d20dda334a7c6ca817f5599956e4ff
+  brew install neovim --HEAD || brew reinstall neovim
+  pip3 install neovim --upgrade
+  pip2 install neovim --upgrade
 
   brew tap thoughtbot/formulae
   brew install rcm

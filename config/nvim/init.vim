@@ -42,6 +42,7 @@
   Plug 'jose-elias-alvarez/null-ls.nvim', { 'branch': 'main' }
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils', { 'branch': 'main' }
   Plug 'folke/trouble.nvim', { 'branch': 'main' }
+  Plug 'RRethy/vim-illuminate' " highlight words under cursor
 
   " Snippets
   Plug 'hrsh7th/vim-vsnip' " snippet engine
@@ -94,7 +95,7 @@
   " Plug 'guns/vim-clojure-static', {'for': 'clojure'}
   " Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
   " " Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'main'}
+  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'main' }
   Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
   Plug 'guns/vim-sexp', {'for': 'clojure'} " NOTE: required for vim-iced
   " Plug 'liquidz/vim-iced-kaocha'
@@ -441,7 +442,6 @@
 
 " Lualine {{{
 
-
 lua << EOF
 require'lualine'.setup{
   options = { theme  = 'solarized_light' },
@@ -498,7 +498,8 @@ EOF
   set termguicolors " https://github.com/overcache/NeoSolarized
   set colorcolumn=80
   set guioptions=egmt
-  set bg=dark
+  " default background color - can be toggled
+  set bg=light
 
   let g:airline_powerline_fonts = 1
   " Only load the Airline extensions we want
@@ -590,11 +591,11 @@ set foldexpr=nvim_treesitter#foldexpr()
 " Trouble {{{
 
 lua << EOF
-require("trouble").setup {
+-- require("trouble").setup {
   -- your configuration comes here
   -- or leave it empty to use the default settings
   -- refer to the configuration section below
-}
+-- }
 EOF
 
 nnoremap <leader>xx <cmd>TroubleToggle<cr>
@@ -608,128 +609,67 @@ nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 " LSP {{{
 
 lua << EOF
-local nvim_lsp = require('lspconfig')
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-
--- local on_attach = function(client, bufnr)
---   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
---   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
--- 
---   -- Enable completion triggered by <c-x><c-o>
---   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
--- 
---   -- Mappings.
---   local opts = { noremap=true, silent=true }
--- 
---   -- See `:help vim.lsp.*` for documentation on any of the below functions
---   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
---   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
---   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
---   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
---   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
---   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
---   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
---   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
---   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
---   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
---   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
---   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
---   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
---   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
---   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
---   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
---   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
--- 
--- end
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
--- local servers = { 'tsserver' }
--- for _, lsp in ipairs(servers) do
---   nvim_lsp[lsp].setup {
---     on_attach = on_attach,
---     flags = {
---       debounce_text_changes = 150,
---     }
---   }
--- end
 
 
--- https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
+-- from https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
+-- updated 1/15/2022
 
-local nvim_lsp = require("lspconfig")
-local format_async = function(err, _, result, _, bufnr)
-    if err ~= nil or result == nil then return end
-    if not vim.api.nvim_buf_get_option(bufnr, "modified") then
-        local view = vim.fn.winsaveview()
-        vim.lsp.util.apply_text_edits(result, bufnr)
-        vim.fn.winrestview(view)
-        if bufnr == vim.api.nvim_get_current_buf() then
-            vim.api.nvim_command("noautocmd :update")
-        end
-    end
-end
-vim.lsp.handlers["textDocument/formatting"] = format_async
-_G.lsp_organize_imports = function()
-    local params = {
-        command = "_typescript.organizeImports",
-        arguments = {vim.api.nvim_buf_get_name(0)},
-        title = ""
-    }
-    vim.lsp.buf.execute_command(params)
+local lspconfig = require("lspconfig")
+local null_ls = require("null-ls")
+local buf_map = function(bufnr, mode, lhs, rhs, opts)
+    vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
+        silent = true,
+    })
 end
 local on_attach = function(client, bufnr)
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-    require'completion'.on_attach(client, bufnr)
-
-    -- Enable completion triggered by <c-x><c-o>
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    local buf_map = vim.api.nvim_buf_set_keymap
     vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
     vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
     vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
     vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
     vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
-    vim.cmd("command! LspOrganize lua lsp_organize_imports()")
     vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
     vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
     vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
-    vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
-    vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
-    vim.cmd(
-        "command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
+    vim.cmd("command! LspDiagPrev lua vim.diagnostic.goto_prev()")
+    vim.cmd("command! LspDiagNext lua vim.diagnostic.goto_next()")
+    vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
     vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
-buf_map(bufnr, "n", "gd", ":LspDef<CR>", {silent = true})
-    buf_map(bufnr, "n", "gr", ":LspRename<CR>", {silent = true})
-    buf_map(bufnr, "n", "gR", ":LspRefs<CR>", {silent = true})
-    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>", {silent = true})
-    buf_map(bufnr, "n", "K", ":LspHover<CR>", {silent = true})
-    buf_map(bufnr, "n", "gs", ":LspOrganize<CR>", {silent = true})
-    buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>", {silent = true})
-    buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>", {silent = true})
-    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>", {silent = true})
-    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>", {silent = true})
-    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>",
-              {silent = true})
-if client.resolved_capabilities.document_formatting then
-        vim.api.nvim_exec([[
-         augroup LspAutocommands
-             autocmd! * <buffer>
-             autocmd BufWritePost <buffer> LspFormatting
-         augroup END
-         ]], true)
+    buf_map(bufnr, "n", "gd", ":LspDef<CR>")
+    buf_map(bufnr, "n", "gr", ":LspRename<CR>")
+    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
+    buf_map(bufnr, "n", "K", ":LspHover<CR>")
+    buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
+    buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
+    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
+    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
+    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
+    if client.resolved_capabilities.document_formatting then
+        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)")
     end
 end
-
-
-nvim_lsp.tsserver.setup {
-    on_attach = function(client)
+lspconfig.tsserver.setup({
+    on_attach = function(client, bufnr)
         client.resolved_capabilities.document_formatting = false
-        on_attach(client)
-    end
-}
+        client.resolved_capabilities.document_range_formatting = false
+        local ts_utils = require("nvim-lsp-ts-utils")
+        ts_utils.setup({})
+        ts_utils.setup_client(client)
+        buf_map(bufnr, "n", "gs", ":TSLspOrganize<CR>")
+        buf_map(bufnr, "n", "gi", ":TSLspRenameFile<CR>")
+        buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
+        on_attach(client, bufnr)
+    end,
+})
+null_ls.setup({
+    sources = {
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.code_actions.eslint,
+        null_ls.builtins.formatting.prettier,
+    },
+    on_attach = on_attach,
+})
+--
+
 local filetypes = {
     typescript = "eslint",
     typescriptreact = "eslint",
@@ -761,17 +701,16 @@ local formatFiletypes = {
     typescriptreact = "prettier"
 }
 
-nvim_lsp.diagnosticls.setup {
-    on_attach = on_attach,
-    filetypes = vim.tbl_keys(filetypes),
-    init_options = {
-        filetypes = filetypes,
-        linters = linters,
-        formatters = formatters,
-        formatFiletypes = formatFiletypes
-    }
-}
-
+-- nvim_lsp.diagnosticls.setup {
+--    on_attach = on_attach,
+--    filetypes = vim.tbl_keys(filetypes),
+--    init_options = {
+--        filetypes = filetypes,
+--        linters = linters,
+--        formatters = formatters,
+--        formatFiletypes = formatFiletypes
+--    }
+--}
 
 EOF
 
@@ -881,7 +820,9 @@ require'nvim-tree'.setup {
   -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
   update_cwd          = false,
   -- show lsp diagnostics in the signcolumn
-  lsp_diagnostics     = false,
+  diagnostics = {
+    enable = false,
+  },
   -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
   update_focused_file = {
     -- enables the feature
@@ -1089,6 +1030,7 @@ EOF
   nnoremap <leader>fb <cmd>Telescope buffers<cr>
   nnoremap <leader>fd <cmd>Telescope lsp_definitions<cr>
   nnoremap <leader>fa <cmd>Telescope lsp_code_actions<cr>
+  nnoremap <leader>fs <cmd>Telescope lsp_document_symbols<cr>
   nnoremap <leader>fh <cmd>Telescope help_tags<cr>
   nnoremap <leader>fl <cmd>Telescope git_files<cr>
   nnoremap <leader>tgb <cmd>Telescope git_branches<cr>
