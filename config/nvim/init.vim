@@ -31,7 +31,8 @@
   " Git
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb' " GBrowse and GH enterprise
-  Plug 'APZelos/blamer.nvim'
+  " this is buggy and causes lots of errors - TODO find alternative:
+  " Plug 'APZelos/blamer.nvim'
   Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
   " Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
   " Plug 'lambdalisue/gina.vim'
@@ -165,7 +166,7 @@
   " Plug 'Vigemus/nvimux' " Tmux-like key bindings for NeoVim
 
   " Status line
-  Plug 'hoob3rt/lualine.nvim'
+  Plug 'nvim-lualine/lualine.nvim'
   "
   " Powerline alternatives
   " Plug 'vim-airline/vim-airline'
@@ -445,6 +446,8 @@
 lua << EOF
 require'lualine'.setup{
   options = { theme  = 'solarized_light' },
+  extensions = {'quickfix', 'nvim-tree'},
+  sections = { lualine_c = {'nvim_treesitter#statusline(90)'} }
 }
 EOF
 
@@ -581,6 +584,17 @@ require'nvim-treesitter.configs'.setup {
     enable = true
   },
 }
+
+local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
+parser_config.gotmpl = {
+  install_info = {
+    url = "https://github.com/ngalaiko/tree-sitter-go-template",
+    files = {"src/parser.c"}
+  },
+  filetype = "gotmpl",
+  used_by = {"gohtmltmpl", "gotexttmpl", "gotmpl", "yaml"}
+}
+
 EOF
 
 set foldmethod=expr
@@ -790,7 +804,7 @@ let g:completion_chain_complete_list = [
 
 " }}}
 
-" File explorer {{{
+" File explorer (nvim-tree) {{{
 
 
 lua <<EOF
@@ -823,6 +837,10 @@ require'nvim-tree'.setup {
   diagnostics = {
     enable = false,
   },
+  git = {
+    enable = true,
+    ignore = false,
+  },
   -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
   update_focused_file = {
     -- enables the feature
@@ -850,7 +868,7 @@ require'nvim-tree'.setup {
     -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
     side = 'left',
     -- if true the tree will resize itself after opening a file
-    auto_resize = false,
+    auto_resize = true,
     mappings = {
       -- custom only false will merge the list with the default mappings
       -- if true, it will only use your list to set the mappings
@@ -865,7 +883,7 @@ EOF
   " Can be `0` or `1`. When `1`, will close the tree when a file is opened.
   " Applies to: `edit`, `vsplit`, `split`, `tabnew`.
   " Default is 0
-  let g:nvim_tree_quit_on_open = 1
+  let g:nvim_tree_quit_on_open = 0
 
   nnoremap <leader>nt :NvimTreeToggle<CR>
   nnoremap <leader>tr :NvimTreeRefresh<CR>
@@ -909,8 +927,9 @@ EOF
 " }}}
 
 " git {{{
-  let g:blamer_enabled = 1
-  let g:blamer_date_format = '%y/%m/%d'
+
+  " let g:blamer_enabled = 1
+  " let g:blamer_date_format = '%y/%m/%d'
   map <leader>gb :Git blame<cr>
   map <leader>gh :GBrowse<cr>
   map <leader>ge :Gedit<cr>
