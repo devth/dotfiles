@@ -50,7 +50,7 @@
 
   " Completion
   Plug 'nvim-lua/completion-nvim'
-  Plug 'github/copilot.vim'
+  Plug 'github/copilot.vim', { 'branch': 'main' }
   " Plug 'hrsh7th/nvim-cmp', { 'branch': 'main' } " nvim-cmp
   " Plug 'hrsh7th/cmp-buffer', { 'branch': 'main' } " Install the buffer completion source
 
@@ -65,7 +65,9 @@
 
   " Colors - some plugins rely on this
   " Plug 'devth/vim-colors-solarized' " Note: devth-fork
-  Plug 'overcache/NeoSolarized'
+  " Plug 'overcache/NeoSolarized'
+  Plug 'ishan9299/nvim-solarized-lua'
+
 
   " Use TreeSitter for language highlighting instead
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -496,7 +498,7 @@ EOF
         \ syn cluster vimCommentGroup contains=fmrkr
 
   " colorscheme solarized
-  colorscheme NeoSolarized
+  colorscheme solarized
 
   set termguicolors " https://github.com/overcache/NeoSolarized
   set colorcolumn=80
@@ -661,7 +663,11 @@ local on_attach = function(client, bufnr)
         vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)")
     end
 end
+
 lspconfig.tsserver.setup({
+    flags = {
+      debounce_text_changes = 500,
+    },
     on_attach = function(client, bufnr)
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
@@ -693,7 +699,7 @@ local linters = {
         sourceName = "eslint",
         command = "eslint_d",
         rootPatterns = {".eslintrc.js", "package.json"},
-        debounce = 100,
+        debounce = 500,
         args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
         parseJson = {
             errorsRoot = "[0].messages",
