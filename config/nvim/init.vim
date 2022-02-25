@@ -50,7 +50,7 @@
 
   " Completion
   Plug 'nvim-lua/completion-nvim'
-  Plug 'github/copilot.vim', { 'branch': 'main' }
+  Plug 'github/copilot.vim', { 'branch': 'release' }
   " Plug 'hrsh7th/nvim-cmp', { 'branch': 'main' } " nvim-cmp
   " Plug 'hrsh7th/cmp-buffer', { 'branch': 'main' } " Install the buffer completion source
 
