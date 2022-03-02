@@ -114,9 +114,7 @@ brew services start postgresql
 # Clojure {{{
   # Drip requires java 8 :(
   brew cask install homebrew/cask-versions/java8
-  brew install drip
   brew install leiningen
-  brew install boot-clj
   # brew install datomic
   brew install borkdude/brew/clj-kondo
 # }}}
@@ -158,69 +156,54 @@ brew services start postgresql
   brew tap caskroom/fonts
   brew cask install font-hack-nerd-font
 
-  brew tap unisonweb/unison
-  brew install unison-language
+  # brew tap unisonweb/unison
+  # brew install unison-language
 
 # }}}
 
 # Brew Cask {{{
 
-  brew tap caskroom/cask
-  brew tap caskroom/versions
+  # brew tap caskroom/cask
+  # brew tap caskroom/versions
 
   # brew cask install zooom # WTF why is this dead
   # we'll obtain it from dropbox instead
 
-  brew cask install java
+  # brew cask install java
+  # brew cask install vimr
+  # brew cask install backblaze
 
-  brew cask install vimr
-
-  brew cask install backblaze
-
-  brew cask install selfcontrol
+  brew install selfcontrol
 
   # brew install docker
   # brew install docker-machine
-  brew cask install docker
-
-  brew cask install google-chrome
-
-  brew tap caskroom/versions
-  brew cask install google-chrome-canary
-
-  brew cask install iterm2
+  brew install docker
+  brew install iterm2
 
   # brew cask install divvy
-  brew cask install spectacle
-
-  brew cask install spotify
-
-  brew cask install alfred
-
-  brew cask install slack
-
-  brew cask install istat-menus
+  # brew cask install spectacle
+  # brew cask install spotify
+  # brew cask install alfred
+  # brew cask install slack
+  # brew cask install istat-menus
 
   # get license from gmail
-  brew cask install airfoil
+  # brew cask install airfoil
 
-  brew cask install dash
+  brew install dash --cask
   open ~/Dropbox/Licenses/license-dash4.dash-license
 
-  brew cask install virtualbox
-  brew cask install vagrant
+  # brew cask install virtualbox
+  # brew cask install vagrant
 
-  brew cask install gitter
+  # brew cask install gitter
 
-  brew cask install gpg-suite
-
-  brew cask install keybase
+  # brew cask install gpg-suite
 
   # rest client
-  brew cask install insomnia
 
   # kubernetes IDE
-  brew cask install lens
+  brew install lens --cask
 
   # alacritty dependencies
   # NOTE: no longer using alacritty. using kitty instead
@@ -231,10 +214,8 @@ brew services start postgresql
   # brew tap mscharley/homebrew
   # # brew install alacritty
 
-  brew cask install macvim
-
   # Powerline fonts!
-  brew cask install \
+  brew install --cask \
     font-fira-code \
     font-droid-sans-mono-for-powerline \
     font-meslo-lg font-input \
@@ -249,28 +230,17 @@ brew services start postgresql
     font-source-sans-pro \
 
   # quicklook
-  brew cask install \
-    qlcolorcode qlmarkdown qlprettypatch qlstephen \
-    qlimagesize \
-    quicklook-csv quicklook-json epubquicklook
-
-  brew cask install sharemouse
-
-  # toggl time tracking
-  brew cask install toggl-beta
+  brew install qlcolorcode qlstephen qlmarkdown quicklook-json qlimagesize suspicious-package apparency quicklookase qlvideo
+  xattr -d -r com.apple.quarantine ~/Library/QuickLook
 
   # choosy allows configuring which browser to open a URL in
-  brew cask install choosy
+  brew install choosy --cask
 
   # kitty gpu accelerated terminal
-  brew cask install kitty
+  brew install kitty --cask
 
   # keep mac awake
-  brew cask install caffeine
-
-  brew cask install graphql-playground
-
-  brew cask install keybase
+  brew install caffeine --cask
 
 # }}}
 
@@ -301,17 +271,12 @@ brew services start postgresql
   brew install kubernetes-helm
   brew install terraform
   brew install ngrep
-
-  brew tap drone/drone
-  brew install drone # --HEAD
-
   brew install awscli
 
 # }}}
 
 # Low priority {{{
 
-brew install gource
 
 # }}}
 
