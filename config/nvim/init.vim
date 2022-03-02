@@ -947,7 +947,7 @@ EOF
   map <leader>gP :Git push<cr>
   map <leader>gp :Git pull --rebase<cr>
   map <leader>gc :Git commit<cr>
-  map <leader>ga :Dispatch! git add %<cr>
+  map <leader>ga :Git add %<cr>
 " }}}
 
 " Dispatch {{{
