@@ -180,6 +180,7 @@ brew services start postgresql
   brew install docker
   brew install iterm2
 
+  brew install --cask rectangle
   # brew cask install divvy
   # brew cask install spectacle
   # brew cask install spotify
@@ -188,7 +189,7 @@ brew services start postgresql
   # brew cask install istat-menus
 
   # get license from gmail
-  # brew cask install airfoil
+  brew --cask install airfoil
 
   brew install dash --cask
   open ~/Dropbox/Licenses/license-dash4.dash-license
@@ -214,10 +215,11 @@ brew services start postgresql
   # brew tap mscharley/homebrew
   # # brew install alacritty
 
+  brew tap homebrew/cask-fonts
   # Powerline fonts!
   brew install --cask \
     font-fira-code \
-    font-droid-sans-mono-for-powerline \
+    font-fira-code-nerd-font \
     font-meslo-lg font-input \
     font-menlo-for-powerline \
     font-inconsolata font-inconsolata-for-powerline \
@@ -227,7 +229,7 @@ brew services start postgresql
     font-pt-mono \
     font-raleway font-roboto \
     font-source-code-pro font-source-code-pro-for-powerline \
-    font-source-sans-pro \
+    font-source-sans-pro
 
   # quicklook
   brew install qlcolorcode qlstephen qlmarkdown quicklook-json qlimagesize suspicious-package apparency quicklookase qlvideo
@@ -235,6 +237,8 @@ brew services start postgresql
 
   # choosy allows configuring which browser to open a URL in
   brew install choosy --cask
+
+  brew --cask install discord
 
   # kitty gpu accelerated terminal
   brew install kitty --cask
@@ -244,7 +248,10 @@ brew services start postgresql
 
 # }}}
 
-# gcloud / kubectl {{{
+# gcloud and kubernetes tools {{{
+
+  brew install kubectx
+  brew install kubens
 
   # brew cask install google-cloud-sdk
   # brew cask uninstall google-cloud-sdk
