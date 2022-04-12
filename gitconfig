@@ -1,8 +1,25 @@
-[merge]
-  tool = opendiff
 [core]
   excludesfile = ~/.gitignore_global
   editor = nvim
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only --features=interactive
+[delta]
+  features = decorations
+  navigate = true
+  syntax-theme = Solarized (light)
+[delta "interactive"]
+  keep-plus-minus-markers = false
+[delta "decorations"]
+  commit-decoration-style = blue ol
+  commit-style = raw
+  file-style = omit
+  hunk-header-decoration-style = blue box
+  hunk-header-file-style = red
+  hunk-header-line-number-style = "#067a00"
+  hunk-header-style = file line-number syntax
+[merge]
+  tool = opendiff
 [alias]
   st = status -sb
   ci = commit
@@ -83,13 +100,14 @@
 [difftool]
   prompt = false
 [push]
-	default = current
+  default = current
   followTags = true
 [grep]
   lineNumber = true
 [github]
   user = devth
 [ghi]
-	token = !security find-internet-password -a devth -s github.com -l 'ghi token' -w
+  token = !security find-internet-password -a devth -s github.com -l 'ghi token' -w
 [remote "origin"]
-	fetch = +refs/pull/*:refs/remotes/origin/pull/*
+  # enable this if you want to be able to check out pull requests too
+  # fetch = +refs/pull/*:refs/remotes/origin/pull/*

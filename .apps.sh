@@ -50,6 +50,10 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   # minio - S3-compatible interface client
   # https://github.com/minio/mc
   brew install minio-mc
+
+  # git diff
+  brew install git-delta
+  brew install less
 # }}}
 
 # Languages {{{
@@ -74,6 +78,10 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew install python
   # brew install python3
   brew install golang
+# }}}
+
+# TypeScript {{{
+  yarn global add typescript-language-server
 # }}}
 
 # Database {{{
@@ -181,15 +189,13 @@ brew services start postgresql
   brew install iterm2
 
   brew install --cask rectangle
-  # brew cask install divvy
-  # brew cask install spectacle
-  # brew cask install spotify
-  # brew cask install alfred
+  brew install --cask spotify
+  brew install --cask alfred
   # brew cask install slack
-  # brew cask install istat-menus
+  brew install --cask istat-menus
 
   # get license from gmail
-  brew --cask install airfoil
+  brew install --cask airfoil
 
   brew install dash --cask
   open ~/Dropbox/Licenses/license-dash4.dash-license
@@ -238,7 +244,7 @@ brew services start postgresql
   # choosy allows configuring which browser to open a URL in
   brew install choosy --cask
 
-  brew --cask install discord
+  brew install --cask discord
 
   # kitty gpu accelerated terminal
   brew install kitty --cask

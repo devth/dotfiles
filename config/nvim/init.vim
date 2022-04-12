@@ -45,6 +45,15 @@
   Plug 'folke/trouble.nvim', { 'branch': 'main' }
   Plug 'RRethy/vim-illuminate' " highlight words under cursor
 
+  " Debug Adapter Protocol
+  Plug 'mfussenegger/nvim-dap'
+  Plug 'nvim-telescope/telescope-dap.nvim'
+  Plug 'theHamsta/nvim-dap-virtual-text'
+
+  " Jest tests
+  Plug 'David-Kunz/jester'
+  Plug 'vim-test/vim-test'
+
   " Snippets
   Plug 'hrsh7th/vim-vsnip' " snippet engine
 
@@ -446,11 +455,35 @@
 " Lualine {{{
 
 lua << EOF
-require'lualine'.setup{
-  options = { theme  = 'solarized_light' },
-  extensions = {'quickfix', 'nvim-tree'},
-  sections = { lualine_c = {'nvim_treesitter#statusline(90)'} }
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'solarized_light',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+  },
+  sections = {
+    lualine_a = {'filename'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'mode', 'nvim_treesitter#statusline(90)'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {'quickfix', 'nvim-tree'}
 }
+
 EOF
 
 " }}}
@@ -622,6 +655,109 @@ nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 " }}}
 
+" DAP {{{
+
+lua << EOF
+
+-- https://github.com/David-Kunz/vim/blob/master/init.lua
+local function map(mode, lhs, rhs, opts)
+  local options = {noremap = true}
+  if opts then options = vim.tbl_extend('force', options, opts) end
+  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+-- dap node
+local dap = require('dap')
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {os.getenv('HOME') .. '/oss/vscode-node-debug2/out/src/nodeDebug.js'},
+}
+dap.configurations.javascript = {
+  {
+    name = 'Launch',
+    type = 'node2',
+    request = 'launch',
+    program = '${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+  {
+    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+    name = 'Attach to process',
+    type = 'node2',
+    request = 'attach',
+    processId = require'dap.utils'.pick_process,
+  },
+}
+
+dap.defaults.fallback.terminal_win_cmd = '80vsplit new'
+vim.fn.sign_define('DapBreakpoint', {text='🟥', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointRejected', {text='🟦', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='⭐️', texthl='', linehl='', numhl=''})
+
+-- _G.shutDownDapSession = function()
+--   local dap = require'dap'
+--   dap.terminate()
+--   dap.disconnect( { terminateDebuggee = true })
+--   dap.close()
+-- end
+
+map('n', '<leader>dh', ':lua require"dap".toggle_breakpoint()<CR>')
+map('n', '<leader>dH', ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+map('n', '<leader>k', ':lua require"dap".step_out()<CR>')
+map('n', "<leader>l", ':lua require"dap".step_into()<CR>')
+map('n', '<leader>j', ':lua require"dap".step_over()<CR>')
+map('n', '<leader>h', ':lua require"dap".continue()<CR>')
+map('n', '<leader>dn', ':lua require"dap".run_to_cursor()<CR>')
+map('n', '<leader>dk', ':lua require"dap".up()<CR>zz')
+map('n', '<leader>dj', ':lua require"dap".down()<CR>zz')
+-- map('n', '<leader>dc', ':lua require"dap".terminate()<CR>')
+map('n', '<leader>dr', ':lua require"dap".repl.toggle({}, "vsplit")<CR><C-w>l')
+map('n', '<leader>dR', ':lua require"dap".clear_breakpoints()<CR>')
+map('n', '<leader>de', ':lua require"dap".set_exception_breakpoints({"all"})<CR>')
+map('n', '<leader>da', ':lua require"debugHelper".attach()<CR>')
+map('n', '<leader>dA', ':lua require"debugHelper".attachToRemote()<CR>')
+map('n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>')
+map('n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>')
+
+-- nvim-telescope/telescope-dap.nvim
+require('telescope').load_extension('dap')
+map('n', '<leader>ds', ':Telescope dap frames<CR>')
+map('n', '<leader>dc', ':Telescope dap commands<CR>')
+map('n', '<leader>dv', ':Telescope dap variables<CR>')
+map('n', '<leader>db', ':Telescope dap list_breakpoints<CR>')
+
+-- nvim-telescope/telescope-file-browser.nvim
+-- require('telescope').load_extension('file_browser')
+-- theHamsta/nvim-dap-virtual-text and mfussenegger/nvim-dap
+require('nvim-dap-virtual-text').setup()
+-- g.dap_virtual_text = true
+
+
+-- David-Kunz/jester
+map('n', '<leader>tt', ':lua require"jester".run({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+map('n', '<leader>t_', ':lua require"jester".run_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+map('n', '<leader>tf', ':lua require"jester".run_file({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- map('n', '<leader>dd', ':lua require"jester".debug({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+map('n', '<leader>d_', ':lua require"jester".debug_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- map('n', '<leader>df', ':lua require"jester".debug_file({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+map('n', '<leader>dq', ':lua require"jester".terminate()<cr>')
+
+EOF
+
+" }}}
+
+" vim-test {{{
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+" }}}
+
 " LSP {{{
 
 lua << EOF
@@ -652,6 +788,7 @@ local on_attach = function(client, bufnr)
     vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
     buf_map(bufnr, "n", "gd", ":LspDef<CR>")
     buf_map(bufnr, "n", "gr", ":LspRename<CR>")
+    buf_map(bufnr, "n", "gl", ":LspRefs<CR>")
     buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
     buf_map(bufnr, "n", "K", ":LspHover<CR>")
     buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
@@ -951,18 +1088,9 @@ EOF
 " }}}
 
 " Dispatch {{{
-  map <leader>dr :Dispatch<space>
-  map <leader>dl :execute 'Dispatch ' . getline('.')<cr>
+  " map <leader>dr :Dispatch<space>
+  " map <leader>dl :execute 'Dispatch ' . getline('.')<cr>
   " cmap <C-R><C-L> <C-R>=getline('.')<CR>
-
-" }}}
-
-" dein mappings & config {{{
-  nnoremap <leader>du :call dein#update()<cr>
-  nnoremap <leader>di :call dein#install()<cr>
-
-  " Try this out temporarily
-  let g:dein#enable_notification = 1
 
 " }}}
 
