@@ -43,7 +43,15 @@
   Plug 'jose-elias-alvarez/null-ls.nvim', { 'branch': 'main' }
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils', { 'branch': 'main' }
   Plug 'folke/trouble.nvim', { 'branch': 'main' }
-  Plug 'RRethy/vim-illuminate' " highlight words under cursor
+
+  " Completion
+  Plug 'github/copilot.vim', { 'branch': 'release' }
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-vsnip'
 
   " Debug Adapter Protocol
   Plug 'mfussenegger/nvim-dap'
@@ -54,16 +62,8 @@
   Plug 'David-Kunz/jester'
   Plug 'vim-test/vim-test'
 
-  " Snippets
-  Plug 'hrsh7th/vim-vsnip' " snippet engine
-
-  " Completion
-  Plug 'nvim-lua/completion-nvim'
-  Plug 'github/copilot.vim', { 'branch': 'release' }
-  " Plug 'hrsh7th/nvim-cmp', { 'branch': 'main' } " nvim-cmp
-  " Plug 'hrsh7th/cmp-buffer', { 'branch': 'main' } " Install the buffer completion source
-
   " Generally usefull stuff
+  Plug 'RRethy/vim-illuminate' " highlight words under cursor
   Plug 'tpope/vim-repeat'
   " Plug 'tpope/vim-rhubarb' " TODO find replacement or re-enable
   Plug 'tpope/vim-speeddating' " increment stuff
@@ -878,71 +878,88 @@ EOF
 " Completion {{{
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" Avoid showing message extra message when using completion
-set shortmess+=c
+" " Set completeopt to have a better completion experience
+" set completeopt=menuone,noinsert,noselect
+
+" " Avoid showing message extra message when using completion
+" set shortmess+=c
+
+set completeopt=menu,menuone,noselect
 
 lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
 
-vim.g.completion_enable_snippet = 'vim-vsnip'
-vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
-vim.g.completion_matching_ignore_case = 1
-vim.g.completion_auto_change_source = 1
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
 
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
 
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-        return t "<C-n>"
-    elseif vim.fn.call("vsnip#available", {1}) == 1 then
-        return t "<Plug>(vsnip-expand-or-jump)"
-    else
-        return t "<Tab>"
-    end
-end
-_G.s_tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-        return t "<C-p>"
-    elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-        return t "<Plug>(vsnip-jump-prev)"
-    else
-        return t "<S-Tab>"
-    end
-end
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
 
--- Chain completion list
-vim.g.completion_chain_complete_list = {
-  default = {
-    default = {{complete_items = {'lsp', 'snippet', 'buffers'}}, {mode = '<c-p>'}, {mode = '<c-n>'}},
-    comment = {},
-    string = {{complete_items = {'path'}}}
+  -- Setup lspconfig.
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+  require('lspconfig')['tsserver'].setup {
+    capabilities = capabilities
   }
-}
-
--- use .ts snippets in .tsx files
-vim.g.vsnip_filetypes = {
-    typescriptreact = {"typescript"}
-}
 EOF
-
-
-let g:completion_chain_complete_list = [
-    \{'complete_items': ['lsp', 'snippet']},
-    \{'mode': '<c-p>'},
-    \{'mode': '<c-n>'}
-\]
 
 
 " }}}
