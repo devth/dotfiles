@@ -141,8 +141,7 @@
 
   Plug 'svermeulen/vim-subversive' " Replace stuff
   Plug 'tpope/vim-commentary' " commenting
-  Plug 'JoosepAlviste/nvim-ts-context-commentstring' " tsx support
-
+  Plug 'JoosepAlviste/nvim-ts-context-commentstring' " embedded language comment support
 
 
   " TODO possibly re-enable this but figure out how to make it not conflict with
@@ -811,9 +810,9 @@ local on_attach = function(client, bufnr)
     buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
     buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
     buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
-    -- if client.resolved_capabilities.document_formatting then
-    --     vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)")
-    -- end
+    if client.resolved_capabilities.document_formatting then
+        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)")
+    end
 end
 
 -- Setup lspconfig.
