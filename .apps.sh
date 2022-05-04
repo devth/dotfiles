@@ -27,7 +27,8 @@ echo "NOTE: Install Dropbox and let it sync before running this"
 # }}}
 
 # neovim {{{
-  brew install neovim --HEAD || brew reinstall neovim --HEAD
+  # brew install neovim --HEAD || brew reinstall neovim --HEAD
+  brew install neovim
   pip3 install neovim --upgrade
   pip2 install neovim --upgrade
 # }}}
