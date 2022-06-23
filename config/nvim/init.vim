@@ -225,7 +225,7 @@
   set undolevels=1000
   set nocursorline nocursorcolumn " vim is slow with these on :/
 
-  imap kj <Esc>
+  imap jj <Esc>
 
   " don't auto resize window on splitting
   " set noequalalways
