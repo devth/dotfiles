@@ -72,6 +72,7 @@
   " Plug 'tpope/vim-tbone'
   Plug 'tpope/vim-unimpaired' " bracket mappings
   " Plug 'tpope/vim-obsession'
+  Plug 'norcalli/nvim-colorizer.lua'
 
   " Colors - some plugins rely on this
   " Plug 'devth/vim-colors-solarized' " Note: devth-fork
@@ -81,6 +82,8 @@
 
   " Use TreeSitter for language highlighting instead
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter-context'
+
 
   " General Syntax - these shouldn't slow things down
   " Plug 'tpope/vim-markdown', {'for': 'markdown'}
@@ -226,6 +229,7 @@
   set undolevels=1000
   set nocursorline nocursorcolumn " vim is slow with these on :/
 
+  set termguicolors
   imap jj <Esc>
 
   " don't auto resize window on splitting
@@ -502,8 +506,10 @@ EOF
 
 " }}}
 
-
 " Aesthetics {{{
+
+  " https://github.com/norcalli/nvim-colorizer.lua
+  lua require'colorizer'.setup()
 
   let g:neosolarized_vertSplitBgTrans = 1
 
