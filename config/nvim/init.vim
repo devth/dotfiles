@@ -629,6 +629,11 @@ EOF
   nmap s <plug>(SubversiveSubstitute)
   nmap ss <plug>(SubversiveSubstituteLine)
   nmap S <plug>(SubversiveSubstituteToEndOfLine)
+
+  " https://github.com/svermeulen/vim-subversive
+  xmap s <plug>(SubversiveSubstitute)
+  xmap p <plug>(SubversiveSubstitute)
+  xmap P <plug>(SubversiveSubstitute)
 " }}}
 
 " TreeSitter {{{
