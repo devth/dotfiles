@@ -399,7 +399,7 @@
 
   " NeoVim Terminal Mode
   tnoremap <C-[> <C-\><C-n>
-  tnoremap kj <C-\><C-n>
+  tnoremap jj <C-\><C-n>
   highlight TermCursor ctermfg=red guifg=red
 
   " tbone replacement using neoterm plugin
