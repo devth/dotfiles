@@ -794,7 +794,6 @@ lua << EOF
 -- updated 1/15/2022
 
 local lspconfig = require("lspconfig")
-local null_ls = require("null-ls")
 local buf_map = function(bufnr, mode, lhs, rhs, opts)
     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
         silent = true,
@@ -802,7 +801,7 @@ local buf_map = function(bufnr, mode, lhs, rhs, opts)
 end
 local on_attach = function(client, bufnr)
     vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
-    vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
+    vim.cmd("command! LspFormatting lua vim.lsp.buf.format { timeout_ms = 5000 }")
     vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
     vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
     vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
@@ -821,15 +820,30 @@ local on_attach = function(client, bufnr)
     buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
     buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
     buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
+    buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
     buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
     buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
-    if client.resolved_capabilities.document_formatting then
-        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)")
+    if client.server_capabilities.documentFormattingProvider then
+        -- this is super slow, so format manually instead
+        -- vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format { timeout_ms = 5000 }")
     end
+
+    -- if client.server_capabilities.documentFormattingProvider then -
+    --     vim.cmd(
+    --         [[
+    --     augroup LspFormatting
+    --     autocmd! * <buffer>
+    --     autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
+    --     augroup END
+    --     ]]
+    --     )
+    -- end
+
+
 end
 
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 lspconfig.tsserver.setup({
   flags = {
@@ -837,8 +851,8 @@ lspconfig.tsserver.setup({
   },
   capabilities = capabilities,
   on_attach = function(client, bufnr)
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.document_formatting = false
+    client.server_capabilities.document_range_formatting = false
     local ts_utils = require("nvim-lsp-ts-utils")
     ts_utils.setup({})
     ts_utils.setup_client(client)
@@ -848,47 +862,52 @@ lspconfig.tsserver.setup({
     on_attach(client, bufnr)
   end,
 })
+
+local null_ls = require("null-ls")
 null_ls.setup({
     sources = {
-        null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.code_actions.eslint_d,
-        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.diagnostics.eslint,
+        -- this is faster but it seems broken with latest eslint /shrug
+        -- null_ls.builtins.diagnostics.eslint_d,
+        null_ls.builtins.code_actions.eslint,
+        null_ls.builtins.formatting.prettierd,
+        -- try using eslint for formatting instead of prettier
+        -- null_ls.builtins.formatting.eslint_d,
     },
     on_attach = on_attach,
 })
 --
 
-local filetypes = {
-    typescript = "eslint",
-    typescriptreact = "eslint",
-}
-local linters = {
-    eslint = {
-        sourceName = "eslint",
-        command = "eslint_d",
-        rootPatterns = {".eslintrc.js", "package.json"},
-        debounce = 500,
-        args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
-        parseJson = {
-            errorsRoot = "[0].messages",
-            line = "line",
-            column = "column",
-            endLine = "endLine",
-            endColumn = "endColumn",
-            message = "${message} [${ruleId}]",
-            security = "severity"
-        },
-        securities = {[2] = "error", [1] = "warning"}
-    }
-}
-local formatters = {
-    prettier = {command = "eslint_d", args = {"--fix-to-stdout", "--stdin", "--stdin-filename", "%filepath"}}
-}
-local formatFiletypes = {
-    typescript = "prettier",
-    typescriptreact = "prettier"
-}
-
+-- local filetypes = {
+--     typescript = "eslint",
+--     typescriptreact = "eslint",
+-- }
+-- local linters = {
+--     eslint = {
+--         sourceName = "eslint",
+--         command = "eslint_d",
+--         rootPatterns = {".eslintrc.js", "package.json"},
+--         debounce = 500,
+--         args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
+--         parseJson = {
+--             errorsRoot = "[0].messages",
+--             line = "line",
+--             column = "column",
+--             endLine = "endLine",
+--             endColumn = "endColumn",
+--             message = "${message} [${ruleId}]",
+--             security = "severity"
+--         },
+--         securities = {[2] = "error", [1] = "warning"}
+--     }
+-- }
+-- local formatters = {
+--     prettier = {command = "eslint_d", args = {"--fix-to-stdout", "--stdin", "--stdin-filename", "%filepath"}}
+-- }
+-- local formatFiletypes = {
+--     typescript = "prettier",
+--     typescriptreact = "prettier"
+-- }
 -- nvim_lsp.diagnosticls.setup {
 --    on_attach = on_attach,
 --    filetypes = vim.tbl_keys(filetypes),
@@ -1076,20 +1095,20 @@ EOF
   " let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
   " let g:neomake_error_sign = {'text': '•', 'texthl': 'NeomakeErrorSign'}
 
-  let g:ale_sign_error = '⚠'
-  let g:ale_sign_warning = '•'
-  " Disabling trailing whitespace warnings doesn't affect Markdown because
-  " markdownlint checks that too
-  let g:ale_warn_about_trailing_whitespace = 0
-  let g:ale_lint_delay = 1000
+  " let g:ale_sign_error = '⚠'
+  " let g:ale_sign_warning = '•'
+  " " Disabling trailing whitespace warnings doesn't affect Markdown because
+  " " markdownlint checks that too
+  " let g:ale_warn_about_trailing_whitespace = 0
+  " let g:ale_lint_delay = 1000
 
-  let g:ale_fixers = {
-  \   'javascript': ['prettier', 'eslint'],
-  \   'typescript': ['prettier'],
-  \   'css': ['prettier'],
-  \}
+  " let g:ale_fixers = {
+  " \   'javascript': ['prettier', 'eslint'],
+  " \   'typescript': ['prettier'],
+  " \   'css': ['prettier'],
+  " \}
 
-  let g:ale_fix_on_save = 1
+  " let g:ale_fix_on_save = 1
 
   " let b:ale_fixers = {}
   " let b:ale_fixers['javascript'] = ['prettier']
@@ -1098,8 +1117,8 @@ EOF
   " let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
 
   " Prettier
-  let g:prettier#config#parser = 'babylon'
-  let g:ale_javascript_prettier_use_local_config = 1
+  " let g:prettier#config#parser = 'babylon'
+  " let g:ale_javascript_prettier_use_local_config = 1
 
   nnoremap <leader>af :ALEFix<cr>
 
