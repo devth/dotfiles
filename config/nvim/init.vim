@@ -43,6 +43,8 @@
   Plug 'jose-elias-alvarez/null-ls.nvim', { 'branch': 'main' }
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils', { 'branch': 'main' }
   Plug 'folke/trouble.nvim', { 'branch': 'main' }
+  " Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
+  " Plug 'ray-x/navigator.lua'
 
   " Completion
   Plug 'github/copilot.vim', { 'branch': 'release' }
@@ -143,6 +145,9 @@
   Plug 'kassio/neoterm' " Terminal utils
   " Plug 'vim-scripts/regreplop.vim' " replace!
 
+  " Mermaid diagrams / live markdown preview
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+
   Plug 'svermeulen/vim-subversive' " Replace stuff
   Plug 'tpope/vim-commentary' " commenting
   Plug 'JoosepAlviste/nvim-ts-context-commentstring' " embedded language comment support
@@ -154,7 +159,7 @@
   " Plug 'vim-scripts/YankRing.vim' " (SLOW) Keep track of past yanked values
   Plug 'svermeulen/vim-yoink'
   " Plug 'vim-scripts/tComment' " Comment stuff
-  " Plug 'junegunn/goyo.vim' " Writing mode
+  Plug 'junegunn/goyo.vim' " Writing mode
   " Plug 'preservim/tagbar' " ctags!
   " Plug 'lvht/tagbar-markdown' " tagbar for md files
   " Plug 'liuchengxu/vista.vim'
@@ -166,7 +171,7 @@
   " Plug 'chr4/sslsecure.vim' " Highlight insecure SSL configuration
 
   " Fuzzy file finder
-  Plug 'nvim-lua/popup.nvim'
+  " Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   " native sorter for telescope
@@ -459,6 +464,68 @@
   " (might want to be able to toggle this)
   set fdo-=search
 " }}}
+"
+
+" yaml treesitter {{{
+lua << EOF
+require("treesitter-context").setup({
+  enable = true,
+  throttle = true,
+  max_lines = 0,
+  patterns = {
+    default = {
+      "class",
+      "function",
+      "method",
+      "for",
+      "while",
+      "if",
+      "else",
+      "switch",
+      "case",
+    },
+    rust = {
+      "impl_item",
+      "mod_item",
+      "enum_item",
+      "match",
+      "struct",
+      "loop",
+      "closure",
+      "async_block",
+      "block",
+    },
+    python = {
+      "elif",
+      "with",
+      "try",
+      "except",
+    },
+    json = {
+      "object",
+      "pair",
+    },
+    javascript = {
+      "object",
+      "pair",
+    },
+    yaml = {
+      "block_mapping_pair",
+      "block_sequence_item",
+    },
+    toml = {
+      "table",
+      "pair",
+    },
+    markdown = {
+      "section",
+    },
+  },
+})
+
+EOF
+" }}}
+
 
 " comments {{{
 lua << EOF
@@ -789,6 +856,9 @@ nmap <silent> <leader>g :TestVisit<CR>
 
 lua << EOF
 
+-- https://github.com/ray-x/navigator.lua
+-- require'navigator'.setup()
+
 
 -- from https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
 -- updated 1/15/2022
@@ -845,6 +915,9 @@ end
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+
+lspconfig.gopls.setup{}
+
 lspconfig.tsserver.setup({
   flags = {
     debounce_text_changes = 500,
@@ -1307,6 +1380,8 @@ EOF
       \ 'midje.sweet/fact': '[[:inner 0]]',
       \ 'midje.sweet/facts': '[[:inner 1]]',
     \ }
+
+    " let g:iced_enable_auto_document = 'normal'
 
     " Replicate vim-fireplace mappings for vim-iced
     autocmd FileType clojure nmap cqp :IcedEval<space>
