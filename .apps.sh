@@ -162,8 +162,8 @@ brew services start postgresql
   brew install rcm
 
   # required by vim tiagofumo/vim-nerdtree-syntax-highlight plugin
-  brew tap caskroom/fonts
-  brew cask install font-hack-nerd-font
+  brew tap homebrew/cask-fonts
+  brew install --cask font-hack-nerd-font
 
   # brew tap unisonweb/unison
   # brew install unison-language
@@ -188,11 +188,13 @@ brew services start postgresql
   # brew install docker-machine
   brew install docker
   brew install iterm2
+  # kitty gpu accelerated terminal
+  brew install kitty --cask
 
   brew install --cask rectangle
   brew install --cask spotify
   brew install --cask alfred
-  # brew cask install slack
+  brew install --cask slack
   brew install --cask istat-menus
 
   # get license from gmail
@@ -246,10 +248,6 @@ brew services start postgresql
   brew install choosy --cask
 
   brew install --cask discord
-
-  # kitty gpu accelerated terminal
-  brew install kitty --cask
-
   # keep mac awake
   brew install caffeine --cask
 
