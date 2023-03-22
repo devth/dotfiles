@@ -1,4 +1,4 @@
 
 npm install -g doctoc
-
-npm install --global alfred-fkill
+npm install -g alfred-fkill
+npm install -g @fsouza/prettierd

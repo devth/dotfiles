@@ -43,6 +43,7 @@
   Plug 'jose-elias-alvarez/null-ls.nvim', { 'branch': 'main' }
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils', { 'branch': 'main' }
   Plug 'folke/trouble.nvim', { 'branch': 'main' }
+  Plug 'ray-x/lsp_signature.nvim'
   " Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
   " Plug 'ray-x/navigator.lua'
 
@@ -540,12 +541,23 @@ EOF
 " Lualine {{{
 
 lua << EOF
+
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'solarized_light',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    theme = 'auto',
+    -- angles (default)
+    -- component_separators = { left = '', right = ''},
+    -- section_separators = { left = '', right = ''},
+
+    -- bubbles
+    -- section_separators = { left = '', right = '' },
+    -- component_separators = { left = '', right = '' },
+
+    -- slants
+    component_separators = '',
+    section_separators = { left = '', right = '' },
     disabled_filetypes = {},
     always_divide_middle = true,
   },
@@ -664,7 +676,7 @@ EOF
   nnoremap <leader>bgd :set bg=dark<cr>
 
   " controls vertical split pipe, end of buffer
-  set fillchars=fold:\ ,vert:\│,eob:\.,msgsep:‾
+  set fillchars=fold:\ ,vert:\│,eob:\ ,msgsep:‾
 
   " Goyo {{{
     let g:goyo_height = "100%"
@@ -713,14 +725,14 @@ require'nvim-treesitter.configs'.setup {
 }
 
 local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
-parser_config.gotmpl = {
-  install_info = {
-    url = "https://github.com/ngalaiko/tree-sitter-go-template",
-    files = {"src/parser.c"}
-  },
-  filetype = "gotmpl",
-  used_by = {"gohtmltmpl", "gotexttmpl", "gotmpl", "yaml"}
-}
+-- parser_config.gotmpl = {
+--   install_info = {
+--     url = "https://github.com/ngalaiko/tree-sitter-go-template",
+--     files = {"src/parser.c"}
+--   },
+--   filetype = "gotmpl",
+--   used_by = {"gohtmltmpl", "gotexttmpl", "gotmpl", "yaml"}
+-- }
 
 EOF
 
@@ -856,6 +868,9 @@ nmap <silent> <leader>g :TestVisit<CR>
 
 lua << EOF
 
+local cfg = {}
+require "lsp_signature".setup(cfg)
+
 -- https://github.com/ray-x/navigator.lua
 -- require'navigator'.setup()
 
@@ -916,7 +931,8 @@ end
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 
-lspconfig.gopls.setup{}
+-- TODO only load this when needed
+--  lspconfig.gopls.setup{}
 
 lspconfig.tsserver.setup({
   flags = {
