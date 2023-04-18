@@ -99,7 +99,8 @@
   " Plug 'jparise/vim-graphql', {'for': 'graphql'}
   Plug 'delphinus/vim-firestore' " firestore highlighting
   " Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-  Plug 'hashivim/vim-terraform'
+  " Plug 'hashivim/vim-terraform'
+  Plug 'MichaHoffmann/tree-sitter-hcl'
   Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
 
   Plug 'mattn/emmet-vim' " expanding abbreviations (HTML mostly)
@@ -172,9 +173,13 @@
   " Plug 'chr4/sslsecure.vim' " Highlight insecure SSL configuration
 
   " Fuzzy file finder
-  " Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-github.nvim'
+  Plug 'nvim-telescope/telescope-media-files.nvim'
+  Plug 'aaronhallaert/advanced-git-search.nvim'
+
   " native sorter for telescope
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -843,6 +848,13 @@ require('nvim-dap-virtual-text').setup()
 -- https://github.com/nvim-telescope/telescope-fzf-native.nvim
 require('telescope').load_extension('fzf')
 
+-- https://github.com/nvim-telescope/telescope-media-files.nvim
+require('telescope').load_extension('media_files')
+
+-- https://github.com/aaronhallaert/advanced-git-search.nvim#%EF%B8%8F-installation
+require("telescope").load_extension("advanced_git_search")
+
+
 -- David-Kunz/jester
 map('n', '<leader>tt', ':lua require"jester".run({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
 map('n', '<leader>t_', ':lua require"jester".run_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
@@ -955,10 +967,11 @@ lspconfig.tsserver.setup({
 local null_ls = require("null-ls")
 null_ls.setup({
     sources = {
-        null_ls.builtins.diagnostics.eslint,
+        -- null_ls.builtins.diagnostics.eslint,
         -- this is faster but it seems broken with latest eslint /shrug
-        -- null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.code_actions.eslint,
+        null_ls.builtins.diagnostics.eslint_d,
+        -- null_ls.builtins.code_actions.eslint,
+        null_ls.builtins.code_actions.eslint_d,
         null_ls.builtins.formatting.prettierd,
         -- try using eslint for formatting instead of prettier
         -- null_ls.builtins.formatting.eslint_d,

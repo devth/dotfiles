@@ -281,14 +281,18 @@ brew services start postgresql
 # Cloud tools {{{
 
   brew install kubernetes-helm
-  brew install terraform
+  # brew install terraform
+  # brew install awscli
   brew install ngrep
-  brew install awscli
 
 # }}}
 
 # Low priority {{{
 
+# for image previews in vim
+
+  brew install chafa
+  brew install imagemagick
 
 # }}}
 
