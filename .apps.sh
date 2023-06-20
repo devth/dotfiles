@@ -258,7 +258,7 @@ brew services start postgresql
   brew install kubectx
   brew install kubens
 
-  # brew cask install google-cloud-sdk
+  brew install --cask google-cloud-sdk
   # brew cask uninstall google-cloud-sdk
 
   # curl https://sdk.cloud.google.com | bash

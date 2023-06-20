@@ -86,6 +86,8 @@
   " Use TreeSitter for language highlighting instead
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-treesitter/nvim-treesitter-context'
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  Plug 'HiPhish/nvim-ts-rainbow2'
 
 
   " General Syntax - these shouldn't slow things down
@@ -184,11 +186,13 @@
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   " Plug '/usr/local/opt/fzf' " installed via Homebrew
-
   " Plug 'junegunn/fzf.vim' " if you want latest fzf use this instead
   " Plug 'junegunn/fzf', { 'do': './install --all' }
   " Plug 'junegunn/fzf', { 'do': './install --bin' }
   " Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+
 
   " Use actual tmux instead
   " Plug 'Vigemus/nvimux' " Tmux-like key bindings for NeoVim
@@ -475,6 +479,8 @@
 
 " yaml treesitter {{{
 lua << EOF
+
+
 require("treesitter-context").setup({
   enable = true,
   throttle = true,
@@ -533,16 +539,6 @@ require("treesitter-context").setup({
 EOF
 " }}}
 
-
-" comments {{{
-lua << EOF
-require'nvim-treesitter.configs'.setup {
-  context_commentstring = {
-    enable = true
-  }
-}
-EOF
-" }}}
 
 " Lualine {{{
 
@@ -725,18 +721,129 @@ EOF
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
+  context_commentstring = {
+    enable = true
+  },
   highlight = {
     enable = true
   },
-  ensure_installed = { "html", "markdown", "typescript", "clojure", "yaml", "help", "lua" },
+  textobjects = {
+    select = {
+      enable = true,
 
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        -- You can optionally set descriptions to the mappings (used in the desc parameter of
+        -- nvim_buf_set_keymap) which plugins like which-key display
+        ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+        -- You can also use captures from other query groups like `locals.scm`
+        ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+      },
+      -- You can choose the select mode (default is charwise 'v')
+      --
+      -- Can also be a function which gets passed a table with the keys
+      -- * query_string: eg '@function.inner'
+      -- * method: eg 'v' or 'o'
+      -- and should return the mode ('v', 'V', or '<c-v>') or a table
+      -- mapping query_strings to modes.
+      selection_modes = {
+        ['@parameter.outer'] = 'v', -- charwise
+        ['@function.outer'] = 'V', -- linewise
+        ['@class.outer'] = '<c-v>', -- blockwise
+      },
+      -- If you set this to `true` (default is `false`) then any textobject is
+      -- extended to include preceding or succeeding whitespace. Succeeding
+      -- whitespace has priority in order to act similarly to eg the built-in
+      -- `ap`.
+      --
+      -- Can also be a function which gets passed a table with the keys
+      -- * query_string: eg '@function.inner'
+      -- * selection_mode: eg 'v'
+      -- and should return true of false
+      include_surrounding_whitespace = true,
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = { query = "@class.outer", desc = "Next class start" },
+        --
+        -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
+        ["]o"] = "@loop.*",
+        -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+        --
+        -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+        -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+        ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+        ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+      -- Below will go to either the start or the end, whichever is closer.
+      -- Use if you want more granular movements
+      -- Make it even more gradual by adding multiple queries and regex.
+      goto_next = {
+        ["]d"] = "@conditional.outer",
+      },
+      goto_previous = {
+        ["[d"] = "@conditional.outer",
+      }
+    },
+    lsp_interop = {
+      enable = true,
+      border = 'none',
+      floating_preview_opts = {},
+      peek_definition_code = {
+        ["<leader>df"] = "@function.outer",
+        ["<leader>dF"] = "@class.outer",
+      },
+    },
+  },
+  rainbow = {
+    enable = true,
+    -- list of languages you want to disable the plugin for
+    disable = {},
+    -- Which query to use for finding delimiters
+    query = 'rainbow-parens',
+    -- Highlight the entire buffer all at once
+    strategy = require('ts-rainbow').strategy.global,
+  },
 }
 
-<<<<<<< Updated upstream
+-- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
+-- Repeat movement with ; and ,
+-- ensure ; goes forward and , goes backward regardless of the last direction
+vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
+vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
+-- vim way: ; goes to the direction you were moving.
+-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+-- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+-- Optionally, make builtin f, F, t, T also repeatable with ; and ,
+vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
+vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
+vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
+vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+
 local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
-=======
--- local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
->>>>>>> Stashed changes
+
 -- parser_config.gotmpl = {
 --   install_info = {
 --     url = "https://github.com/ngalaiko/tree-sitter-go-template",
@@ -750,6 +857,7 @@ EOF
 
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+set foldlevel=20
 
 " }}}
 
@@ -927,39 +1035,32 @@ local on_attach = function(client, bufnr)
     buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
     buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
     buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
-    if client.server_capabilities.documentFormattingProvider then
-        -- this is super slow, so format manually instead
-        -- vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format { timeout_ms = 5000 }")
+
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+          -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+          -- this can be super slow - consider formatting manually instead
+          -- vim.lsp.buf.formatting_sync()
+          vim.lsp.buf.format({ async = false })
+        end,
+      })
     end
-
-    -- if client.server_capabilities.documentFormattingProvider then -
-    --     vim.cmd(
-    --         [[
-    --     augroup LspFormatting
-    --     autocmd! * <buffer>
-    --     autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
-    --     augroup END
-    --     ]]
-    --     )
-    -- end
-
 
 end
 
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-
-<<<<<<< Updated upstream
--- TODO only load this when needed
---  lspconfig.gopls.setup{}
-=======
 -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/pylsp.lua
 -- lspconfig.pylsp.setup{}
 lspconfig.pyright.setup{}
 
 lspconfig.gopls.setup{}
->>>>>>> Stashed changes
 
 lspconfig.tsserver.setup({
   flags = {
@@ -981,18 +1082,33 @@ lspconfig.tsserver.setup({
 
 local null_ls = require("null-ls")
 null_ls.setup({
-    sources = {
-        -- null_ls.builtins.diagnostics.eslint,
-        -- this is faster but it seems broken with latest eslint /shrug
-        null_ls.builtins.diagnostics.eslint_d,
-        -- null_ls.builtins.code_actions.eslint,
-        null_ls.builtins.code_actions.eslint_d,
-        null_ls.builtins.formatting.prettierd,
-        -- try using eslint for formatting instead of prettier
-        -- null_ls.builtins.formatting.eslint_d,
+sources = {
+    null_ls.builtins.diagnostics.eslint.with({
+        prefer_local = "node_modules/.bin",
+    }),
+    -- this is faster but it seems broken with latest eslint /shrug
+    -- null_ls.builtins.diagnostics.eslint_d,
+    null_ls.builtins.code_actions.eslint.with({
+        prefer_local = "node_modules/.bin",
+    }),
+
+    -- null_ls.builtins.code_actions.eslint_d,
+    null_ls.builtins.formatting.prettier.with({
+        prefer_local = "node_modules/.bin",
+    }),
+
+    -- try using eslint for formatting instead of prettier
+    -- null_ls.builtins.formatting.eslint_d,
     },
     on_attach = on_attach,
 })
+
+
+local sources = {
+    null_ls.builtins.formatting.prettier.with({
+        prefer_local = "node_modules/.bin",
+    }),
+}
 --
 
 -- local filetypes = {
@@ -1399,7 +1515,8 @@ EOF
     " autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
     " autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
     autocmd FileType clojure nmap <buffer> ctt :IcedTestUnderCursor<cr>
-    " autocmd FileType clojure nmap <buffer> ctm :Eval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
+    autocmd FileType clojure nmap <buffer> ctm :IcedTestAll<cr>
+    autocmd FileType clojure nmap <buffer> ctr :IcedTestRedo<cr>
     " autocmd FileType clojure nmap <buffer> cpR :Require!<cr>
 
     let g:fireplace_print_length = 80
@@ -1416,8 +1533,18 @@ EOF
     " ClojureScript
     nmap <leader><leader>pg :Piggieback (figwheel-sidecar.repl-api/repl-env)<cr>
 
-    " vim-iced
+    " vim-iced - https://liquidz.github.io/vim-iced
+    aug VimIcedAutoFormatOnWriting
+      au!
+      " Format whole buffer on writing files
+      " au BufWritePre *.clj,*.cljs,*.cljc,*.edn execute ':IcedFormatSyncAll'
+
+      " Format only current form on writing files
+      " au BufWritePre *.clj,*.cljs,*.cljc,*.edn execute ':IcedFormatSync'
+    aug END
+
     let g:iced_enable_default_key_mappings = v:true
+    " let g:iced_enable_clj_kondo_analysis = v:true
     " let g:iced_enable_auto_indent = v:false
 
     let g:iced#format#rule = {
@@ -1438,7 +1565,7 @@ EOF
     autocmd FileType clojure nmap <buffer> c! <Plug>(iced_eval_and_tap)
     " this has potential to override "change till m" - might need a different
     " mapping, or get kaocha working
-    autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
+    " autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
 
     " add namespace
     autocmd FileType clojure nmap <buffer> <leader>an :IcedAddNs<cr>
