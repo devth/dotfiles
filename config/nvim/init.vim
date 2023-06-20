@@ -284,6 +284,7 @@
   set expandtab
   set backspace=start,indent
   set textwidth=80
+  set linebreak
   set wrapmargin=1
   " prevent double spaces when joining with C-j
   set nojoinspaces
@@ -727,9 +728,15 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true
   },
+  ensure_installed = { "html", "markdown", "typescript", "clojure", "yaml", "help", "lua" },
+
 }
 
+<<<<<<< Updated upstream
 local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
+=======
+-- local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
+>>>>>>> Stashed changes
 -- parser_config.gotmpl = {
 --   install_info = {
 --     url = "https://github.com/ngalaiko/tree-sitter-go-template",
@@ -943,8 +950,16 @@ end
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 
+<<<<<<< Updated upstream
 -- TODO only load this when needed
 --  lspconfig.gopls.setup{}
+=======
+-- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/pylsp.lua
+-- lspconfig.pylsp.setup{}
+lspconfig.pyright.setup{}
+
+lspconfig.gopls.setup{}
+>>>>>>> Stashed changes
 
 lspconfig.tsserver.setup({
   flags = {
@@ -1430,9 +1445,9 @@ EOF
     autocmd FileType clojure nmap <buffer> <leader>am :IcedAddMissing<cr>
 
     " vim-sexp
-    let g:sexp_enable_insert_mode_mappings = 1
+    " let g:sexp_enable_insert_mode_mappings = 0
     " Disable all sexp mappings
-    " let g:sexp_filetypes = ''
+    let g:sexp_filetypes = ''
 
     " acid.nvim
     " autocmd FileType clojure nmap cpr :AcidRequire<cr>

@@ -111,3 +111,7 @@
 [remote "origin"]
   # enable this if you want to be able to check out pull requests too
   # fetch = +refs/pull/*:refs/remotes/origin/pull/*
+[pull]
+	rebase = true
+[rebase]
+	autoStash = true
