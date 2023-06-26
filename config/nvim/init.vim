@@ -1567,6 +1567,14 @@ EOF
     " mapping, or get kaocha working
     " autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
 
+    " always print after evaluating in vim-iced
+   call iced#hook#add('evaluated', {
+      \ 'type': 'command',
+      \ 'exec': 'IcedPrintLast',
+      \ })
+
+     
+
     " add namespace
     autocmd FileType clojure nmap <buffer> <leader>an :IcedAddNs<cr>
     autocmd FileType clojure nmap <buffer> <leader>am :IcedAddMissing<cr>
