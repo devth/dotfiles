@@ -106,6 +106,8 @@
   Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
 
   Plug 'mattn/emmet-vim' " expanding abbreviations (HTML mostly)
+  Plug 'google/vim-maktaba' " required for vim-bazel
+  Plug 'bazelbuild/vim-bazel'
 
   " JavaScript
   " " Plug 'mxw/vim-jsx'
@@ -721,9 +723,6 @@ EOF
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  context_commentstring = {
-    enable = true
-  },
   highlight = {
     enable = true
   },
