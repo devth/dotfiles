@@ -24,6 +24,7 @@
 
   " Global plugins for all filetypes
   Plug 'tpope/vim-abolish'
+  Plug 'tpope/vim-scriptease'
   " Plug 'tpope/vim-dispatch'
   " Plug 'radenling/vim-dispatch-neovim'
   " Plug 'tpope/vim-eunuch'
@@ -63,8 +64,8 @@
   Plug 'theHamsta/nvim-dap-virtual-text'
 
   " Jest tests
-  Plug 'David-Kunz/jester'
-  Plug 'vim-test/vim-test'
+  " Plug 'David-Kunz/jester'
+  " Plug 'vim-test/vim-test'
 
   " Generally usefull stuff
   Plug 'RRethy/vim-illuminate' " highlight words under cursor
@@ -85,8 +86,8 @@
 
   " Use TreeSitter for language highlighting instead
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/nvim-treesitter-context'
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  " Plug 'nvim-treesitter/nvim-treesitter-context'
+  " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'HiPhish/nvim-ts-rainbow2'
 
 
@@ -108,6 +109,7 @@
   Plug 'mattn/emmet-vim' " expanding abbreviations (HTML mostly)
   Plug 'google/vim-maktaba' " required for vim-bazel
   Plug 'bazelbuild/vim-bazel'
+  Plug 'jxnblk/vim-mdx-js'
 
   " JavaScript
   " " Plug 'mxw/vim-jsx'
@@ -149,6 +151,7 @@
   " Plug 'christianrondeau/vim-base64'
   " Plug 'mhinz/vim-signify'
   Plug 'kassio/neoterm' " Terminal utils
+  Plug 'kevinhwang91/nvim-bqf' " Better quickfix
   " Plug 'vim-scripts/regreplop.vim' " replace!
 
   " Mermaid diagrams / live markdown preview
@@ -483,60 +486,60 @@
 lua << EOF
 
 
-require("treesitter-context").setup({
-  enable = true,
-  throttle = true,
-  max_lines = 0,
-  patterns = {
-    default = {
-      "class",
-      "function",
-      "method",
-      "for",
-      "while",
-      "if",
-      "else",
-      "switch",
-      "case",
-    },
-    rust = {
-      "impl_item",
-      "mod_item",
-      "enum_item",
-      "match",
-      "struct",
-      "loop",
-      "closure",
-      "async_block",
-      "block",
-    },
-    python = {
-      "elif",
-      "with",
-      "try",
-      "except",
-    },
-    json = {
-      "object",
-      "pair",
-    },
-    javascript = {
-      "object",
-      "pair",
-    },
-    yaml = {
-      "block_mapping_pair",
-      "block_sequence_item",
-    },
-    toml = {
-      "table",
-      "pair",
-    },
-    markdown = {
-      "section",
-    },
-  },
-})
+-- require("treesitter-context").setup({
+--   enable = true,
+--   throttle = true,
+--   max_lines = 0,
+--   patterns = {
+--     default = {
+--       "class",
+--       "function",
+--       "method",
+--       "for",
+--       "while",
+--       "if",
+--       "else",
+--       "switch",
+--       "case",
+--     },
+--     rust = {
+--       "impl_item",
+--       "mod_item",
+--       "enum_item",
+--       "match",
+--       "struct",
+--       "loop",
+--       "closure",
+--       "async_block",
+--       "block",
+--     },
+--     python = {
+--       "elif",
+--       "with",
+--       "try",
+--       "except",
+--     },
+--     json = {
+--       "object",
+--       "pair",
+--     },
+--     javascript = {
+--       "object",
+--       "pair",
+--     },
+--     yaml = {
+--       "block_mapping_pair",
+--       "block_sequence_item",
+--     },
+--     toml = {
+--       "table",
+--       "pair",
+--     },
+--     markdown = {
+--       "section",
+--     },
+--   },
+-- })
 
 EOF
 " }}}
@@ -569,7 +572,7 @@ require('lualine').setup {
     lualine_a = {'filename'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'mode', 'nvim_treesitter#statusline(90)'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_x = {'searchcount', 'fileformat', 'filesize', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
@@ -722,135 +725,138 @@ EOF
 " TreeSitter {{{
 
 lua <<EOF
+
+
+-- local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
+-- ft_to_parser.mdx = "markdown"
+-- vim.treesitter.language.register('mdx', 'markdown', 'markdown')
+
+
 require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+   'css', 'graphql', 'html', 'javascript',
+    'lua', 'nix', 'python', 'svelte', 'tsx', 'twig',
+    'typescript', 'vim', 'vimdoc', 'markdown'
+  },
   highlight = {
     enable = true
   },
-  textobjects = {
-    select = {
-      enable = true,
+  -- textobjects = {
+    --select = {
+    --  enable = true,
 
-      -- Automatically jump forward to textobj, similar to targets.vim
-      lookahead = true,
+    --  -- Automatically jump forward to textobj, similar to targets.vim
+    --  lookahead = true,
 
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        -- You can optionally set descriptions to the mappings (used in the desc parameter of
-        -- nvim_buf_set_keymap) which plugins like which-key display
-        ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-        -- You can also use captures from other query groups like `locals.scm`
-        ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-      },
-      -- You can choose the select mode (default is charwise 'v')
-      --
-      -- Can also be a function which gets passed a table with the keys
-      -- * query_string: eg '@function.inner'
-      -- * method: eg 'v' or 'o'
-      -- and should return the mode ('v', 'V', or '<c-v>') or a table
-      -- mapping query_strings to modes.
-      selection_modes = {
-        ['@parameter.outer'] = 'v', -- charwise
-        ['@function.outer'] = 'V', -- linewise
-        ['@class.outer'] = '<c-v>', -- blockwise
-      },
-      -- If you set this to `true` (default is `false`) then any textobject is
-      -- extended to include preceding or succeeding whitespace. Succeeding
-      -- whitespace has priority in order to act similarly to eg the built-in
-      -- `ap`.
-      --
-      -- Can also be a function which gets passed a table with the keys
-      -- * query_string: eg '@function.inner'
-      -- * selection_mode: eg 'v'
-      -- and should return true of false
-      include_surrounding_whitespace = true,
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]m"] = "@function.outer",
-        ["]]"] = { query = "@class.outer", desc = "Next class start" },
-        --
-        -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
-        ["]o"] = "@loop.*",
-        -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
-        --
-        -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-        -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-        ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-        ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-      },
-      goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-      },
-      -- Below will go to either the start or the end, whichever is closer.
-      -- Use if you want more granular movements
-      -- Make it even more gradual by adding multiple queries and regex.
-      goto_next = {
-        ["]d"] = "@conditional.outer",
-      },
-      goto_previous = {
-        ["[d"] = "@conditional.outer",
-      }
-    },
-    lsp_interop = {
-      enable = true,
-      border = 'none',
-      floating_preview_opts = {},
-      peek_definition_code = {
-        ["<leader>df"] = "@function.outer",
-        ["<leader>dF"] = "@class.outer",
-      },
-    },
-  },
-  rainbow = {
-    enable = true,
-    -- list of languages you want to disable the plugin for
-    disable = {},
-    -- Which query to use for finding delimiters
-    query = 'rainbow-parens',
-    -- Highlight the entire buffer all at once
-    strategy = require('ts-rainbow').strategy.global,
-  },
+    --  keymaps = {
+    --    -- You can use the capture groups defined in textobjects.scm
+    --    ["af"] = "@function.outer",
+    --    ["if"] = "@function.inner",
+    --    ["ac"] = "@class.outer",
+    --    -- You can optionally set descriptions to the mappings (used in the desc parameter of
+    --    -- nvim_buf_set_keymap) which plugins like which-key display
+    --    ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+    --    -- You can also use captures from other query groups like `locals.scm`
+    --    ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+    --  },
+    --  -- You can choose the select mode (default is charwise 'v')
+    --  --
+    --  -- Can also be a function which gets passed a table with the keys
+    --  -- * query_string: eg '@function.inner'
+    --  -- * method: eg 'v' or 'o'
+    --  -- and should return the mode ('v', 'V', or '<c-v>') or a table
+    --  -- mapping query_strings to modes.
+    --  selection_modes = {
+    --    ['@parameter.outer'] = 'v', -- charwise
+    --    ['@function.outer'] = 'V', -- linewise
+    --    ['@class.outer'] = '<c-v>', -- blockwise
+    --  },
+    --  -- If you set this to `true` (default is `false`) then any textobject is
+    --  -- extended to include preceding or succeeding whitespace. Succeeding
+    --  -- whitespace has priority in order to act similarly to eg the built-in
+    --  -- `ap`.
+    --  --
+    --  -- Can also be a function which gets passed a table with the keys
+    --  -- * query_string: eg '@function.inner'
+    --  -- * selection_mode: eg 'v'
+    --  -- and should return true of false
+    --  include_surrounding_whitespace = true,
+    --},
+    --move = {
+    --  enable = true,
+    --  set_jumps = true, -- whether to set jumps in the jumplist
+    --  goto_next_start = {
+    --    ["]m"] = "@function.outer",
+    --    ["]]"] = { query = "@class.outer", desc = "Next class start" },
+    --    --
+    --    -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
+    --    ["]o"] = "@loop.*",
+    --    -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+    --    --
+    --    -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+    --    -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+    --    ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+    --    ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+    --  },
+    --  goto_next_end = {
+    --    ["]M"] = "@function.outer",
+    --    ["]["] = "@class.outer",
+    --  },
+    --  goto_previous_start = {
+    --    ["[m"] = "@function.outer",
+    --    ["[["] = "@class.outer",
+    --  },
+    --  goto_previous_end = {
+    --    ["[M"] = "@function.outer",
+    --    ["[]"] = "@class.outer",
+    --  },
+    --  -- Below will go to either the start or the end, whichever is closer.
+    --  -- Use if you want more granular movements
+    --  -- Make it even more gradual by adding multiple queries and regex.
+    --  goto_next = {
+    --    ["]d"] = "@conditional.outer",
+    --  },
+    --  goto_previous = {
+    --    ["[d"] = "@conditional.outer",
+    --  }
+    --},
+    --lsp_interop = {
+    --  enable = true,
+    --  border = 'none',
+    --  floating_preview_opts = {},
+    --  peek_definition_code = {
+    --    ["<leader>df"] = "@function.outer",
+    --    ["<leader>dF"] = "@class.outer",
+    --  },
+    --},
+  -- },
+  -- rainbow = {
+  --   enable = true,
+  --   -- list of languages you want to disable the plugin for
+  --   disable = {},
+  --   -- Which query to use for finding delimiters
+  --   query = 'rainbow-parens',
+  --   -- Highlight the entire buffer all at once
+  --   strategy = require('ts-rainbow').strategy.global,
+  -- },
 }
 
+vim.treesitter.language.register('mdx', 'markdown')
+
 -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
+-- local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 -- Repeat movement with ; and ,
 -- ensure ; goes forward and , goes backward regardless of the last direction
-vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
-vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
+-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
+-- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
 -- vim way: ; goes to the direction you were moving.
 -- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
 -- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
 -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
-
-local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
-
--- parser_config.gotmpl = {
---   install_info = {
---     url = "https://github.com/ngalaiko/tree-sitter-go-template",
---     files = {"src/parser.c"}
---   },
---   filetype = "gotmpl",
---   used_by = {"gohtmltmpl", "gotexttmpl", "gotmpl", "yaml"}
--- }
+-- vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
+-- vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
+-- vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
+-- vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 
 EOF
 
@@ -1081,75 +1087,40 @@ lspconfig.tsserver.setup({
 
 local null_ls = require("null-ls")
 null_ls.setup({
-sources = {
+  sources = {
+    -- diagnostics
     null_ls.builtins.diagnostics.eslint.with({
         prefer_local = "node_modules/.bin",
     }),
-    -- this is faster but it seems broken with latest eslint /shrug
     -- null_ls.builtins.diagnostics.eslint_d,
-    null_ls.builtins.code_actions.eslint.with({
-        prefer_local = "node_modules/.bin",
-    }),
 
-    -- null_ls.builtins.code_actions.eslint_d,
+    -- formatting - use eslint instead
+    -- null_ls.builtins.formatting.eslint_d,
+    -- null_ls.builtins.formatting.eslint.with({
+    --     prefer_local = "node_modules/.bin",
+    -- }),
     null_ls.builtins.formatting.prettier.with({
         prefer_local = "node_modules/.bin",
     }),
+
+    -- code actions
+    -- null_ls.builtins.code_actions.eslint.with({
+    --     prefer_local = "node_modules/.bin",
+    -- }),
+    null_ls.builtins.code_actions.eslint_d,
 
     -- try using eslint for formatting instead of prettier
     -- null_ls.builtins.formatting.eslint_d,
     },
     on_attach = on_attach,
-})
+  }
+)
 
-
-local sources = {
-    null_ls.builtins.formatting.prettier.with({
-        prefer_local = "node_modules/.bin",
-    }),
-}
---
-
--- local filetypes = {
---     typescript = "eslint",
---     typescriptreact = "eslint",
+-- local sources = {
+--     -- null_ls.builtins.formatting.prettier.with({
+--     --     prefer_local = "node_modules/.bin",
+--     -- }),
 -- }
--- local linters = {
---     eslint = {
---         sourceName = "eslint",
---         command = "eslint_d",
---         rootPatterns = {".eslintrc.js", "package.json"},
---         debounce = 500,
---         args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
---         parseJson = {
---             errorsRoot = "[0].messages",
---             line = "line",
---             column = "column",
---             endLine = "endLine",
---             endColumn = "endColumn",
---             message = "${message} [${ruleId}]",
---             security = "severity"
---         },
---         securities = {[2] = "error", [1] = "warning"}
---     }
--- }
--- local formatters = {
---     prettier = {command = "eslint_d", args = {"--fix-to-stdout", "--stdin", "--stdin-filename", "%filepath"}}
--- }
--- local formatFiletypes = {
---     typescript = "prettier",
---     typescriptreact = "prettier"
--- }
--- nvim_lsp.diagnosticls.setup {
---    on_attach = on_attach,
---    filetypes = vim.tbl_keys(filetypes),
---    init_options = {
---        filetypes = filetypes,
---        linters = linters,
---        formatters = formatters,
---        formatFiletypes = formatFiletypes
---    }
---}
 
 EOF
 
