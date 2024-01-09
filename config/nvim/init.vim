@@ -185,6 +185,7 @@
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-github.nvim'
   Plug 'nvim-telescope/telescope-media-files.nvim'
+  Plug 'nvim-telescope/telescope-live-grep-args.nvim'
   Plug 'aaronhallaert/advanced-git-search.nvim'
 
   " native sorter for telescope
@@ -974,6 +975,9 @@ require('telescope').load_extension('media_files')
 -- https://github.com/aaronhallaert/advanced-git-search.nvim#%EF%B8%8F-installation
 require("telescope").load_extension("advanced_git_search")
 
+-- pass args to grep https://github.com/nvim-telescope/telescope-live-grep-args.nvim
+require("telescope").load_extension("live_grep_args")
+
 
 -- David-Kunz/jester
 map('n', '<leader>tt', ':lua require"jester".run({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
@@ -1372,6 +1376,8 @@ EOF
 " }}}
 
 " Telescope fuzzy finder {{{
+
+
   " Find files using Telescope command-line sugar.
   nnoremap <leader>ff <cmd>Telescope find_files<cr>
   nnoremap <leader>p <cmd>Telescope git_files<cr>
@@ -1385,11 +1391,39 @@ EOF
   nnoremap <leader>tgb <cmd>Telescope git_branches<cr>
   nnoremap <leader>tts <cmd>Telescope treesitter<cr>
 
-  nnoremap \ <cmd>Telescope live_grep<cr>
+  " nnoremap \ <cmd>Telescope live_grep<cr>
+  nnoremap \ <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+  " keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+
   nnoremap <leader>* <cmd>Telescope grep_string<cr>
 
   " :lua require'telescope.builtin'.planets{}
   " :nnoremap <Leader>pp :lua require'telescope.builtin'.planets{}
+
+lua <<EOF
+local telescope = require("telescope")
+local lga_actions = require("telescope-live-grep-args.actions")
+
+telescope.setup {
+  extensions = {
+    live_grep_args = {
+      auto_quoting = true, -- enable/disable auto-quoting
+      -- define mappings, e.g.
+      mappings = { -- extend mappings
+        i = {
+          ["<C-k>"] = lga_actions.quote_prompt(),
+          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+        },
+      },
+      -- ... also accepts theme settings, for example:
+      -- theme = "dropdown", -- use dropdown theme
+      -- theme = { }, -- use own theme spec
+      -- layout_config = { mirror=true }, -- mirror preview pane
+    }
+  }
+}
+EOF
+
 
 " }}}
 
