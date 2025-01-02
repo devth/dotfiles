@@ -10,225 +10,7 @@
 " A part of the pristine dotfile zen garden of @devth
 
 " Plugins {{{
-
-  " auto-install vim-plug if not already installed
-  if empty(glob('~/.config/nvim/autoload/plug.vim'))
-    echo 'not installed'
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  endif
-
-  " begin vim-plug
-  call plug#begin('~/.config/nvim/plugged')
-
-  " Global plugins for all filetypes
-  Plug 'tpope/vim-abolish'
-  Plug 'tpope/vim-scriptease'
-  " Plug 'tpope/vim-dispatch'
-  " Plug 'radenling/vim-dispatch-neovim'
-  " Plug 'tpope/vim-eunuch'
-
-  " Git
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-rhubarb' " GBrowse and GH enterprise
-  " this is buggy and causes lots of errors - TODO find alternative:
-  " Plug 'APZelos/blamer.nvim'
-  Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
-  " Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
-  " Plug 'lambdalisue/gina.vim'
-  Plug 'tpope/vim-git'
-
-  " LSP
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'jose-elias-alvarez/null-ls.nvim', { 'branch': 'main' }
-  Plug 'jose-elias-alvarez/nvim-lsp-ts-utils', { 'branch': 'main' }
-  Plug 'folke/trouble.nvim', { 'branch': 'main' }
-  Plug 'ray-x/lsp_signature.nvim'
-  " Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
-  " Plug 'ray-x/navigator.lua'
-
-  " Completion
-  Plug 'github/copilot.vim', { 'branch': 'release' }
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'hrsh7th/vim-vsnip'
-  Plug 'hrsh7th/cmp-vsnip'
-
-  " Debug Adapter Protocol
-  Plug 'mfussenegger/nvim-dap'
-  Plug 'nvim-telescope/telescope-dap.nvim'
-  Plug 'theHamsta/nvim-dap-virtual-text'
-
-  " Jest tests
-  " Plug 'David-Kunz/jester'
-  " Plug 'vim-test/vim-test'
-
-  " Generally usefull stuff
-  Plug 'RRethy/vim-illuminate' " highlight words under cursor
-  Plug 'tpope/vim-repeat'
-  " Plug 'tpope/vim-rhubarb' " TODO find replacement or re-enable
-  Plug 'tpope/vim-speeddating' " increment stuff
-  Plug 'tpope/vim-surround' " obviously
-  " Plug 'tpope/vim-tbone'
-  Plug 'tpope/vim-unimpaired' " bracket mappings
-  " Plug 'tpope/vim-obsession'
-  Plug 'norcalli/nvim-colorizer.lua'
-
-  " Colors - some plugins rely on this
-  " Plug 'devth/vim-colors-solarized' " Note: devth-fork
-  " Plug 'overcache/NeoSolarized'
-  Plug 'ishan9299/nvim-solarized-lua'
-
-
-  " Use TreeSitter for language highlighting instead
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  " Plug 'nvim-treesitter/nvim-treesitter-context'
-  " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  Plug 'HiPhish/nvim-ts-rainbow2'
-
-
-  " General Syntax - these shouldn't slow things down
-  " Plug 'tpope/vim-markdown', {'for': 'markdown'}
-  " Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
-  " Plug 'google/vim-jsonnet', {'for': 'jsonnet'}
-  " Plug 'fatih/vim-go', {'for': 'go'}
-  " Plug 'hashivim/vim-vagrant', {'for': 'vagrant'}
-  " Plug 'mustache/vim-mustache-handlebars'
-  " " Plug 'jparise/vim-graphql', {'for': 'graphql'}
-  " Plug 'jparise/vim-graphql', {'for': 'graphql'}
-  Plug 'delphinus/vim-firestore' " firestore highlighting
-  " Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-  " Plug 'hashivim/vim-terraform'
-  Plug 'MichaHoffmann/tree-sitter-hcl'
-  Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
-
-  Plug 'mattn/emmet-vim' " expanding abbreviations (HTML mostly)
-  Plug 'google/vim-maktaba' " required for vim-bazel
-  Plug 'bazelbuild/vim-bazel'
-  Plug 'jxnblk/vim-mdx-js'
-
-  " JavaScript
-  " " Plug 'mxw/vim-jsx'
-  " Plug 'neoclide/vim-jsx-improve'
-
-  " Clojure
-  " Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'} " clj completion
-  " " needed for edn and the latest clojure syntax
-  " Plug 'guns/vim-clojure-static', {'for': 'clojure'}
-  " Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
-  " " Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'main' }
-  Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
-  Plug 'guns/vim-sexp', {'for': 'clojure'} " NOTE: required for vim-iced
-  " Plug 'liquidz/vim-iced-kaocha'
-  " " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
-  " " Note: Doesn't work with .cljc files yet:
-  " " TODO get this working
-  " " Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
-
-  " " Elm
-  " Plug 'ElmCast/elm-vim', {'for': 'elm'}
-
-  " File exploration / openning
-  Plug 'kyazdani42/nvim-web-devicons' " for file icons
-  Plug 'kyazdani42/nvim-tree.lua'
-  " Plug 'scrooloose/nerdtree'
-  " Plug 'Xuyuanp/nerdtree-git-plugin'
-  " Can't get these to work right - font is not configured?
-  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  " Plug 'ryanoasis/vim-devicons'
-
-  " tmux integration
-  " Plug 'tmux-plugins/vim-tmux'
-  " Plug 'christoomey/vim-tmux-navigator'
-
-  " Utils
-  " Plug 'vimlab/split-term.vim' " Terminal utils
-  " Plug 'christianrondeau/vim-base64'
-  " Plug 'mhinz/vim-signify'
-  Plug 'kassio/neoterm' " Terminal utils
-  Plug 'kevinhwang91/nvim-bqf' " Better quickfix
-  " Plug 'vim-scripts/regreplop.vim' " replace!
-
-  " Mermaid diagrams / live markdown preview
-  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
-
-  Plug 'svermeulen/vim-subversive' " Replace stuff
-  Plug 'tpope/vim-commentary' " commenting
-  Plug 'JoosepAlviste/nvim-ts-context-commentstring' " embedded language comment support
-
-
-  " TODO possibly re-enable this but figure out how to make it not conflict with
-  " CoC.nvim
-  " Plug 'dense-analysis/ale' " Async Lint Engine
-  " Plug 'vim-scripts/YankRing.vim' " (SLOW) Keep track of past yanked values
-  Plug 'svermeulen/vim-yoink'
-  " Plug 'vim-scripts/tComment' " Comment stuff
-  Plug 'junegunn/goyo.vim' " Writing mode
-  " Plug 'preservim/tagbar' " ctags!
-  " Plug 'lvht/tagbar-markdown' " tagbar for md files
-  " Plug 'liuchengxu/vista.vim'
-  Plug 'michaeljsmith/vim-indent-object' " indent objects
-  " Plug 'junegunn/vim-easy-align' " alignment!
-  " Plug 'mileszs/ack.vim' " search file contents via ag or ack
-  " Plug 'simnalamburt/vim-mundo' " Vim undo tree viz
-
-  " Plug 'chr4/sslsecure.vim' " Highlight insecure SSL configuration
-
-  " Fuzzy file finder
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'nvim-telescope/telescope-github.nvim'
-  Plug 'nvim-telescope/telescope-media-files.nvim'
-  Plug 'nvim-telescope/telescope-live-grep-args.nvim'
-  Plug 'aaronhallaert/advanced-git-search.nvim'
-
-  " native sorter for telescope
-  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  " Plug '/usr/local/opt/fzf' " installed via Homebrew
-  " Plug 'junegunn/fzf.vim' " if you want latest fzf use this instead
-  " Plug 'junegunn/fzf', { 'do': './install --all' }
-  " Plug 'junegunn/fzf', { 'do': './install --bin' }
-  " Plug 'junegunn/fzf.vim'
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-
-
-  " Use actual tmux instead
-  " Plug 'Vigemus/nvimux' " Tmux-like key bindings for NeoVim
-
-  " Status line
-  Plug 'nvim-lualine/lualine.nvim'
-  "
-  " Powerline alternatives
-  " Plug 'vim-airline/vim-airline'
-  " Plug 'vim-airline/vim-airline-themes'
-
-  " Plug 'gcmt/taboo.vim' " Tabs
-
-  " TypeScript
-  " Plug 'pangloss/vim-javascript'
-  " Plug 'leafgarland/typescript-vim'
-  " Plug 'peitalin/vim-jsx-typescript'
-
-  " Language Service Client
-  " Originally configured for TypeScript following
-  " https://thoughtbot.com/blog/modern-typescript-and-react-development-in-vim
-  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  " let g:coc_global_extensions = [
-  "       \ 'coc-tsserver'
-  "       \ ]
-
-  " Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-  " Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TSServer client
-
-  call plug#end()
+  lua require("config.lazy")
 " }}}
 
 " Vim system settings {{{
@@ -238,14 +20,15 @@
   " set foldmethod=marker
   set nowrap
   set ttyfast
-  set lazyredraw
+  " don't need this anymore and noice doesn't like it.
+  " set lazyredraw
   set nocompatible
+  " min number of lines above below cursor
+  set scrolloff=3
   syntax on
   filetype plugin indent on
   set shell=/bin/zsh
   " set shellcmdflag=-l
-  let mapleader = ","
-  let maplocalleader = ","
   set history=1000
   set undolevels=1000
   set nocursorline nocursorcolumn " vim is slow with these on :/
@@ -321,6 +104,46 @@
 
 
 " }}}
+
+" nvim lua default package lookup {{{
+
+lua <<EOF
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.config/nvim/lua/?.lua"
+EOF
+" }}}
+
+
+" Mason / LSP must be before lspconfig below {{{
+lua <<EOF
+  require("mason").setup()
+  require("mason-lspconfig").setup {
+    ensure_installed = {
+      "biome",
+      "ts_ls",
+      "kotlin_language_server",
+      "ruby_lsp",
+      "rubocop",
+      "sorbet",
+      "yamlls",
+      "jedi_language_server",
+    },
+    automatic_installation = true
+  }
+EOF
+" }}}
+"
+
+
+" Images 3rd/image.nvim {{{
+lua <<EOF
+
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
+
+require("image").setup({})
+EOF
+" }}}
+
 
 " Vim system mappings {{{
 
@@ -481,76 +304,22 @@
   " (might want to be able to toggle this)
   set fdo-=search
 " }}}
-"
 
 " yaml treesitter {{{
 lua << EOF
-
-
--- require("treesitter-context").setup({
---   enable = true,
---   throttle = true,
---   max_lines = 0,
---   patterns = {
---     default = {
---       "class",
---       "function",
---       "method",
---       "for",
---       "while",
---       "if",
---       "else",
---       "switch",
---       "case",
---     },
---     rust = {
---       "impl_item",
---       "mod_item",
---       "enum_item",
---       "match",
---       "struct",
---       "loop",
---       "closure",
---       "async_block",
---       "block",
---     },
---     python = {
---       "elif",
---       "with",
---       "try",
---       "except",
---     },
---     json = {
---       "object",
---       "pair",
---     },
---     javascript = {
---       "object",
---       "pair",
---     },
---     yaml = {
---       "block_mapping_pair",
---       "block_sequence_item",
---     },
---     toml = {
---       "table",
---       "pair",
---     },
---     markdown = {
---       "section",
---     },
---   },
--- })
-
+  -- config here if you need it
+  require'treesitter-context'.setup{
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
+    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+    line_numbers = true,
+  }
 EOF
 " }}}
-
 
 " Lualine {{{
 
 lua << EOF
-
-
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -646,39 +415,6 @@ EOF
   " default background color - can be toggled
   set bg=light
 
-  let g:airline_powerline_fonts = 1
-  " Only load the Airline extensions we want
-  " let g:airline_extensions = ['tabline', 'ale', 'fugitive']
-
-  " let g:airline#extensions#tabline#fnamemod = ':t'
-  let g:airline#extensions#tabline#enabled = 1
-  " let g:airline#extensions#tabline#formatter = 'pwd'
-  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-  " collapse parent dirs in buffer names
-  " let g:airline#extensions#tabline#fnamecollapse = 1
-
-  " let g:airline#extensions#tabline#show_tab_nr = 1
-  " let g:airline#extensions#tabline#show_tab_type = 1
-
-  " Use tab index
-  let g:airline#extensions#tabline#tab_nr_type = 1
-  let g:airline#extensions#tabline#show_tab_nr = 1
-
-  " Disable tmuxline overwriting so we can configure it ourselves
-  let g:airline#extensions#tmuxline#enabled = 0
-
-  " Use Taboo for tabs
-  let g:airline#extensions#taboo#enabled = 1
-  set t_Co=256
-
-  " Disable Taboo's tabline
-  let g:taboo_tabline = 0
-
-  let taboo_renamed_tab_format = "%l"
-  " if the above includes %m it looks all messed up with %#TabModifiedSelected
-  " in the tab when it gets modified. Might be a Taboo bug ?
-  let taboo_modified_tab_flag = "⚡️"
-
   " Quickly switch between light and dark
   nnoremap <leader>bgl :set bg=light<cr>
   nnoremap <leader>bgd :set bg=dark<cr>
@@ -722,147 +458,98 @@ EOF
   xmap p <plug>(SubversiveSubstitute)
   xmap P <plug>(SubversiveSubstitute)
 " }}}
+"
+
+" Noice {{{
+
+lua <<EOF
+-- require("noice").setup({
+  -- lsp = {
+  --   -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+  --   override = {
+  --     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+  --     ["vim.lsp.util.stylize_markdown"] = true,
+  --     ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+  --   },
+  -- },
+  -- -- you can enable a preset for easier configuration
+  -- presets = {
+  --   bottom_search = true, -- use a classic bottom cmdline for search
+  --   command_palette = true, -- position the cmdline and popupmenu together
+  --   long_message_to_split = true, -- long messages will be sent to a split
+  --   inc_rename = false, -- enables an input dialog for inc-rename.nvim
+  --   lsp_doc_border = false, -- add a border to hover docs and signature help
+  -- },
+-- })
+EOF
+
+" }}}
 
 " TreeSitter {{{
 
 lua <<EOF
-
-
 -- local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
 -- ft_to_parser.mdx = "markdown"
 -- vim.treesitter.language.register('mdx', 'markdown', 'markdown')
 
-
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-   'css', 'graphql', 'html', 'javascript',
-    'lua', 'nix', 'python', 'svelte', 'tsx', 'twig',
-    'typescript', 'vim', 'vimdoc', 'markdown'
+    'css', 'graphql', 'html', 'javascript', 'lua', 'nix', 'python', 'svelte',
+    'tsx', 'twig', 'typescript', 'vim', 'vimdoc', 'markdown', 'markdown_inline',
+    'clojure', 'regex', 'bash'
   },
   highlight = {
     enable = true
   },
-  -- textobjects = {
-    --select = {
-    --  enable = true,
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn", -- set to `false` to disable one of the mappings
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
+    },
+  },
+  indent = {
+    enable = true
+  },
 
-    --  -- Automatically jump forward to textobj, similar to targets.vim
-    --  lookahead = true,
-
-    --  keymaps = {
-    --    -- You can use the capture groups defined in textobjects.scm
-    --    ["af"] = "@function.outer",
-    --    ["if"] = "@function.inner",
-    --    ["ac"] = "@class.outer",
-    --    -- You can optionally set descriptions to the mappings (used in the desc parameter of
-    --    -- nvim_buf_set_keymap) which plugins like which-key display
-    --    ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-    --    -- You can also use captures from other query groups like `locals.scm`
-    --    ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-    --  },
-    --  -- You can choose the select mode (default is charwise 'v')
-    --  --
-    --  -- Can also be a function which gets passed a table with the keys
-    --  -- * query_string: eg '@function.inner'
-    --  -- * method: eg 'v' or 'o'
-    --  -- and should return the mode ('v', 'V', or '<c-v>') or a table
-    --  -- mapping query_strings to modes.
-    --  selection_modes = {
-    --    ['@parameter.outer'] = 'v', -- charwise
-    --    ['@function.outer'] = 'V', -- linewise
-    --    ['@class.outer'] = '<c-v>', -- blockwise
-    --  },
-    --  -- If you set this to `true` (default is `false`) then any textobject is
-    --  -- extended to include preceding or succeeding whitespace. Succeeding
-    --  -- whitespace has priority in order to act similarly to eg the built-in
-    --  -- `ap`.
-    --  --
-    --  -- Can also be a function which gets passed a table with the keys
-    --  -- * query_string: eg '@function.inner'
-    --  -- * selection_mode: eg 'v'
-    --  -- and should return true of false
-    --  include_surrounding_whitespace = true,
-    --},
-    --move = {
-    --  enable = true,
-    --  set_jumps = true, -- whether to set jumps in the jumplist
-    --  goto_next_start = {
-    --    ["]m"] = "@function.outer",
-    --    ["]]"] = { query = "@class.outer", desc = "Next class start" },
-    --    --
-    --    -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
-    --    ["]o"] = "@loop.*",
-    --    -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
-    --    --
-    --    -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-    --    -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-    --    ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-    --    ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-    --  },
-    --  goto_next_end = {
-    --    ["]M"] = "@function.outer",
-    --    ["]["] = "@class.outer",
-    --  },
-    --  goto_previous_start = {
-    --    ["[m"] = "@function.outer",
-    --    ["[["] = "@class.outer",
-    --  },
-    --  goto_previous_end = {
-    --    ["[M"] = "@function.outer",
-    --    ["[]"] = "@class.outer",
-    --  },
-    --  -- Below will go to either the start or the end, whichever is closer.
-    --  -- Use if you want more granular movements
-    --  -- Make it even more gradual by adding multiple queries and regex.
-    --  goto_next = {
-    --    ["]d"] = "@conditional.outer",
-    --  },
-    --  goto_previous = {
-    --    ["[d"] = "@conditional.outer",
-    --  }
-    --},
-    --lsp_interop = {
-    --  enable = true,
-    --  border = 'none',
-    --  floating_preview_opts = {},
-    --  peek_definition_code = {
-    --    ["<leader>df"] = "@function.outer",
-    --    ["<leader>dF"] = "@class.outer",
-    --  },
-    --},
-  -- },
-  -- rainbow = {
-  --   enable = true,
-  --   -- list of languages you want to disable the plugin for
-  --   disable = {},
-  --   -- Which query to use for finding delimiters
-  --   query = 'rainbow-parens',
-  --   -- Highlight the entire buffer all at once
-  --   strategy = require('ts-rainbow').strategy.global,
-  -- },
+  -- see all config options at
+  -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects?tab=readme-ov-file#text-objects-select
+  textobjects = {
+    select = {
+      enable = true,
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+    },
+  },
 }
 
-vim.treesitter.language.register('mdx', 'markdown')
+-- https://github.com/windwp/nvim-ts-autotag?tab=readme-ov-file#setup
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+  -- Also override individual filetype configs, these take priority.
+  -- Empty by default, useful if one of the "opts" global settings
+  -- doesn't work well in a specific filetype
+  per_filetype = {
+    ["html"] = {
+      enable_close = false
+    }
+  }
+})
 
--- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
--- local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
--- Repeat movement with ; and ,
--- ensure ; goes forward and , goes backward regardless of the last direction
--- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
--- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
--- vim way: ; goes to the direction you were moving.
--- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
--- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
--- Optionally, make builtin f, F, t, T also repeatable with ; and ,
--- vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
--- vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
--- vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
--- vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+-- vim.treesitter.language.register('mdx', 'markdown')
 
 EOF
 
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+set nofoldenable
 set foldlevel=20
 
 " }}}
@@ -870,11 +557,11 @@ set foldlevel=20
 " Trouble {{{
 
 lua << EOF
--- require("trouble").setup {
+require("trouble").setup {
   -- your configuration comes here
   -- or leave it empty to use the default settings
   -- refer to the configuration section below
--- }
+}
 EOF
 
 nnoremap <leader>xx <cmd>TroubleToggle<cr>
@@ -978,6 +665,9 @@ require("telescope").load_extension("advanced_git_search")
 -- pass args to grep https://github.com/nvim-telescope/telescope-live-grep-args.nvim
 require("telescope").load_extension("live_grep_args")
 
+-- telescope for code actions
+require("telescope").load_extension("ui-select")
+
 
 -- David-Kunz/jester
 map('n', '<leader>tt', ':lua require"jester".run({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
@@ -1004,15 +694,16 @@ nmap <silent> <leader>g :TestVisit<CR>
 
 lua << EOF
 
-local cfg = {}
-require "lsp_signature".setup(cfg)
+
+-- local cfg = {}
+-- require "lsp_signature".setup(cfg)
 
 -- https://github.com/ray-x/navigator.lua
 -- require'navigator'.setup()
 
-
 -- from https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
 -- updated 1/15/2022
+
 
 local lspconfig = require("lspconfig")
 local buf_map = function(bufnr, mode, lhs, rhs, opts)
@@ -1020,6 +711,20 @@ local buf_map = function(bufnr, mode, lhs, rhs, opts)
         silent = true,
     })
 end
+
+-- vim.opt.signcolumn = "yes"
+-- vim.diagnostic.config({
+--   virtual_text = false,
+--   signs = false,
+--   underline = false,
+--   update_in_insert = false,
+--   severity_sort = true,
+--   float = {
+--     border = 'rounded',
+--     source = true,
+--   },
+-- })
+
 local on_attach = function(client, bufnr)
     vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
     vim.cmd("command! LspFormatting lua vim.lsp.buf.format { timeout_ms = 5000 }")
@@ -1037,11 +742,11 @@ local on_attach = function(client, bufnr)
     buf_map(bufnr, "n", "gr", ":LspRename<CR>")
     buf_map(bufnr, "n", "gl", ":LspRefs<CR>")
     buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
-    buf_map(bufnr, "n", "K", ":LspHover<CR>")
+    -- buf_map(bufnr, "n", "K", ":LspHover<CR>")
     buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
     buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
     buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
-    buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
+    -- buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
     buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
     buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
 
@@ -1067,64 +772,94 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/pylsp.lua
 -- lspconfig.pylsp.setup{}
-lspconfig.pyright.setup{}
+-- lspconfig.pyright.setup{}
+-- lspconfig.gopls.setup{}
 
-lspconfig.gopls.setup{}
+lspconfig.ruby_lsp.setup({})
+lspconfig.rubocop.setup{}
 
-lspconfig.tsserver.setup({
-  flags = {
-    debounce_text_changes = 500,
-  },
-  capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    client.server_capabilities.document_formatting = false
-    client.server_capabilities.document_range_formatting = false
-    local ts_utils = require("nvim-lsp-ts-utils")
-    ts_utils.setup({})
-    ts_utils.setup_client(client)
-    buf_map(bufnr, "n", "gs", ":TSLspOrganize<CR>")
-    buf_map(bufnr, "n", "gi", ":TSLspRenameFile<CR>")
-    buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
-    on_attach(client, bufnr)
-  end,
-})
+lspconfig.biome.setup{}
 
-local null_ls = require("null-ls")
-null_ls.setup({
-  sources = {
-    -- diagnostics
-    null_ls.builtins.diagnostics.eslint.with({
-        prefer_local = "node_modules/.bin",
-    }),
-    -- null_ls.builtins.diagnostics.eslint_d,
+lspconfig.yamlls.setup {}
 
-    -- formatting - use eslint instead
-    -- null_ls.builtins.formatting.eslint_d,
-    -- null_ls.builtins.formatting.eslint.with({
-    --     prefer_local = "node_modules/.bin",
-    -- }),
-    null_ls.builtins.formatting.prettier.with({
-        prefer_local = "node_modules/.bin",
-    }),
-
-    -- code actions
-    -- null_ls.builtins.code_actions.eslint.with({
-    --     prefer_local = "node_modules/.bin",
-    -- }),
-    null_ls.builtins.code_actions.eslint_d,
-
-    -- try using eslint for formatting instead of prettier
-    -- null_ls.builtins.formatting.eslint_d,
+-- this replaces lspconfig ts_ls
+require("typescript-tools").setup {
+  settings = {
+    expose_as_code_action = "all",
+    jsx_close_tag = {
+      enable = true,
+      filetypes = { "javascriptreact", "typescriptreact" },
     },
-    on_attach = on_attach,
-  }
-)
+    tsserver_file_preferences = {
+      includeInlayParameterNameHints = "all",
+      includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+      includeInlayFunctionParameterTypeHints = true,
+      includeInlayVariableTypeHints = true,
+      includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+      includeInlayPropertyDeclarationTypeHints = true,
+      includeInlayFunctionLikeReturnTypeHints = true,
+      includeInlayEnumMemberValueHints = true,
+    },
+  },
+}
 
--- local sources = {
---     -- null_ls.builtins.formatting.prettier.with({
---     --     prefer_local = "node_modules/.bin",
---     -- }),
+-- python lsp
+require'lspconfig'.jedi_language_server.setup{}
+
+-- require'lspconfig'.ts_ls.setup{
+--   on_attach = function(client, bufnr)
+--     -- disable formatting so it doesn't conflict with eslint / prettier
+--     client.server_capabilities.documentFormattingProvider = false
+--     client.server_capabilities.documentRangeFormatting = false
+--     -- only config typescript-tools after attaching to a TS language server
+--     -- local ts_utils = require("nvim-lsp-ts-utils")
+--     -- ts_utils.setup({})
+--     -- ts_utils.setup_client(client)
+--     -- this command is broken until https://github.com/pmizio/typescript-tools.nvim/issues/295 is fixed
+--     buf_map(bufnr, "n", "gs", ":TSToolsOrganizeImports<CR>")
+--     -- buf_map(bufnr, "n", "gi", ":TSLspRenameFile<CR>")
+--     -- buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
+--     on_attach(client, bufnr)
+--   end,
 -- }
+
+
+-- lspconfig.tsserver.setup({
+--   flags = {
+--     debounce_text_changes = 500,
+--   },
+--   capabilities = capabilities,
+--   on_attach = function(client, bufnr)
+--     -- disable formatting so it doesn't conflict with eslint / prettier
+--     client.server_capabilities.documentFormattingProvider = false
+--     client.server_capabilities.documentRangeFormatting = false
+--     local ts_utils = require("nvim-lsp-ts-utils")
+--     ts_utils.setup({})
+--     ts_utils.setup_client(client)
+--     buf_map(bufnr, "n", "gs", ":TSToolsOrganizeImports<CR>")
+--     buf_map(bufnr, "n", "gi", ":TSLspRenameFile<CR>")
+--     buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
+--     on_attach(client, bufnr)
+--   end,
+-- })
+
+
+-- replaced null_ls with none-ls following biome's instructions
+local null_ls = require("null-ls")
+-- use biome (via lsp) instead!
+-- null_ls.setup({
+--   sources = {
+--     require("none-ls.diagnostics.eslint"),
+--     require("none-ls.code_actions.eslint"),
+--     -- use prettier instead of lsp formatting
+--     null_ls.builtins.formatting.prettier,
+--     -- null_ls.builtins.diagnostics.eslint_d,
+--     -- try using eslint for formatting instead of prettier
+--     -- null_ls.builtins.formatting.eslint_d,
+--     },
+--     on_attach = on_attach,
+--   }
+-- )
 
 EOF
 
@@ -1148,6 +883,12 @@ EOF
 set completeopt=menu,menuone,noselect
 
 lua <<EOF
+
+  -- setup Codeium
+  require("codeium").setup({
+    enable_chat = true,
+  })
+
   -- Setup nvim-cmp.
   local cmp = require'cmp'
 
@@ -1170,16 +911,27 @@ lua <<EOF
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        -- Accept currently selected item. Set `select` to `false` to only
+        -- confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
+      -- https://www.reddit.com/r/neovim/comments/so4g5e/comment/hw7i5n0/
+      { name = "nvim_lsp_signature_help" },
+      { name = "codeium" },
       { name = 'vsnip' }, -- For vsnip users.
+      {
+        name = 'buffer',
+        option = {
+          get_bufnrs = function()
+            return vim.api.nvim_list_bufs()
+          end
+        }
+      }
       -- { name = 'luasnip' }, -- For luasnip users.
       -- { name = 'ultisnips' }, -- For ultisnips users.
       -- { name = 'snippy' }, -- For snippy users.
-    }, {
-      { name = 'buffer' },
     })
   })
 
@@ -1219,8 +971,17 @@ EOF
 
 
 lua <<EOF
--- following options are the default
-require'nvim-tree'.setup {}
+
+local function nvim_tree_on_attach(bufnr)
+  local api = require "nvim-tree.api"
+  api.config.mappings.default_on_attach(bufnr)
+  -- remove C-e so we can use default vim C-e scrolling behavior
+  vim.keymap.del("n", "<C-e>", { buffer = bufnr })
+end
+require'nvim-tree'.setup {
+  on_attach = nvim_tree_on_attach,
+}
+
 EOF
 
   " Can be `0` or `1`. When `1`, will close the tree when a file is opened.
@@ -1354,18 +1115,6 @@ EOF
 
   " let g:ale_fix_on_save = 1
 
-
-  " Flow typed
-  " https://github.com/flowtype/vim-flow
-  " let g:flow#enable = 0
-  " let g:flow#showquickfix = 0
-  " let g:flow#autoclose = 1
-  " let g:flow#timeout = 4
-  " autocmd FileType javascript nnoremap <leader>ft :FlowType<cr>
-  " autocmd FileType javascript nnoremap <leader>fj :FlowJumpToDef<cr>
-  " " TODO what about gf for non-flow projects?
-  " autocmd FileType javascript nnoremap gf :FlowJumpToDef<cr>
-
 " }}}
 
 " Clipboard {{{
@@ -1386,6 +1135,7 @@ EOF
   nnoremap <leader>fd <cmd>Telescope lsp_definitions<cr>
   nnoremap <leader>fa <cmd>Telescope lsp_code_actions<cr>
   nnoremap <leader>fs <cmd>Telescope lsp_document_symbols<cr>
+  nnoremap <leader>fw <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
   nnoremap <leader>fh <cmd>Telescope help_tags<cr>
   nnoremap <leader>fl <cmd>Telescope git_files<cr>
   nnoremap <leader>tgb <cmd>Telescope git_branches<cr>
@@ -1404,7 +1154,15 @@ lua <<EOF
 local telescope = require("telescope")
 local lga_actions = require("telescope-live-grep-args.actions")
 
+
+local image_preview = require('telescopeimage').telescope_image_preview()
+
+
 telescope.setup {
+  defaults = {
+      file_previewer = image_preview.file_previewer,
+      buffer_previewer_maker = image_preview.buffer_previewer_maker,
+  },
   extensions = {
     live_grep_args = {
       auto_quoting = true, -- enable/disable auto-quoting
@@ -1419,6 +1177,9 @@ telescope.setup {
       -- theme = "dropdown", -- use dropdown theme
       -- theme = { }, -- use own theme spec
       -- layout_config = { mirror=true }, -- mirror preview pane
+    },
+    require("telescope.themes").get_dropdown {
+        -- even more opts
     }
   }
 }
@@ -1448,7 +1209,6 @@ EOF
 
 " TODO remove since we're using actual tmux now
 " nvimux {{{
-
 " lua << EOF
 " local nvimux = require('nvimux')
 "
@@ -1547,17 +1307,6 @@ EOF
       " au BufWritePre *.clj,*.cljs,*.cljc,*.edn execute ':IcedFormatSync'
     aug END
 
-    let g:iced_enable_default_key_mappings = v:true
-    " let g:iced_enable_clj_kondo_analysis = v:true
-    " let g:iced_enable_auto_indent = v:false
-
-    let g:iced#format#rule = {
-      \ 'midje.sweet/fact': '[[:inner 0]]',
-      \ 'midje.sweet/facts': '[[:inner 1]]',
-    \ }
-
-    " let g:iced_enable_auto_document = 'normal'
-
     " Replicate vim-fireplace mappings for vim-iced
     autocmd FileType clojure nmap cqp :IcedEval<space>
     autocmd FileType clojure nmap cpr :IcedRequireAll<cr>
@@ -1572,12 +1321,11 @@ EOF
     " autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
 
     " always print after evaluating in vim-iced
-   call iced#hook#add('evaluated', {
-      \ 'type': 'command',
-      \ 'exec': 'IcedPrintLast',
-      \ })
+     " call iced#hook#add('evaluated', {
+     "    \ 'type': 'command',
+     "    \ 'exec': 'IcedPrintLast',
+     "    \ })
 
-     
 
     " add namespace
     autocmd FileType clojure nmap <buffer> <leader>an :IcedAddNs<cr>
@@ -1595,29 +1343,29 @@ EOF
 
   " TypeScript {{{
   " From https://github.com/peitalin/vim-jsx-typescript
-  autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
-  hi tsxTag guifg=#F99575 ctermfg=lightgray
-  hi tsxTagName guifg=#E06C75 ctermfg=darkblue
-  hi tsxCloseString guifg=#F99575 ctermfg=darkblue
-  hi tsxCloseTag guifg=#F99575 ctermfg=lightgray
-  hi tsxCloseTagName guifg=#F99575 ctermfg=darkblue
-  hi tsxAttributeBraces guifg=#F99575 ctermfg=white
-  hi tsxJsBlock guifg=#F99575 ctermfg=darkcyan
-  hi tsxEqual guifg=#F99575 ctermfg=brown
-  hi tsxAttrib guifg=#F8BD7F cterm=italic ctermfg=darkmagenta
+  " autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+  " hi tsxTag guifg=#F99575 ctermfg=lightgray
+  " hi tsxTagName guifg=#E06C75 ctermfg=darkblue
+  " hi tsxCloseString guifg=#F99575 ctermfg=darkblue
+  " hi tsxCloseTag guifg=#F99575 ctermfg=lightgray
+  " hi tsxCloseTagName guifg=#F99575 ctermfg=darkblue
+  " hi tsxAttributeBraces guifg=#F99575 ctermfg=white
+  " hi tsxJsBlock guifg=#F99575 ctermfg=darkcyan
+  " hi tsxEqual guifg=#F99575 ctermfg=brown
+  " hi tsxAttrib guifg=#F8BD7F cterm=italic ctermfg=darkmagenta
 
-  " light-grey
-  hi tsxTypeBraces guifg=#999999 ctermfg=lightgray
-  hi tsxTypes guifg=#666666 ctermfg=lightgray
+  " " light-grey
+  " hi tsxTypeBraces guifg=#999999 ctermfg=lightgray
+  " hi tsxTypes guifg=#666666 ctermfg=lightgray
 
-  hi ReactState guifg=#C176A7
-  hi ReactProps guifg=#D19A66
-  hi ApolloGraphQL guifg=#CB886B
-  hi Events ctermfg=204 guifg=#56B6C2
-  hi ReduxKeywords ctermfg=204 guifg=#C678DD
-  hi ReduxHooksKeywords ctermfg=204 guifg=#C176A7
-  hi WebBrowser ctermfg=204 guifg=#56B6C2
-  hi ReactLifeCycleMethods ctermfg=204 guifg=#D19A66
+  " hi ReactState guifg=#C176A7
+  " hi ReactProps guifg=#D19A66
+  " hi ApolloGraphQL guifg=#CB886B
+  " hi Events ctermfg=204 guifg=#56B6C2
+  " hi ReduxKeywords ctermfg=204 guifg=#C678DD
+  " hi ReduxHooksKeywords ctermfg=204 guifg=#C176A7
+  " hi WebBrowser ctermfg=204 guifg=#56B6C2
+  " hi ReactLifeCycleMethods ctermfg=204 guifg=#D19A66
 
   " Give more space for displaying messages.
   " set cmdheight=2
@@ -1699,6 +1447,10 @@ nnoremap <leader>yr :YRShow<cr>
 " TypeScript {{{
   autocmd FileType typescript setlocal commentstring=//\ %s
   autocmd FileType typescript.jsx setlocal commentstring=//\ %s
+" }}}
+
+" Firestore {{{
+  autocmd FileType firestore setlocal commentstring=//\ %s
 " }}}
 
 " JavaScript {{{
