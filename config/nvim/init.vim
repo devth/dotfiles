@@ -11,6 +11,10 @@
 
 " Plugins {{{
   lua require("config.lazy")
+  " }}}
+
+" Lua config {{{
+  lua require("config.theme")
 " }}}
 
 " Vim system settings {{{
@@ -105,6 +109,14 @@
 
 " }}}
 
+
+" lua vim settings {{{
+lua <<EOF
+vim.diagnostic.config({virtual_lines=true})
+EOF
+
+" }}}
+
 " nvim lua default package lookup {{{
 
 lua <<EOF
@@ -125,7 +137,8 @@ lua <<EOF
       "rubocop",
       "sorbet",
       "yamlls",
-      "jedi_language_server",
+      "pyright",
+      -- "jedi_language_server",
     },
     automatic_installation = true
   }
@@ -355,7 +368,7 @@ require('lualine').setup {
     lualine_z = {}
   },
   tabline = {},
-  extensions = {'quickfix', 'nvim-tree'}
+  extensions = {'quickfix', 'nvim-tree', 'trouble', 'fzf', 'lazy'}
 }
 
 EOF
@@ -413,7 +426,7 @@ EOF
   set colorcolumn=80
   set guioptions=egmt
   " default background color - can be toggled
-  set bg=light
+  set bg=dark
 
   " Quickly switch between light and dark
   nnoremap <leader>bgl :set bg=light<cr>
@@ -460,37 +473,23 @@ EOF
 " }}}
 "
 
-" Noice {{{
-
-lua <<EOF
--- require("noice").setup({
-  -- lsp = {
-  --   -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-  --   override = {
-  --     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-  --     ["vim.lsp.util.stylize_markdown"] = true,
-  --     ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-  --   },
-  -- },
-  -- -- you can enable a preset for easier configuration
-  -- presets = {
-  --   bottom_search = true, -- use a classic bottom cmdline for search
-  --   command_palette = true, -- position the cmdline and popupmenu together
-  --   long_message_to_split = true, -- long messages will be sent to a split
-  --   inc_rename = false, -- enables an input dialog for inc-rename.nvim
-  --   lsp_doc_border = false, -- add a border to hover docs and signature help
-  -- },
--- })
-EOF
-
-" }}}
-
 " TreeSitter {{{
 
 lua <<EOF
 -- local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
 -- ft_to_parser.mdx = "markdown"
 -- vim.treesitter.language.register('mdx', 'markdown', 'markdown')
+
+vim.filetype.add({
+  extension = {
+    gotmpl = 'gotmpl',
+  },
+  pattern = {
+    [".*/templates/.*%.tpl"] = "helm",
+    [".*/templates/.*%.ya?ml"] = "helm",
+    ["helmfile.*%.ya?ml"] = "helm",
+  },
+})
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
@@ -548,7 +547,8 @@ require('nvim-ts-autotag').setup({
 EOF
 
 set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
+set foldexpr = "v:lua.vim.lsp.foldexpr()"
+" set foldexpr=nvim_treesitter#foldexpr()
 set nofoldenable
 set foldlevel=20
 
@@ -712,19 +712,6 @@ local buf_map = function(bufnr, mode, lhs, rhs, opts)
     })
 end
 
--- vim.opt.signcolumn = "yes"
--- vim.diagnostic.config({
---   virtual_text = false,
---   signs = false,
---   underline = false,
---   update_in_insert = false,
---   severity_sort = true,
---   float = {
---     border = 'rounded',
---     source = true,
---   },
--- })
-
 local on_attach = function(client, bufnr)
     vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
     vim.cmd("command! LspFormatting lua vim.lsp.buf.format { timeout_ms = 5000 }")
@@ -775,10 +762,13 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- lspconfig.pyright.setup{}
 -- lspconfig.gopls.setup{}
 
-lspconfig.ruby_lsp.setup({})
-lspconfig.rubocop.setup{}
+-- these seem too slow so disable them:
+-- lspconfig.ruby_lsp.setup({})
+-- lspconfig.rubocop.setup{}
 
-lspconfig.biome.setup{}
+-- this will use biome for formatting too but it doesn't load format or lint.
+-- errors into diagnostics. none-ls is required for that.
+-- lspconfig.biome.setup{}
 
 lspconfig.yamlls.setup {}
 
@@ -804,7 +794,8 @@ require("typescript-tools").setup {
 }
 
 -- python lsp
-require'lspconfig'.jedi_language_server.setup{}
+-- require'lspconfig'.jedi_language_server.setup{}
+require'lspconfig'.pyright.setup{}
 
 -- require'lspconfig'.ts_ls.setup{
 --   on_attach = function(client, bufnr)
@@ -847,19 +838,21 @@ require'lspconfig'.jedi_language_server.setup{}
 -- replaced null_ls with none-ls following biome's instructions
 local null_ls = require("null-ls")
 -- use biome (via lsp) instead!
--- null_ls.setup({
---   sources = {
---     require("none-ls.diagnostics.eslint"),
---     require("none-ls.code_actions.eslint"),
---     -- use prettier instead of lsp formatting
---     null_ls.builtins.formatting.prettier,
---     -- null_ls.builtins.diagnostics.eslint_d,
---     -- try using eslint for formatting instead of prettier
---     -- null_ls.builtins.formatting.eslint_d,
---     },
---     on_attach = on_attach,
---   }
--- )
+null_ls.setup({
+  sources = {
+    -- temp disable these while trying biome:
+    -- require("none-ls.diagnostics.eslint"),
+    -- require("none-ls.diagnostics.eslint"),
+    -- require("none-ls.code_actions.eslint"),
+
+    -- use prettier instead of lsp formatting
+    -- null_ls.builtins.formatting.prettier,
+
+    null_ls.builtins.formatting.biome
+    },
+    on_attach = on_attach,
+  }
+)
 
 EOF
 
@@ -916,11 +909,12 @@ lua <<EOF
       ['<CR>'] = cmp.mapping.confirm({ select = false }),
     }),
     sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
+      { name = 'nvim_lsp', priority = 1000 },
+      { name = "codeium", priority = 900 },
       -- https://www.reddit.com/r/neovim/comments/so4g5e/comment/hw7i5n0/
       { name = "nvim_lsp_signature_help" },
-      { name = "codeium" },
       { name = 'vsnip' }, -- For vsnip users.
+      { name = 'calc' },
       {
         name = 'buffer',
         option = {
@@ -1055,68 +1049,6 @@ EOF
 
 " }}}
 
-" Linting {{{
-  " Enable Neomake on save on expected file types
-  " autocmd! BufWritePost sh,markdown Neomake
-  " Or just enable it everywhere all the time because it's async!
-  " autocmd! BufEnter,BufRead,BufWritePost * Neomake
-  " let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
-  " let g:neomake_error_sign = {'text': '•', 'texthl': 'NeomakeErrorSign'}
-
-  " let g:ale_sign_error = '⚠'
-  " let g:ale_sign_warning = '•'
-  " " Disabling trailing whitespace warnings doesn't affect Markdown because
-  " " markdownlint checks that too
-  " let g:ale_warn_about_trailing_whitespace = 0
-  " let g:ale_lint_delay = 1000
-
-  " let g:ale_fixers = {
-  " \   'javascript': ['prettier', 'eslint'],
-  " \   'typescript': ['prettier'],
-  " \   'css': ['prettier'],
-  " \}
-
-  " let g:ale_fix_on_save = 1
-
-  " let b:ale_fixers = {}
-  " let b:ale_fixers['javascript'] = ['prettier']
-  " let b:ale_fixers['typescript'] = ['prettier']
-  " let b:ale_fixers['css'] = ['prettier']
-  " let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-
-  " Prettier
-  " let g:prettier#config#parser = 'babylon'
-  " let g:ale_javascript_prettier_use_local_config = 1
-
-  nnoremap <leader>af :ALEFix<cr>
-
-  " NUKE FLOW TO OBLIVION. NEVER RUN FLOW. FLOW WILL CONSUME ALL YOUR RESOURCES
-  " AND BRING YOUR modern cutting edge hardware to a crawl. You will hard reboot
-  " daily. You will pull your hair out. You will hate life.
-  "
-  " UNLESS YOU DISABLE FLOW. DO THE RIGHT THING.
-
-  " let g:ale_linters = {
-  "   \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
-  " \}
-
-  let g:ale_linters = {'clojure': ['clj-kondo']}
-
-  " let g:ale_linters_ignore = {'typescript': ['tslint']}
-
-  " autocmd FileType javascript
-  " let g:ale_javascript_prettier_options = '--single-quote --no-bracket-spacing --print-width 120'
-
-  " let g:ale_linters = {
-  "   \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
-  " \}
-
-  nmap <Leader><Leader>p <Plug>(Prettier)
-
-  " let g:ale_fix_on_save = 1
-
-" }}}
-
 " Clipboard {{{
   " Put default register into system clipboard
   nnoremap <leader>yc :let @+=@"<cr>
@@ -1125,7 +1057,6 @@ EOF
 " }}}
 
 " Telescope fuzzy finder {{{
-
 
   " Find files using Telescope command-line sugar.
   nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -1381,45 +1312,39 @@ EOF
 " }}}
 "
 
-" yoink {{{
-nmap <c-n> <plug>(YoinkPostPasteSwapBack)
-nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+" " yoink {{{
+" nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+" nmap <c-p> <plug>(YoinkPostPasteSwapForward)
 
-nmap p <plug>(YoinkPaste_p)
-nmap P <plug>(YoinkPaste_P)
+" nmap p <plug>(YoinkPaste_p)
+" nmap P <plug>(YoinkPaste_P)
 
-" Also replace the default gp with yoink paste so we can toggle paste in this
-" case too
-nmap gp <plug>(YoinkPaste_gp)
-nmap gP <plug>(YoinkPaste_gP)
+" " Also replace the default gp with yoink paste so we can toggle paste in this
+" " case too
+" nmap gp <plug>(YoinkPaste_gp)
+" nmap gP <plug>(YoinkPaste_gP)
 
-" Now when you hit [y/]y the current yank will change and you will see a preview
-" of it in the status bar
-nmap [y <plug>(YoinkRotateBack)
-nmap ]y <plug>(YoinkRotateForward)
+" " Now when you hit [y/]y the current yank will change and you will see a preview
+" " of it in the status bar
+" " nmap [y <plug>(YoinkRotateBack)
+" " nmap ]y <plug>(YoinkRotateForward)
 
-" You might also want to add a map for toggling whether the current paste is
-" formatted or not:
-nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
-" Now, hitting <c-=> after a paste will toggle between formatted and unformatted
-" (equivalent to using the = key).
+" " You might also want to add a map for toggling whether the current paste is
+" " formatted or not:
+" nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
+" " Now, hitting <c-=> after a paste will toggle between formatted and unformatted
+" " (equivalent to using the = key).
 
-" Finally, you can also optionally add the following map:
-nmap y <plug>(YoinkYankPreserveCursorPosition)
-xmap y <plug>(YoinkYankPreserveCursorPosition)
+" " Finally, you can also optionally add the following map:
+" nmap y <plug>(YoinkYankPreserveCursorPosition)
+" xmap y <plug>(YoinkYankPreserveCursorPosition)
 
-" After adding this map, yank will function exactly the same as previously with
-" the one difference being that the cursor position will not change after
-" performing a yank. This can be more useful especially when yanking a large
-" text object such as a paragraph.
+" " After adding this map, yank will function exactly the same as previously with
+" " the one difference being that the cursor position will not change after
+" " performing a yank. This can be more useful especially when yanking a large
+" " text object such as a paragraph.
 
-" }}}
-
-" YankRing {{{
-let yankring_persist = 1
-let yankring_share_between_instances = 1
-nnoremap <leader>yr :YRShow<cr>
-" }}}
+" " }}}
 
 " ack {{{
   if executable('ag')
