@@ -120,7 +120,8 @@ EOF
 
 " lua vim settings {{{
 lua <<EOF
-vim.diagnostic.config({virtual_lines=true})
+-- consider disabling this - it causes too much layout shift
+vim.diagnostic.config({virtual_lines = { current_line = true}})
 EOF
 
 " }}}
