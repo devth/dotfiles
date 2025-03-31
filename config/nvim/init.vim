@@ -30,6 +30,7 @@ EOF
   endif
   " set foldmethod=marker
   set nowrap
+  set linebreak " for when we do need wrapping
   set ttyfast
   " don't need this anymore and noice doesn't like it.
   " set lazyredraw
@@ -201,6 +202,10 @@ EOF
   " Tab between braces
   nnoremap <tab> %
   vnoremap <tab> %
+
+  " Show next matched string at eh center of screen
+  nnoremap n nzz
+  nnoremap N Nzz
 
   " Yank current file path
   nnoremap <leader>cp :let @" = expand("%")<cr>

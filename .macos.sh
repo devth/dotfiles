@@ -101,7 +101,6 @@
   # Dark UI
   defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
-
   # Increase max files in a persistent way
 
   # This is non-persistent:

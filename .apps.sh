@@ -15,7 +15,8 @@ echo "NOTE: Install Dropbox and let it sync before running this"
   brew -v || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 # }}}
 
-# Foundations {{{
+# Rely on Brewkfile
+brew bundle
 
   brew install zsh
   # use neovim instead (see below)
@@ -331,3 +332,8 @@ install_android() {
 }
 
 # }}}
+
+
+# license stuff
+open ~/Dropbox/Licenses/license-dash4.dash-license
+
