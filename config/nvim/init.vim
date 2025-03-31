@@ -10,6 +10,13 @@
 " A part of the pristine dotfile zen garden of @devth
 
 " Plugins {{{
+
+lua <<EOF
+  vim.g.sexp_enable_insert_mappings = 0
+  vim.g.sexp_mappings = {}
+  vim.g.sexp_filetypes = ''
+EOF
+
   lua require("config.lazy")
   " }}}
 
@@ -138,6 +145,7 @@ lua <<EOF
       "sorbet",
       "yamlls",
       "pyright",
+      "ruff",
       -- "jedi_language_server",
     },
     automatic_installation = true
@@ -424,7 +432,6 @@ EOF
 
   set termguicolors " https://github.com/overcache/NeoSolarized
   set colorcolumn=80
-  set guioptions=egmt
   " default background color - can be toggled
   set bg=dark
 
@@ -1102,8 +1109,11 @@ telescope.setup {
         i = {
           ["<C-k>"] = lga_actions.quote_prompt(),
           ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+          -- freeze the current list and start a fuzzy search in the frozen list
+          ["<C-space>"] = lga_actions.to_fuzzy_refine,
         },
       },
+      additional_args = { "-." },
       -- ... also accepts theme settings, for example:
       -- theme = "dropdown", -- use dropdown theme
       -- theme = { }, -- use own theme spec

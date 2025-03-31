@@ -17,10 +17,13 @@ return {
   { "nvimtools/none-ls.nvim", },
   { "nvimtools/none-ls-extras.nvim" },
   { "pmizio/typescript-tools.nvim" },
-  {
-    "dmmulroy/ts-error-translator.nvim",
-    opts = {}
-  },
+
+  -- this isn't that great. maybe there's a good CLI based solution?
+  -- {
+  --   "dmmulroy/ts-error-translator.nvim",
+  --   opts = {}
+  -- },
+
   { "folke/trouble.nvim", branch = "main" },
   {
     "folke/noice.nvim",
@@ -50,7 +53,7 @@ return {
       --   `nvim-notify` is only needed, if you want to use the notification view.
       --   If not available, we use `mini` as the fallback
       -- These notifications are too noisy and persistent. disable for now.
-      -- "rcarriga/nvim-notify",
+      "rcarriga/nvim-notify",
       }
   },
   {
@@ -69,6 +72,21 @@ return {
         focus_on_open = false,
       }
     },
+  },
+
+  -- clojure
+  -- TODO switch to the successor thing
+  { "liquidz/vim-iced",
+    dependencies = {
+      "guns/vim-sexp"
+    },
+    config = function()
+      -- Disable vim-sexp default mappings
+      vim.g.sexp_enable_insert_mappings = 0
+      vim.g.sexp_mappings = {}
+      -- Disable automatic filetype activation
+      vim.g.sexp_filetypes = ''
+    end,
   },
 
   -- Fuuuuu no!!!
@@ -227,76 +245,185 @@ return {
   },
 
   -- AI utils
+  -- {
+  --   "CopilotC-Nvim/CopilotChat.nvim",
+  --   dependencies = {
+  --     { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+  --     { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+  --   },
+  --   build = "make tiktoken", -- Only on MacOS or Linux
+  --   opts = {
+  --     -- See Configuration section for options
+  --   },
+  --   -- See Commands section for default commands if you want to lazy load on them
+  -- },
+
   {
-    "CopilotC-Nvim/CopilotChat.nvim",
+    "olimorris/codecompanion.nvim",
     dependencies = {
-      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-    },
-    build = "make tiktoken", -- Only on MacOS or Linux
-    opts = {
-      -- See Configuration section for options
-    },
-    -- See Commands section for default commands if you want to lazy load on them
-  },
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-    opts = {
-      -- add any opts here
-      -- for example
-      provider = "openai",
-      openai = {
-        endpoint = "https://api.openai.com/v1",
-        model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-        timeout = 30000, -- timeout in milliseconds
-        temperature = 0, -- adjust if needed
-        max_tokens = 4096,
-        reasoning_effort = "high" -- only supported for "o" models
-      },
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-    dependencies = {
-      "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "echasnovski/mini.pick", -- for file_selector provider mini.pick
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "ibhagwan/fzf-lua", -- for file_selector provider fzf
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      show_defaults = false,
+      adapters = {
+        xai = function()
+          return require("codecompanion.adapters").extend("xai", {
+            env = {
+              api_key = "cmd:op read op://personal/xAI/api_key_neovim --no-newline",
             },
-            -- required for Windows users
-            use_absolute_path = true,
+          })
+        end,
+        -- grok = function()
+        --   return require("codecompanion.adapters").extend("openai_compatible", {
+        --     url = "https://api.x.ai/v1/chat/completions",
+        --     api_key = "cmd:op read op://personal/xAI/api_key_neovim --no-newline",
+        --     -- headers = {
+        --     --   ["Content-Type"] = "application/json",
+        --     --   ["Authorization"] = "Bearer ${api_key}",
+        --     -- },
+        --     build_params = function(self, prompt, params, model)
+        --       return {
+        --         model = model or "grok-beta",
+        --         messages = { { role = "user", content = prompt } },
+        --         temperature = params.temperature or 0.7,
+        --         max_tokens = params.max_tokens or 2048,
+        --       }
+        --     end,
+        --     model_list = {
+        --       "grok-2-1212",
+        --       "grok-beta",
+        --     }
+        --   })
+        -- end,
+        novita = function()
+          return require("codecompanion.adapters").extend("openai_compatible", {
+            env = {
+              url = "https://api.novita.ai", -- optional: default value is ollama url http://127.0.0.1:11434
+              -- api_key = "OpenAI_API_KEY", -- optional: if your endpoint is authenticated
+              api_key = "cmd:op read op://personal/Novita/api_key_neovim --no-newline",
+              chat_url = "/v3/openai/chat/completions", -- optional: default value, override if different
+              models_endpoint = "/v3/openai/models", -- optional: attaches to the end of the URL to form the endpoint to retrieve models
+            },
+            schema = {
+              model = {
+                default = "deepseek/deepseek-r1-turbo",  -- define llm model to be used
+              },
+              temperature = {
+                order = 2,
+                mapping = "parameters",
+                type = "number",
+                optional = true,
+                default = 0.8,
+                desc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.",
+                validate = function(n)
+                  return n >= 0 and n <= 2, "Must be between 0 and 2"
+                end,
+              },
+              max_completion_tokens = {
+                order = 3,
+                mapping = "parameters",
+                type = "integer",
+                optional = true,
+                default = nil,
+                desc = "An upper bound for the number of tokens that can be generated for a completion.",
+                validate = function(n)
+                  return n > 0, "Must be greater than 0"
+                end,
+              },
+              stop = {
+                order = 4,
+                mapping = "parameters",
+                type = "string",
+                optional = true,
+                default = nil,
+                desc = "Sets the stop sequences to use. When this pattern is encountered the LLM will stop generating text and return. Multiple stop patterns may be set by specifying multiple separate stop parameters in a modelfile.",
+                validate = function(s)
+                  return s:len() > 0, "Cannot be an empty string"
+                end,
+              },
+              logit_bias = {
+                order = 5,
+                mapping = "parameters",
+                type = "map",
+                optional = true,
+                default = nil,
+                desc = "Modify the likelihood of specified tokens appearing in the completion. Maps tokens (specified by their token ID) to an associated bias value from -100 to 100. Use https://platform.openai.com/tokenizer to find token IDs.",
+                subtype_key = {
+                  type = "integer",
+                },
+                subtype = {
+                  type = "integer",
+                  validate = function(n)
+                    return n >= -100 and n <= 100, "Must be between -100 and 100"
+                  end,
+                },
+              },
+            },
+          })
+        end,
+      },
+      strategies = {
+        agent = { adapter = "xai" },
+        cmd = { adapter = "xai" },
+        chat = {
+          adapter = "xai",
+          slash_commands = {
+            ["file"] = {
+              -- Location to the slash command in CodeCompanion
+              callback = "strategies.chat.slash_commands.file",
+              description = "Select a file using Telescope",
+              opts = {
+                provider = "telescope", -- Other options include 'default', 'mini_pick', 'fzf_lua', snacks
+                contains_code = true,
+              },
+            },
+          },
+        },
+        inline = {
+          adapter = "xai",
+          keymaps = {
+            accept_change = {
+              modes = { n = "ga" },
+              description = "Accept the suggested change",
+            },
+            reject_change = {
+              modes = { n = "gr" },
+              description = "Reject the suggested change",
+            },
           },
         },
       },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
     },
-  }
+  },
+
+  {
+    'mrjones2014/op.nvim',
+    build = "make install",
+    config = function()
+      require("op").setup({
+      })
+    end,
+  },
+
+  -- try parrot.nvim as an alternative to codecompanion
+  {
+    "frankroeder/parrot.nvim",
+    event = "VeryLazy",
+    dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim', 'mrjones2014/op.nvim' },
+    -- optionally include "folke/noice.nvim" or "rcarriga/nvim-notify" for beautiful notifications
+    config = function()
+      local xai_api_key = require("op").get_secret("xAI", "api_key_neovim")
+      require("parrot").setup {
+        -- Providers must be explicitly added to make them available.
+        providers = {
+          xai = {
+            api_key = xai_api_key,
+          },
+        },
+      }
+    end,
+  },
+
 
 }
