@@ -11,174 +11,17 @@
 
 " Plugins {{{
 
-  " auto-install vim-plug if not already installed
-  if empty(glob('~/.config/nvim/autoload/plug.vim'))
-    echo 'not installed'
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  endif
+lua <<EOF
+  vim.g.sexp_enable_insert_mappings = 0
+  vim.g.sexp_mappings = {}
+  vim.g.sexp_filetypes = ''
+EOF
 
-  " begin vim-plug
-  call plug#begin('~/.config/nvim/plugged')
+  lua require("config.lazy")
+  " }}}
 
-  " Global plugins for all filetypes
-  Plug 'tpope/vim-abolish'
-  Plug 'tpope/vim-dispatch'
-  Plug 'radenling/vim-dispatch-neovim'
-  Plug 'tpope/vim-eunuch'
-
-  " Git
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-rhubarb' " GH Enterprise support
-  Plug 'tommcdo/vim-fubitive' " bitbucket for fugitive
-  Plug 'shumphrey/fugitive-gitlab.vim' " gitlab for fugitive
-  Plug 'idanarye/vim-merginal' " branch mgmt for fugitive
-  " Plug 'lambdalisue/gina.vim'
-
-  Plug 'tpope/vim-git'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-rhubarb'
-  Plug 'tpope/vim-scriptease'
-  Plug 'tpope/vim-speeddating'
-  Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-tbone'
-  Plug 'tpope/vim-unimpaired'
-  " Plug 'tpope/vim-obsession'
-
-  " Colors - some plugins rely on this
-  Plug 'devth/vim-colors-solarized' " Note: devth-fork
-
-  " General Syntax
-  Plug 'tpope/vim-markdown', {'for': 'markdown'}
-  Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
-  Plug 'google/vim-jsonnet', {'for': 'jsonnet'}
-  Plug 'fatih/vim-go', {'for': 'go'}
-  Plug 'hashivim/vim-vagrant', {'for': 'vagrant'}
-  " Plug 'mattn/emmet-vim'
-  Plug 'mustache/vim-mustache-handlebars'
-  " Plug 'jparise/vim-graphql', {'for': 'graphql'}
-  Plug 'jparise/vim-graphql', {'for': 'graphql'}
-  Plug 'delphinus/vim-firestore' " firestore highlighting
-  Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
-  Plug 'hashivim/vim-terraform'
-  " JavaScript
-  Plug 'pangloss/vim-javascript'
-  " Plug 'mxw/vim-jsx'
-  Plug 'neoclide/vim-jsx-improve'
-  Plug 'cespare/vim-toml'
-  " Python
-  " Plug 'psf/black', { 'branch': 'stable' }
-  " Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }
-
-  " JSON
-  Plug 'mogelbrod/vim-jsonpath'
-
-
-  " Clojure
-  " Test out a fork of tpope/vim-fire place until
-  " https://github.com/tpope/vim-fireplace/pull/323 is merged
-  " Plug 'raymond-w-ko/vim-fireplace', {'for': 'clojure'}
-  " Plug 'tpope/vim-fireplace', {'for': 'clojure'}
-
-  Plug 'clojure-vim/async-clj-omni', {'for': 'clojure'} " clj completion
-  " needed for edn and the latest clojure syntax
-  Plug 'guns/vim-clojure-static', {'for': 'clojure'}
-  Plug 'guns/vim-sexp', {'for': 'clojure'}
-  Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
-  " Plug 'liquidz/vim-iced', {'for': 'clojure', 'branch': 'dev'}
-  Plug 'liquidz/vim-iced', {'for': 'clojure'}
-  Plug 'liquidz/vim-iced-project-namespaces', {'for': 'clojure'}
-  Plug 'liquidz/vim-iced-kaocha'
-  " Plug 'matthias-margush/vim-iced', {'for': 'clojure', 'branch': 'piggieback' }
-  " Note: Doesn't work with .cljc files yet:
-  " TODO get this working
-  " Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
-
-  " Elm
-  Plug 'ElmCast/elm-vim'
-
-  " File exploration / openning
-  Plug 'scrooloose/nerdtree'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-  " Can't get these to work right - font is not configured?
-  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  " Plug 'ryanoasis/vim-devicons'
-
-  " tmux integration
-  " Plug 'tmux-plugins/vim-tmux'
-  " Plug 'christoomey/vim-tmux-navigator'
-
-  " Utils
-  " Plug 'vimlab/split-term.vim' " Terminal utils
-  Plug 'christianrondeau/vim-base64' 
-
-  Plug 'mhinz/vim-signify'
-  Plug 'kassio/neoterm' " Terminal utils
-  " Plug 'vim-scripts/regreplop.vim' " replace!
-  Plug 'svermeulen/vim-subversive' " replace / substitute!
-
-  " TODO possibly re-enable this but figure out how to make it not conflict with
-  " CoC.nvim
-  " Plug 'dense-analysis/ale' " Async Lint Engine
-  Plug 'svermeulen/vim-yoink' " Keep track of past yanked values
-  Plug 'vim-scripts/tComment' " Comment stuff
-  Plug 'junegunn/goyo.vim' " Writing mode
-  Plug 'preservim/tagbar' " ctags!
-  Plug 'lvht/tagbar-markdown' " tagbar for md files
-  Plug 'michaeljsmith/vim-indent-object' " indent objects
-  Plug 'junegunn/vim-easy-align' " alignment!
-  Plug 'mileszs/ack.vim' " search file contents via ag or ack
-  Plug 'simnalamburt/vim-mundo' " Vim undo tree viz
-  " Plug 'chr4/sslsecure.vim' " Highlight insecure SSL configuration
-  " Superfast fuzzy file finder
-  " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  " Plug '/usr/local/opt/fzf' " installed via Homebrew
-
-  " Plug 'junegunn/fzf.vim' " if you want latest fzf use this instead
-  " Plug 'junegunn/fzf', { 'do': './install --all' }
-  Plug 'junegunn/fzf', { 'do': './install --bin' }
-  Plug 'junegunn/fzf.vim'
-
-  " Use actual tmux instead
-  " Plug 'Vigemus/nvimux' " Tmux-like key bindings for NeoVim
-
-  " Powerline alternatives
-  " Too slow - debug before enabling
-  " Plug 'vim-airline/vim-airline'
-  " Plug 'vim-airline/vim-airline-themes'
-
-  Plug 'gcmt/taboo.vim'
-
-  " Completion and snippets
-  Plug 'ncm2/ncm2'
-  Plug 'roxma/nvim-yarp'
-  " Plug 'ncm2/ncm2-tmux' " don't use tmux anymore
-  Plug 'ncm2/ncm2-path' " bufpath, cwdpath, rootpath
-  Plug 'ncm2/ncm2-github' " github users, repos, links, issues, emoji
-  Plug 'ncm2/ncm2-bufword' " words from current buffer for completion
-  " View https://github.com/ncm2/ncm2/wiki for more completion plugins
-  " Plug 'ncm2/ncm2-ultisnips' " TODO test this
-  " Plug 'SirVer/ultisnips' " throws runtime errors
-  " Plug 'honza/vim-snippets' " Do we need this?
-
-  " TypeScript
-  Plug 'pangloss/vim-javascript'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'peitalin/vim-jsx-typescript'
-
-  " Language Service Client
-  " Originally configured for TypeScript following
-  " https://thoughtbot.com/blog/modern-typescript-and-react-development-in-vim
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  let g:coc_global_extensions = [
-        \ 'coc-tsserver'
-        \ ]
-
-  " Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-  " Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TSServer client
-
-  call plug#end()
+" Lua config {{{
+  lua require("config.theme")
 " }}}
 
 " Vim system settings {{{
@@ -189,17 +32,21 @@
   set nowrap
   set linebreak " for when we do need wrapping
   set ttyfast
-  set lazyredraw
+  " don't need this anymore and noice doesn't like it.
+  " set lazyredraw
   set nocompatible
+  " min number of lines above below cursor
+  set scrolloff=3
   syntax on
   filetype plugin indent on
   set shell=/bin/zsh
   " set shellcmdflag=-l
-  let mapleader = ","
-  let maplocalleader = ","
   set history=1000
   set undolevels=1000
   set nocursorline nocursorcolumn " vim is slow with these on :/
+
+  set termguicolors
+  imap jj <Esc>
 
   " don't auto resize window on splitting
   " set noequalalways
@@ -221,6 +68,7 @@
   set wildmode=list:longest
   set visualbell
   set shortmess=I " hide the startup message
+  set shortmess+=F " don't show file info when editing
   set ic " case insensitive search
   set gdefault
   set incsearch
@@ -241,11 +89,10 @@
   set expandtab
   set backspace=start,indent
   set textwidth=80
+  set linebreak
   set wrapmargin=1
   " prevent double spaces when joining with C-j
   set nojoinspaces
-  " Completion
-  set complete=.,w,b,u,t,i,],kspell
   set spelllang=en_us
   " whitespace characters
   set list listchars=tab:»·,trail:·,nbsp:·
@@ -269,6 +116,56 @@
 
 
 " }}}
+
+
+" lua vim settings {{{
+lua <<EOF
+vim.diagnostic.config({virtual_lines=true})
+EOF
+
+" }}}
+
+" nvim lua default package lookup {{{
+
+lua <<EOF
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.config/nvim/lua/?.lua"
+EOF
+" }}}
+
+
+" Mason / LSP must be before lspconfig below {{{
+lua <<EOF
+  require("mason").setup()
+  require("mason-lspconfig").setup {
+    ensure_installed = {
+      "biome",
+      "ts_ls",
+      "kotlin_language_server",
+      "ruby_lsp",
+      "rubocop",
+      "sorbet",
+      "yamlls",
+      "pyright",
+      "ruff",
+      -- "jedi_language_server",
+    },
+    automatic_installation = true
+  }
+EOF
+" }}}
+"
+
+
+" Images 3rd/image.nvim {{{
+lua <<EOF
+
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
+
+require("image").setup({})
+EOF
+" }}}
+
 
 " Vim system mappings {{{
 
@@ -368,10 +265,15 @@
 
   " NeoVim Terminal Mode
   tnoremap <C-[> <C-\><C-n>
+  tnoremap jj <C-\><C-n>
   highlight TermCursor ctermfg=red guifg=red
 
   " tbone replacement using neoterm plugin
-  " nmap <leader>twl <s-v>:TREPLSendLine<cr>
+  nmap <leader>twl <s-v>:TREPLSendLine<cr>
+  nmap gxx <s-v>:TREPLSendLine<cr>
+  vmap gx :TREPLSendSelection<cr>
+
+
   " vmap <leader>twl :TREPLSendLine<cr>
 
   " neoterm configuration
@@ -381,17 +283,19 @@
   let g:neoterm_default_mod = 'vertical'
   let g:neoterm_term_per_tab = 1
 
+  nmap gxt :Ttoggle<cr>
+
   " Use gx{text-object} in normal mode
-  nmap gx <Plug>(neoterm-repl-send)
+  " nmap gx <Plug>(neoterm-repl-send)
 
   " Send selected contents in visual mode.
-  xmap gx <Plug>(neoterm-repl-send)
+  " xmap gx <Plug>(neoterm-repl-send)
 
   " Send line - can use 2gxx to send 2 lines
-  nmap gxx <Plug>(neoterm-repl-send-line)
+  " nmap gxx <Plug>(neoterm-repl-send-line)
 
   " Toggle term visibility
-  nmap gxt :Ttoggle<cr><c-w>=
+  " nmap gxt :Ttoggle<cr><c-w>=
 
 
 
@@ -417,6 +321,8 @@
 
   set foldtext=MyFoldText()
 
+  set foldlevel=3
+
   " Use marker foldmethod for specific file types
   autocmd FileType yaml,vim,zsh,sh,make setlocal foldmethod=marker foldlevel=0
   nnoremap z<space> za " easier toggling
@@ -425,7 +331,69 @@
   set fdo-=search
 " }}}
 
+" yaml treesitter {{{
+lua << EOF
+  -- config here if you need it
+  require'treesitter-context'.setup{
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
+    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+    line_numbers = true,
+  }
+EOF
+" }}}
+
+" Lualine {{{
+
+lua << EOF
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'auto',
+    -- angles (default)
+    -- component_separators = { left = '', right = ''},
+    -- section_separators = { left = '', right = ''},
+
+    -- bubbles
+    -- section_separators = { left = '', right = '' },
+    -- component_separators = { left = '', right = '' },
+
+    -- slants
+    component_separators = '',
+    section_separators = { left = '', right = '' },
+    disabled_filetypes = {},
+    always_divide_middle = true,
+  },
+  sections = {
+    lualine_a = {'filename'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'mode', 'nvim_treesitter#statusline(90)'},
+    lualine_x = {'searchcount', 'fileformat', 'filesize', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {'quickfix', 'nvim-tree', 'trouble', 'fzf', 'lazy'}
+}
+
+EOF
+
+" }}}
+
 " Aesthetics {{{
+
+  " https://github.com/norcalli/nvim-colorizer.lua
+  lua require'colorizer'.setup()
+
+  let g:neosolarized_vertSplitBgTrans = 1
 
   " This must be defined before activating colorscheme
 
@@ -437,22 +405,22 @@
   " augroup END
 
   fun! CustomizeDarkColors()
-    " Remove background on vertical splits
-    " Hide the ~ characters at end of files
-    " Customize Folds
-    if &background == 'dark'
-      hi VertSplit ctermbg=0 ctermfg=0 guibg=#FAF2DC
-      hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
-      hi ColorColumn ctermbg=black
-      hi Folded cterm=bold ctermfg=cyan ctermbg=black
-      hi FoldColumn cterm=reverse
-      hi fmrkr ctermbg=black ctermfg=black
-    else
-      hi NonText ctermbg=7 ctermfg=7
-      hi ColorColumn ctermbg=7
-      hi VertSplit ctermbg=7 ctermfg=7
-      hi fmrkr ctermbg=7 ctermfg=7
-    endif
+    " " Remove background on vertical splits
+    " " Hide the ~ characters at end of files
+    " " Customize Folds
+    " if &background == 'dark'
+    "   hi VertSplit ctermbg=0 ctermfg=0 guibg=#FAF2DC
+    "   hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
+    "   hi ColorColumn ctermbg=black
+    "   hi Folded cterm=bold ctermfg=cyan ctermbg=black
+    "   hi FoldColumn cterm=reverse
+    "   hi fmrkr ctermbg=black ctermfg=black
+    " else
+    "   hi NonText ctermbg=7 ctermfg=7
+    "   hi ColorColumn ctermbg=7
+    "   hi VertSplit ctermbg=7 ctermfg=7
+    "   hi fmrkr ctermbg=7 ctermfg=7
+    " endif
   endfun
 
   augroup vimrc
@@ -464,60 +432,20 @@
   autocmd BufRead,BufNewFile * syn match fmrkr '"*{{{\|"*}}}' |
         \ syn cluster vimCommentGroup contains=fmrkr
 
+  " colorscheme solarized
   colorscheme solarized
 
+  set termguicolors " https://github.com/overcache/NeoSolarized
   set colorcolumn=80
-  set guioptions=egmt
+  " default background color - can be toggled
   set bg=dark
-  let g:airline_powerline_fonts = 1
-
-  " Only load the Airline extensions we want
-  let g:airline_extensions = ['tabline', 'coc', 'fugitiveline']
-
-  let g:airline_highlighting_cache = 1
-
-  set ttimeoutlen=10
-
-  " let g:airline#extensions#tabline#fnamemod = ':t'
-  let g:airline#extensions#tabline#enabled = 1
-  " let g:airline#extensions#tabline#formatter = 'pwd'
-  let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-  " collapse parent dirs in buffer names
-  " let g:airline#extensions#tabline#fnamecollapse = 1
-
-  " let g:airline#extensions#tabline#show_tab_nr = 1
-  " let g:airline#extensions#tabline#show_tab_type = 1
-
-  " Use tab index
-  let g:airline#extensions#tabline#tab_nr_type = 1
-  let g:airline#extensions#tabline#show_tab_nr = 1
-
-  " Disable tmuxline overwriting so we can configure it ourselves
-  let g:airline#extensions#tmuxline#enabled = 0
-
-  " Use Taboo for tabs
-  let g:airline#extensions#taboo#enabled = 1
-  set t_Co=256
-
-  " Disable Taboo's tabline
-  let g:taboo_tabline = 0
-
-  let taboo_renamed_tab_format = "%l"
-  " if the above includes %m it looks all messed up with %#TabModifiedSelected
-  " in the tab when it gets modified. Might be a Taboo bug ?
-  let taboo_modified_tab_flag = "⚡️"
 
   " Quickly switch between light and dark
   nnoremap <leader>bgl :set bg=light<cr>
   nnoremap <leader>bgd :set bg=dark<cr>
 
-  " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 12
-  " set guifont=Knack\ Nerd\ Font\ Regular:12
-  " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11
-  " Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
-
-  " Remove vertical split pipe
-  set fillchars=
+  " controls vertical split pipe, end of buffer
+  set fillchars=fold:\ ,vert:\│,eob:\ ,msgsep:‾
 
   " Goyo {{{
     let g:goyo_height = "100%"
@@ -544,16 +472,534 @@
 
 " }}}
 
-" NERDTree {{{
-  map <leader>nt :NERDTreeFocus<cr>
-  map <leader>ntf :NERDTreeFind<cr>
-  map <leader>ntc :NERDTreeClose<cr>
-  " Stay in sync with current working directory
-  let NERDTreeChDirMode=2
-  let NERDTreeQuitOnOpen=0
-  let NERDTreeMapToggleHidden=1
-  let NERDTreeCascadeSingleChildDir=0 " do not collapse
-  let NERDTreeShowHidden=1
+" Replace / substitute {{{
+  " s for substitute
+  nmap s <plug>(SubversiveSubstitute)
+  nmap ss <plug>(SubversiveSubstituteLine)
+  nmap S <plug>(SubversiveSubstituteToEndOfLine)
+
+  " https://github.com/svermeulen/vim-subversive
+  xmap s <plug>(SubversiveSubstitute)
+  xmap p <plug>(SubversiveSubstitute)
+  xmap P <plug>(SubversiveSubstitute)
+" }}}
+"
+
+" TreeSitter {{{
+
+lua <<EOF
+-- local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
+-- ft_to_parser.mdx = "markdown"
+-- vim.treesitter.language.register('mdx', 'markdown', 'markdown')
+
+vim.filetype.add({
+  extension = {
+    gotmpl = 'gotmpl',
+  },
+  pattern = {
+    [".*/templates/.*%.tpl"] = "helm",
+    [".*/templates/.*%.ya?ml"] = "helm",
+    ["helmfile.*%.ya?ml"] = "helm",
+  },
+})
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    'css', 'graphql', 'html', 'javascript', 'lua', 'nix', 'python', 'svelte',
+    'tsx', 'twig', 'typescript', 'vim', 'vimdoc', 'markdown', 'markdown_inline',
+    'clojure', 'regex', 'bash'
+  },
+  highlight = {
+    enable = true
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn", -- set to `false` to disable one of the mappings
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
+    },
+  },
+  indent = {
+    enable = true
+  },
+
+  -- see all config options at
+  -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects?tab=readme-ov-file#text-objects-select
+  textobjects = {
+    select = {
+      enable = true,
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+    },
+  },
+}
+
+-- https://github.com/windwp/nvim-ts-autotag?tab=readme-ov-file#setup
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+  -- Also override individual filetype configs, these take priority.
+  -- Empty by default, useful if one of the "opts" global settings
+  -- doesn't work well in a specific filetype
+  per_filetype = {
+    ["html"] = {
+      enable_close = false
+    }
+  }
+})
+
+-- vim.treesitter.language.register('mdx', 'markdown')
+
+EOF
+
+set foldmethod=expr
+set foldexpr = "v:lua.vim.lsp.foldexpr()"
+" set foldexpr=nvim_treesitter#foldexpr()
+set nofoldenable
+set foldlevel=20
+
+" }}}
+
+" Trouble {{{
+
+lua << EOF
+require("trouble").setup {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
+}
+EOF
+
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
+" }}}
+
+" DAP {{{
+
+lua << EOF
+
+-- https://github.com/David-Kunz/vim/blob/master/init.lua
+local function map(mode, lhs, rhs, opts)
+  local options = {noremap = true}
+  if opts then options = vim.tbl_extend('force', options, opts) end
+  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+-- dap node
+local dap = require('dap')
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {os.getenv('HOME') .. '/oss/vscode-node-debug2/out/src/nodeDebug.js'},
+}
+dap.configurations.javascript = {
+  {
+    name = 'Launch',
+    type = 'node2',
+    request = 'launch',
+    program = '${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+  {
+    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+    name = 'Attach to process',
+    type = 'node2',
+    request = 'attach',
+    processId = require'dap.utils'.pick_process,
+  },
+}
+
+dap.defaults.fallback.terminal_win_cmd = '80vsplit new'
+vim.fn.sign_define('DapBreakpoint', {text='🟥', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointRejected', {text='🟦', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='⭐️', texthl='', linehl='', numhl=''})
+
+-- _G.shutDownDapSession = function()
+--   local dap = require'dap'
+--   dap.terminate()
+--   dap.disconnect( { terminateDebuggee = true })
+--   dap.close()
+-- end
+
+map('n', '<leader>dh', ':lua require"dap".toggle_breakpoint()<CR>')
+map('n', '<leader>dH', ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+map('n', '<leader>k', ':lua require"dap".step_out()<CR>')
+map('n', "<leader>l", ':lua require"dap".step_into()<CR>')
+map('n', '<leader>j', ':lua require"dap".step_over()<CR>')
+map('n', '<leader>h', ':lua require"dap".continue()<CR>')
+map('n', '<leader>dn', ':lua require"dap".run_to_cursor()<CR>')
+map('n', '<leader>dk', ':lua require"dap".up()<CR>zz')
+map('n', '<leader>dj', ':lua require"dap".down()<CR>zz')
+-- map('n', '<leader>dc', ':lua require"dap".terminate()<CR>')
+map('n', '<leader>dr', ':lua require"dap".repl.toggle({}, "vsplit")<CR><C-w>l')
+map('n', '<leader>dR', ':lua require"dap".clear_breakpoints()<CR>')
+map('n', '<leader>de', ':lua require"dap".set_exception_breakpoints({"all"})<CR>')
+map('n', '<leader>da', ':lua require"debugHelper".attach()<CR>')
+map('n', '<leader>dA', ':lua require"debugHelper".attachToRemote()<CR>')
+map('n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>')
+map('n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>')
+
+-- nvim-telescope/telescope-dap.nvim
+require('telescope').load_extension('dap')
+map('n', '<leader>ds', ':Telescope dap frames<CR>')
+map('n', '<leader>dc', ':Telescope dap commands<CR>')
+map('n', '<leader>dv', ':Telescope dap variables<CR>')
+map('n', '<leader>db', ':Telescope dap list_breakpoints<CR>')
+
+-- nvim-telescope/telescope-file-browser.nvim
+-- require('telescope').load_extension('file_browser')
+-- theHamsta/nvim-dap-virtual-text and mfussenegger/nvim-dap
+require('nvim-dap-virtual-text').setup()
+-- g.dap_virtual_text = true
+
+-- https://github.com/nvim-telescope/telescope-fzf-native.nvim
+require('telescope').load_extension('fzf')
+
+-- https://github.com/nvim-telescope/telescope-media-files.nvim
+require('telescope').load_extension('media_files')
+
+-- https://github.com/aaronhallaert/advanced-git-search.nvim#%EF%B8%8F-installation
+require("telescope").load_extension("advanced_git_search")
+
+-- pass args to grep https://github.com/nvim-telescope/telescope-live-grep-args.nvim
+require("telescope").load_extension("live_grep_args")
+
+-- telescope for code actions
+require("telescope").load_extension("ui-select")
+
+
+-- David-Kunz/jester
+map('n', '<leader>tt', ':lua require"jester".run({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+map('n', '<leader>t_', ':lua require"jester".run_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+map('n', '<leader>tf', ':lua require"jester".run_file({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- map('n', '<leader>dd', ':lua require"jester".debug({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+map('n', '<leader>d_', ':lua require"jester".debug_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- map('n', '<leader>df', ':lua require"jester".debug_file({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+map('n', '<leader>dq', ':lua require"jester".terminate()<cr>')
+
+EOF
+
+" }}}
+
+" vim-test {{{
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+" }}}
+
+" LSP {{{
+
+lua << EOF
+
+
+-- local cfg = {}
+-- require "lsp_signature".setup(cfg)
+
+-- https://github.com/ray-x/navigator.lua
+-- require'navigator'.setup()
+
+-- from https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
+-- updated 1/15/2022
+
+
+local lspconfig = require("lspconfig")
+local buf_map = function(bufnr, mode, lhs, rhs, opts)
+    vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
+        silent = true,
+    })
+end
+
+local on_attach = function(client, bufnr)
+    vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
+    vim.cmd("command! LspFormatting lua vim.lsp.buf.format { timeout_ms = 5000 }")
+    vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
+    vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
+    vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
+    vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
+    vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
+    vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
+    vim.cmd("command! LspDiagPrev lua vim.diagnostic.goto_prev()")
+    vim.cmd("command! LspDiagNext lua vim.diagnostic.goto_next()")
+    vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
+    vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
+    buf_map(bufnr, "n", "gd", ":LspDef<CR>")
+    buf_map(bufnr, "n", "gr", ":LspRename<CR>")
+    buf_map(bufnr, "n", "gl", ":LspRefs<CR>")
+    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
+    -- buf_map(bufnr, "n", "K", ":LspHover<CR>")
+    buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
+    buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
+    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
+    -- buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
+    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
+    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
+
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+          -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+          -- this can be super slow - consider formatting manually instead
+          -- vim.lsp.buf.formatting_sync()
+          vim.lsp.buf.format({ async = false })
+        end,
+      })
+    end
+
+end
+
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+-- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/pylsp.lua
+-- lspconfig.pylsp.setup{}
+-- lspconfig.pyright.setup{}
+-- lspconfig.gopls.setup{}
+
+-- these seem too slow so disable them:
+-- lspconfig.ruby_lsp.setup({})
+-- lspconfig.rubocop.setup{}
+
+-- this will use biome for formatting too but it doesn't load format or lint.
+-- errors into diagnostics. none-ls is required for that.
+-- lspconfig.biome.setup{}
+
+lspconfig.yamlls.setup {}
+
+-- this replaces lspconfig ts_ls
+require("typescript-tools").setup {
+  settings = {
+    expose_as_code_action = "all",
+    jsx_close_tag = {
+      enable = true,
+      filetypes = { "javascriptreact", "typescriptreact" },
+    },
+    tsserver_file_preferences = {
+      includeInlayParameterNameHints = "all",
+      includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+      includeInlayFunctionParameterTypeHints = true,
+      includeInlayVariableTypeHints = true,
+      includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+      includeInlayPropertyDeclarationTypeHints = true,
+      includeInlayFunctionLikeReturnTypeHints = true,
+      includeInlayEnumMemberValueHints = true,
+    },
+  },
+}
+
+-- python lsp
+-- require'lspconfig'.jedi_language_server.setup{}
+require'lspconfig'.pyright.setup{}
+
+-- require'lspconfig'.ts_ls.setup{
+--   on_attach = function(client, bufnr)
+--     -- disable formatting so it doesn't conflict with eslint / prettier
+--     client.server_capabilities.documentFormattingProvider = false
+--     client.server_capabilities.documentRangeFormatting = false
+--     -- only config typescript-tools after attaching to a TS language server
+--     -- local ts_utils = require("nvim-lsp-ts-utils")
+--     -- ts_utils.setup({})
+--     -- ts_utils.setup_client(client)
+--     -- this command is broken until https://github.com/pmizio/typescript-tools.nvim/issues/295 is fixed
+--     buf_map(bufnr, "n", "gs", ":TSToolsOrganizeImports<CR>")
+--     -- buf_map(bufnr, "n", "gi", ":TSLspRenameFile<CR>")
+--     -- buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
+--     on_attach(client, bufnr)
+--   end,
+-- }
+
+
+-- lspconfig.tsserver.setup({
+--   flags = {
+--     debounce_text_changes = 500,
+--   },
+--   capabilities = capabilities,
+--   on_attach = function(client, bufnr)
+--     -- disable formatting so it doesn't conflict with eslint / prettier
+--     client.server_capabilities.documentFormattingProvider = false
+--     client.server_capabilities.documentRangeFormatting = false
+--     local ts_utils = require("nvim-lsp-ts-utils")
+--     ts_utils.setup({})
+--     ts_utils.setup_client(client)
+--     buf_map(bufnr, "n", "gs", ":TSToolsOrganizeImports<CR>")
+--     buf_map(bufnr, "n", "gi", ":TSLspRenameFile<CR>")
+--     buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
+--     on_attach(client, bufnr)
+--   end,
+-- })
+
+
+-- replaced null_ls with none-ls following biome's instructions
+local null_ls = require("null-ls")
+-- use biome (via lsp) instead!
+null_ls.setup({
+  sources = {
+    -- temp disable these while trying biome:
+    -- require("none-ls.diagnostics.eslint"),
+    -- require("none-ls.diagnostics.eslint"),
+    -- require("none-ls.code_actions.eslint"),
+
+    -- use prettier instead of lsp formatting
+    -- null_ls.builtins.formatting.prettier,
+
+    null_ls.builtins.formatting.biome
+    },
+    on_attach = on_attach,
+  }
+)
+
+EOF
+
+" au BufEnter * typescript require'completion'.on_attach()
+
+" }}}
+
+" Completion {{{
+
+" Use <Tab> and <S-Tab> to navigate through popup menu
+
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" " Set completeopt to have a better completion experience
+" set completeopt=menuone,noinsert,noselect
+
+" " Avoid showing message extra message when using completion
+" set shortmess+=c
+
+set completeopt=menu,menuone,noselect
+
+lua <<EOF
+
+  -- setup Codeium
+  require("codeium").setup({
+    enable_chat = true,
+  })
+
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+        -- Accept currently selected item. Set `select` to `false` to only
+        -- confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp', priority = 1000 },
+      { name = "codeium", priority = 900 },
+      -- https://www.reddit.com/r/neovim/comments/so4g5e/comment/hw7i5n0/
+      { name = "nvim_lsp_signature_help" },
+      { name = 'vsnip' }, -- For vsnip users.
+      { name = 'calc' },
+      {
+        name = 'buffer',
+        option = {
+          get_bufnrs = function()
+            return vim.api.nvim_list_bufs()
+          end
+        }
+      }
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    })
+  })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+EOF
+
+
+" }}}
+
+" File explorer (nvim-tree) {{{
+
+
+lua <<EOF
+
+local function nvim_tree_on_attach(bufnr)
+  local api = require "nvim-tree.api"
+  api.config.mappings.default_on_attach(bufnr)
+  -- remove C-e so we can use default vim C-e scrolling behavior
+  vim.keymap.del("n", "<C-e>", { buffer = bufnr })
+end
+require'nvim-tree'.setup {
+  on_attach = nvim_tree_on_attach,
+}
+
+EOF
+
+  " Can be `0` or `1`. When `1`, will close the tree when a file is opened.
+  " Applies to: `edit`, `vsplit`, `split`, `tabnew`.
+  " Default is 0
+  let g:nvim_tree_quit_on_open = 0
+
+  nnoremap <leader>nt :NvimTreeToggle<CR>
+  nnoremap <leader>tr :NvimTreeRefresh<CR>
+  nnoremap <leader>tf :NvimTreeFindFile<CR>
+
+
 " }}}
 
 " tbone {{{
@@ -591,8 +1037,11 @@
 " }}}
 
 " git {{{
+
+  " let g:blamer_enabled = 1
+  " let g:blamer_date_format = '%y/%m/%d'
   map <leader>gb :Git blame<cr>
-  map <leader>gh :Gbrowse<cr>
+  map <leader>gh :GBrowse<cr>
   map <leader>ge :Gedit<cr>
   map <leader>gl :Glog<cr>
   map <leader>gw :Gwrite<cr>
@@ -602,96 +1051,13 @@
   map <leader>gP :Git push<cr>
   map <leader>gp :Git pull --rebase<cr>
   map <leader>gc :Git commit<cr>
-  map <leader>ga :Dispatch! git add %<cr>
+  map <leader>ga :Git add %<cr>
 " }}}
 
 " Dispatch {{{
-  map <leader>dr :Dispatch<space>
-  map <leader>dl :execute 'Dispatch ' . getline('.')<cr>
+  " map <leader>dr :Dispatch<space>
+  " map <leader>dl :execute 'Dispatch ' . getline('.')<cr>
   " cmap <C-R><C-L> <C-R>=getline('.')<CR>
-
-" }}}
-
-" dein mappings & config {{{
-  nnoremap <leader>du :call dein#update()<cr>
-  nnoremap <leader>di :call dein#install()<cr>
-
-  " Try this out temporarily
-  let g:dein#enable_notification = 1
-
-" }}}
-
-" Linting {{{
-  " Enable Neomake on save on expected file types
-  " autocmd! BufWritePost sh,markdown Neomake
-  " Or just enable it everywhere all the time because it's async!
-  " autocmd! BufEnter,BufRead,BufWritePost * Neomake
-  " let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
-  " let g:neomake_error_sign = {'text': '•', 'texthl': 'NeomakeErrorSign'}
-
-  let g:ale_sign_error = '⚠'
-  let g:ale_sign_warning = '•'
-  " Disabling trailing whitespace warnings doesn't affect Markdown because
-  " markdownlint checks that too
-  let g:ale_warn_about_trailing_whitespace = 0
-  let g:ale_lint_delay = 1000
-
-  let g:ale_fixers = {
-  \   'javascript': ['prettier', 'eslint'],
-  \   'typescript': ['prettier'],
-  \   'css': ['prettier'],
-  \}
-
-  let g:ale_fix_on_save = 1
-
-  " let b:ale_fixers = {}
-  " let b:ale_fixers['javascript'] = ['prettier']
-  " let b:ale_fixers['typescript'] = ['prettier']
-  " let b:ale_fixers['css'] = ['prettier']
-  " let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-
-  " Prettier
-  let g:prettier#config#parser = 'babylon'
-  let g:ale_javascript_prettier_use_local_config = 1
-
-  nnoremap <leader>af :ALEFix<cr>
-
-  " NUKE FLOW TO OBLIVION. NEVER RUN FLOW. FLOW WILL CONSUME ALL YOUR RESOURCES
-  " AND BRING YOUR modern cutting edge hardware to a crawl. You will hard reboot
-  " daily. You will pull your hair out. You will hate life.
-  "
-  " UNLESS YOU DISABLE FLOW. DO THE RIGHT THING.
-
-  " let g:ale_linters = {
-  "   \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
-  " \}
-
-  let g:ale_linters = {'clojure': ['clj-kondo']}
-
-  " let g:ale_linters_ignore = {'typescript': ['tslint']}
-
-  " autocmd FileType javascript
-  " let g:ale_javascript_prettier_options = '--single-quote --no-bracket-spacing --print-width 120'
-
-  " let g:ale_linters = {
-  "   \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier', 'prettier-eslint', 'prettier-standard', 'standard', 'xo'],
-  " \}
-
-  nmap <Leader><Leader>p <Plug>(Prettier)
-
-  " let g:ale_fix_on_save = 1
-
-
-  " Flow typed
-  " https://github.com/flowtype/vim-flow
-  " let g:flow#enable = 0
-  " let g:flow#showquickfix = 0
-  " let g:flow#autoclose = 1
-  " let g:flow#timeout = 4
-  " autocmd FileType javascript nnoremap <leader>ft :FlowType<cr>
-  " autocmd FileType javascript nnoremap <leader>fj :FlowJumpToDef<cr>
-  " " TODO what about gf for non-flow projects?
-  " autocmd FileType javascript nnoremap gf :FlowJumpToDef<cr>
 
 " }}}
 
@@ -702,17 +1068,83 @@
   nnoremap <leader>cy :let @"=@+<cr>
 " }}}
 
+" Telescope fuzzy finder {{{
+
+  " Find files using Telescope command-line sugar.
+  nnoremap <leader>ff <cmd>Telescope find_files<cr>
+  nnoremap <leader>p <cmd>Telescope git_files<cr>
+  nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+  nnoremap <leader>fb <cmd>Telescope buffers<cr>
+  nnoremap <leader>fd <cmd>Telescope lsp_definitions<cr>
+  nnoremap <leader>fa <cmd>Telescope lsp_code_actions<cr>
+  nnoremap <leader>fs <cmd>Telescope lsp_document_symbols<cr>
+  nnoremap <leader>fw <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+  nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+  nnoremap <leader>fl <cmd>Telescope git_files<cr>
+  nnoremap <leader>tgb <cmd>Telescope git_branches<cr>
+  nnoremap <leader>tts <cmd>Telescope treesitter<cr>
+
+  " nnoremap \ <cmd>Telescope live_grep<cr>
+  nnoremap \ <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+  " keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+
+  nnoremap <leader>* <cmd>Telescope grep_string<cr>
+
+  " :lua require'telescope.builtin'.planets{}
+  " :nnoremap <Leader>pp :lua require'telescope.builtin'.planets{}
+
+lua <<EOF
+local telescope = require("telescope")
+local lga_actions = require("telescope-live-grep-args.actions")
+
+
+local image_preview = require('telescopeimage').telescope_image_preview()
+
+
+telescope.setup {
+  defaults = {
+      file_previewer = image_preview.file_previewer,
+      buffer_previewer_maker = image_preview.buffer_previewer_maker,
+  },
+  extensions = {
+    live_grep_args = {
+      auto_quoting = true, -- enable/disable auto-quoting
+      -- define mappings, e.g.
+      mappings = { -- extend mappings
+        i = {
+          ["<C-k>"] = lga_actions.quote_prompt(),
+          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+          -- freeze the current list and start a fuzzy search in the frozen list
+          ["<C-space>"] = lga_actions.to_fuzzy_refine,
+        },
+      },
+      additional_args = { "-." },
+      -- ... also accepts theme settings, for example:
+      -- theme = "dropdown", -- use dropdown theme
+      -- theme = { }, -- use own theme spec
+      -- layout_config = { mirror=true }, -- mirror preview pane
+    },
+    require("telescope.themes").get_dropdown {
+        -- even more opts
+    }
+  }
+}
+EOF
+
+
+" }}}
+
 " fzf {{{
   " let g:fzf_layout = { 'left': '~30%' }
   " ctrl-p replacement
-  nmap <leader>p :Files<cr>
-  nmap <leader>bp :Buffers<cr>
-  " line wise completion
-  imap <c-x><c-l> <plug>(fzf-complete-line)
-  " find commits
-  nnoremap <leader>fc :Commits<cr>
-  " find lines
-  nnoremap <leader>fl :Lines<cr>
+  " nmap <leader>p :Files<cr>
+  " nmap <leader>bp :Buffers<cr>
+  " " line wise completion
+  " imap <c-x><c-l> <plug>(fzf-complete-line)
+  " " find commits
+  " nnoremap <leader>fc :Commits<cr>
+  " " find lines
+  " nnoremap <leader>fl :Lines<cr>
 
 " }}}
 
@@ -723,7 +1155,6 @@
 
 " TODO remove since we're using actual tmux now
 " nvimux {{{
-
 " lua << EOF
 " local nvimux = require('nvimux')
 "
@@ -793,8 +1224,9 @@
     " vim-fireplace / clojure
     " autocmd FileType clojure nmap <buffer> cpP :Eval<cr>
     " autocmd FileType clojure nmap <buffer> <leader>l :Last<cr>
-    " autocmd FileType clojure nmap <buffer> ctt :Require<cr>:Eval (run-tests)<cr>
-    " autocmd FileType clojure nmap <buffer> ctm :Eval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
+    autocmd FileType clojure nmap <buffer> ctt :IcedTestUnderCursor<cr>
+    autocmd FileType clojure nmap <buffer> ctm :IcedTestAll<cr>
+    autocmd FileType clojure nmap <buffer> ctr :IcedTestRedo<cr>
     " autocmd FileType clojure nmap <buffer> cpR :Require!<cr>
 
     let g:fireplace_print_length = 80
@@ -811,14 +1243,15 @@
     " ClojureScript
     nmap <leader><leader>pg :Piggieback (figwheel-sidecar.repl-api/repl-env)<cr>
 
-    " vim-iced
-    let g:iced_enable_default_key_mappings = v:true
-    " let g:iced_enable_auto_indent = v:false
+    " vim-iced - https://liquidz.github.io/vim-iced
+    aug VimIcedAutoFormatOnWriting
+      au!
+      " Format whole buffer on writing files
+      " au BufWritePre *.clj,*.cljs,*.cljc,*.edn execute ':IcedFormatSyncAll'
 
-    let g:iced#format#rule = {
-      \ 'midje.sweet/fact': '[[:inner 0]]',
-      \ 'midje.sweet/facts': '[[:inner 1]]',
-    \ }
+      " Format only current form on writing files
+      " au BufWritePre *.clj,*.cljs,*.cljc,*.edn execute ':IcedFormatSync'
+    aug END
 
     " Replicate vim-fireplace mappings for vim-iced
     autocmd FileType clojure nmap cqp :IcedEval<space>
@@ -831,16 +1264,23 @@
     autocmd FileType clojure nmap <buffer> c! <Plug>(iced_eval_and_tap)
     " this has potential to override "change till m" - might need a different
     " mapping, or get kaocha working
-    autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
+    " autocmd FileType clojure nmap <buffer> ctm :IcedEval (require 'midje.repl)(midje.repl/load-facts *ns*)<cr>
+
+    " always print after evaluating in vim-iced
+     " call iced#hook#add('evaluated', {
+     "    \ 'type': 'command',
+     "    \ 'exec': 'IcedPrintLast',
+     "    \ })
+
 
     " add namespace
     autocmd FileType clojure nmap <buffer> <leader>an :IcedAddNs<cr>
     autocmd FileType clojure nmap <buffer> <leader>am :IcedAddMissing<cr>
 
     " vim-sexp
-    let g:sexp_enable_insert_mode_mappings = 1
+    " let g:sexp_enable_insert_mode_mappings = 0
     " Disable all sexp mappings
-    " let g:sexp_filetypes = ''
+    let g:sexp_filetypes = ''
 
     " acid.nvim
     " autocmd FileType clojure nmap cpr :AcidRequire<cr>
@@ -849,87 +1289,32 @@
 
   " TypeScript {{{
   " From https://github.com/peitalin/vim-jsx-typescript
-  autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+  " autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+  " hi tsxTag guifg=#F99575 ctermfg=lightgray
+  " hi tsxTagName guifg=#E06C75 ctermfg=darkblue
+  " hi tsxCloseString guifg=#F99575 ctermfg=darkblue
+  " hi tsxCloseTag guifg=#F99575 ctermfg=lightgray
+  " hi tsxCloseTagName guifg=#F99575 ctermfg=darkblue
+  " hi tsxAttributeBraces guifg=#F99575 ctermfg=white
+  " hi tsxJsBlock guifg=#F99575 ctermfg=darkcyan
+  " hi tsxEqual guifg=#F99575 ctermfg=brown
+  " hi tsxAttrib guifg=#F8BD7F cterm=italic ctermfg=darkmagenta
 
-  hi tsxTag guifg=#F99575 ctermfg=lightgray
-  hi tsxTagName guifg=#E06C75 ctermfg=darkblue
-  hi tsxCloseString guifg=#F99575 ctermfg=darkblue
-  hi tsxCloseTag guifg=#F99575 ctermfg=lightgray
-  hi tsxCloseTagName guifg=#F99575 ctermfg=darkblue
-  hi tsxAttributeBraces guifg=#F99575 ctermfg=white
-  hi tsxJsBlock guifg=#F99575 ctermfg=darkcyan
-  hi tsxEqual guifg=#F99575 ctermfg=brown
-  hi tsxAttrib guifg=#F8BD7F cterm=italic ctermfg=darkmagenta
+  " " light-grey
+  " hi tsxTypeBraces guifg=#999999 ctermfg=lightgray
+  " hi tsxTypes guifg=#666666 ctermfg=lightgray
 
-  " light-grey
-  hi tsxTypeBraces guifg=#999999 ctermfg=lightgray
-  hi tsxTypes guifg=#666666 ctermfg=lightgray
-
-  hi ReactState guifg=#C176A7
-  hi ReactProps guifg=#D19A66
-  hi ApolloGraphQL guifg=#CB886B
-  hi Events ctermfg=204 guifg=#56B6C2
-  hi ReduxKeywords ctermfg=204 guifg=#C678DD
-  hi ReduxHooksKeywords ctermfg=204 guifg=#C176A7
-  hi WebBrowser ctermfg=204 guifg=#56B6C2
-  hi ReactLifeCycleMethods ctermfg=204 guifg=#D19A66
-
-
-  " COC for TypeScript
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gr <Plug>(coc-references)
-  nmap <silent> [g <Plug>(coc-diagnostic-prev)
-  nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-  command! -nargs=0 Prettier :CocCommand prettier.formatFile
-  vmap <leader>fo  <Plug>(coc-format-selected)
-  nmap <leader>fo  <Plug>(coc-format-selected)
-
-  " Apply AutoFix to problem on the current line.
-  nmap <leader>qf  <Plug>(coc-fix-current)
-  nmap <leader>do <Plug>(coc-codeaction)
-
-  " Symbol renaming.
-  nmap <leader>rn <Plug>(coc-rename)
-
-  " Applying codeAction to the selected region.
-  " Example: `<leader>aap` for current paragraph
-  xmap <leader>a  <Plug>(coc-codeaction-selected)
-  nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-  " In the future we could allow this shortcut for other languages that use LSP
-  " Use K to show documentation in preview window
-  autocmd FileType typescript nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-
-  if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-    let g:coc_global_extensions += ['coc-prettier']
-  endif
-
-  if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-    let g:coc_global_extensions += ['coc-eslint']
-  endif
+  " hi ReactState guifg=#C176A7
+  " hi ReactProps guifg=#D19A66
+  " hi ApolloGraphQL guifg=#CB886B
+  " hi Events ctermfg=204 guifg=#56B6C2
+  " hi ReduxKeywords ctermfg=204 guifg=#C678DD
+  " hi ReduxHooksKeywords ctermfg=204 guifg=#C176A7
+  " hi WebBrowser ctermfg=204 guifg=#56B6C2
+  " hi ReactLifeCycleMethods ctermfg=204 guifg=#D19A66
 
   " Give more space for displaying messages.
-  set cmdheight=2
-
-  " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-  " delays and poor user experience.
-  set updatetime=100
-
-  " Don't pass messages to |ins-completion-menu|.
-  set shortmess+=c
-
-
-
+  " set cmdheight=2
   " }}}
 
 " }}}
@@ -940,42 +1325,49 @@
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
 " }}}
+"
 
-" yoink (previously YankRing) {{{
-" let yankring_persist = 1
-" let yankring_share_between_instances = 1
-" nnoremap <leader>yr :YRShow<cr>
+" " yoink {{{
+" nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+" nmap <c-p> <plug>(YoinkPostPasteSwapForward)
 
-nmap <c-n> <plug>(YoinkPostPasteSwapBack)
-nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+" nmap p <plug>(YoinkPaste_p)
+" nmap P <plug>(YoinkPaste_P)
 
-nmap p <plug>(YoinkPaste_p)
-nmap P <plug>(YoinkPaste_P)
+" " Also replace the default gp with yoink paste so we can toggle paste in this
+" " case too
+" nmap gp <plug>(YoinkPaste_gp)
+" nmap gP <plug>(YoinkPaste_gP)
 
-" Also replace the default gp with yoink paste so we can toggle paste in this
-" case too
-nmap gp <plug>(YoinkPaste_gp)
-nmap gP <plug>(YoinkPaste_gP)
+" " Now when you hit [y/]y the current yank will change and you will see a preview
+" " of it in the status bar
+" " nmap [y <plug>(YoinkRotateBack)
+" " nmap ]y <plug>(YoinkRotateForward)
 
-" vim subversive integration
-nmap [y <plug>(YoinkRotateBack)
-nmap ]y <plug>(YoinkRotateForward)
+" " You might also want to add a map for toggling whether the current paste is
+" " formatted or not:
+" nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
+" " Now, hitting <c-=> after a paste will toggle between formatted and unformatted
+" " (equivalent to using the = key).
 
-nmap <c-=> <plug>(YoinkPostPasteToggleFormat)
+" " Finally, you can also optionally add the following map:
+" nmap y <plug>(YoinkYankPreserveCursorPosition)
+" xmap y <plug>(YoinkYankPreserveCursorPosition)
 
-nmap y <plug>(YoinkYankPreserveCursorPosition)
-xmap y <plug>(YoinkYankPreserveCursorPosition)
+" " After adding this map, yank will function exactly the same as previously with
+" " the one difference being that the cursor position will not change after
+" " performing a yank. This can be more useful especially when yanking a large
+" " text object such as a paragraph.
 
-let g:yoinkSavePersistently = 1
-
-" }}}
+" " }}}
 
 " ack {{{
   if executable('ag')
     let g:ackprg = 'ag --vimgrep --hidden'
   endif
-  nnoremap \ :Ack!<space>
-  nnoremap <leader>* :Ack!<cword><cr>
+  " use telescope instead
+  " nnoremap \ :Ack!<space>
+  " nnoremap <leader>* :Ack!<cword><cr>
 " }}}
 
 " This plugin no longer exists
@@ -997,36 +1389,8 @@ let g:yoinkSavePersistently = 1
   autocmd FileType typescript.jsx setlocal commentstring=//\ %s
 " }}}
 
-" ncm2 and UltiSnips {{{
-
-  " When the <Enter> key is pressed while the popup menu is visible, it only
-  " hides the menu. Use this mapping to hide the menu and also start a new line.
-  " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-
-  " let g:UltiSnipsSnippetsDir='~/.vim_snippets'
-  " let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.vim_snippets']
-
-  " let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
-  " let g:UltiSnipsExpandTrigger = "<tab>"
-
-  " let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
-  " let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-  " let g:UltiSnipsRemoveSelectModeMappings = 0
-  " inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
-
-  " enable ncm2 for all buffers
-  " autocmd BufEnter * call ncm2#enable_for_buffer()
-
-  " noesnippet
-  " imap <c-j>     <Plug>(neosnippet_expand_or_jump)
-  " vmap <c-j>     <Plug>(neosnippet_expand_or_jump)
-  " inoremap <silent> <c-u> <c-r>=cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)")<cr>
-  " vmap <c-u>     <Plug>(neosnippet_expand_target)
-  " " expand parameters
-  " let g:neosnippet#enable_completed_snippet=1
-  " let g:neosnippet#snippets_directory=$HOME.'/.vim_snippets'
-
-
+" Firestore {{{
+  autocmd FileType firestore setlocal commentstring=//\ %s
 " }}}
 
 " JavaScript {{{

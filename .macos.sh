@@ -84,15 +84,19 @@
   # Disable press-and-hold for keys in favor of key repeat
   defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
-  # Set a blazingly fast keyboard repeat rate
-  defaults write NSGlobalDomain KeyRepeat -int 1
-  defaults write NSGlobalDomain InitialKeyRepeat -int 10
+  # normal minimum is 15 (225 ms)
+  defaults write -g InitialKeyRepeat -int 10
+  # normal minimum is 2 (30 ms)
+  defaults write -g KeyRepeat -int 2
+
+  # # Set a blazingly fast keyboard repeat rate
+  # defaults write NSGlobalDomain KeyRepeat -int 10
+  # defaults write NSGlobalDomain InitialKeyRepeat -int 10
+  # defaults write -g InitialKeyRepeat -int 2
+  # defaults write -g KeyRepeat -int 2
 
   # defaults write -g KeyRepeat -int 1
   # defaults write -g InitialKeyRepeat -int 1
-
-  defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
-  defaults write -g InitialKeyRepeat -int 1 # normal minimum is 15 (225 ms)
 
   # Dark UI
   defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"

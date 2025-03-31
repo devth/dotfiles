@@ -1,0 +1,13 @@
+set nocompatible
+
+call plug#begin('~/.vim/plugged')
+
+" Add a bunch of random plugins
+Plug 'tpope/vim-surround'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-fugitive'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'ervandew/supertab'
+Plug 'jiangmiao/auto-pairs'
+
+call plug#end()
