@@ -43,16 +43,17 @@
   fi
 
   # Link dotfiles from Dropbox
-  ln -sfn ~/Dropbox/dotfiles/.oh-my-zsh ~/.oh-my-zsh
-  ln -sfn ~/Dropbox/dotfiles/.zshrc ~/.zshrc
-  ln -sfn ~/Dropbox/dotfiles/.ssh ~/.ssh
-  ln -sfn ~/Dropbox/dotfiles/.tmuxinator ~/.tmuxinator
+  echo "TODO install these without dropbox!"
+  # ln -sfn ~/Dropbox/dotfiles/.oh-my-zsh ~/.oh-my-zsh
+  # ln -sfn ~/Dropbox/dotfiles/.zshrc ~/.zshrc
+  # ln -sfn ~/Dropbox/dotfiles/.ssh ~/.ssh
+  # ln -sfn ~/Dropbox/dotfiles/.tmuxinator ~/.tmuxinator
 
   # ssh permissions
   chmod -R 700 ~/.ssh/
 
   # Standby delay to 24 hours
-  sudo pmset -a standbydelay 86400
+  # sudo pmset -a standbydelay 86400
 
   # Disable transparency in the menu bar and elsewhere on Yosemite
   defaults write com.apple.universalaccess reduceTransparency -bool true
@@ -97,9 +98,6 @@
 
   # defaults write -g KeyRepeat -int 1
   # defaults write -g InitialKeyRepeat -int 1
-
-  # Dark UI
-  defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
   # Increase max files in a persistent way
 
@@ -154,9 +152,9 @@
   killall Finder
 
   # Configure Alfred to use synced preferences
-  defaults write com.runningwithcrayons.Alfred-Preferences-3 syncfolder "~/Dropbox";
-  killall "Alfred 3"
-  open "/Applications/Alfred 3.app"
+  # defaults write com.runningwithcrayons.Alfred-Preferences-3 syncfolder "~/Dropbox";
+  # killall "Alfred 3"
+  # open "/Applications/Alfred 3.app"
 
   # cmd + space for Alfred
   # defaults read com.runningwithcrayons.Alfred-3
@@ -288,8 +286,8 @@
   defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
   # Tell iTerm to load prefs from ~/Dropbox/dotfiles/iterm2
-  defaults write com.googlecode.iterm2 PrefsCustomFolder '~/Dropbox/dotfiles/iterm2'
-  defaults write com.googlecode.iterm2 "LoadPrefsFromCustomFolder" -bool true
+  # defaults write com.googlecode.iterm2 PrefsCustomFolder '~/Dropbox/dotfiles/iterm2'
+  # defaults write com.googlecode.iterm2 "LoadPrefsFromCustomFolder" -bool true
 
   # defaults read com.googlecode.iterm2
   # Set cmd + F1 hotkey for iTerm2
