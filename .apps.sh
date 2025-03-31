@@ -1,3 +1,5 @@
+set -xe
+
 # Setup / Homebrew {{{
   open ./assets/Monaco%20for%20Powerline.otf
   mkdir -p ~/.bin # this is in PATH - can put stuff here

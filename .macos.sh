@@ -1,4 +1,5 @@
 
+set -xe
 # macOS Settings {{{
 
   # System: disable spelling
