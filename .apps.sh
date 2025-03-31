@@ -228,8 +228,8 @@
 
 # Optional tools {{{
 
+# do not want
 install_android() {
-
   touch ~/.android/repositories.cfg
   # brew cask install caskroom/versions/java8
   brew cask install android-sdk
@@ -246,8 +246,3 @@ install_android() {
 }
 
 # }}}
-
-
-# license stuff
-# open ~/Dropbox/Licenses/license-dash4.dash-license
-
