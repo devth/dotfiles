@@ -64,6 +64,7 @@ alias gca="git commit -a -m"
 alias gp="git push"
 alias g="git"
 alias gpr='git pull --rebase && git --no-pager hist @{1}.. && echo'
+alias gpc='git push -u origin `git rev-parse --abbrev-ref HEAD`'
 
 # k8s aliases
 alias kx="kubectx"
