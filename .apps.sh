@@ -16,6 +16,7 @@ set -x
 # Tools {{{
   brew install zsh
   brew install git
+  brew install gpg
   # brew install tmux
   # brew install reattach-to-user-namespace
 # }}}
