@@ -1,4 +1,4 @@
-set -xe
+set -x
 
 # Setup / Homebrew {{{
   # open ./assets/Monaco%20for%20Powerline.otf
@@ -6,13 +6,11 @@ set -xe
   # sudo xcodebuild -license accept
   # install homebrew
   echo "NOTE: Xcode must be installed"
-  set +e
   which brew > /dev/null 2>&1
   if [ $? -eq 1 ]; then
     xcode-select --install
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
-  set -e
 # }}}
 
 # Tools {{{
