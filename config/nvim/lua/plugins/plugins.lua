@@ -13,7 +13,9 @@ return {
   { "williamboman/mason.nvim" },
   { "williamboman/mason-lspconfig.nvim" },
   { "neovim/nvim-lspconfig" },
-  { "3rd/image.nvim" },
+  -- remove this in favor of snacks.nvim
+  -- { "3rd/image.nvim" },
+
   { "nvimtools/none-ls.nvim", },
   { "nvimtools/none-ls-extras.nvim" },
   { "pmizio/typescript-tools.nvim" },
