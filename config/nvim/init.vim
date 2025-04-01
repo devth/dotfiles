@@ -506,7 +506,8 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     'css', 'graphql', 'html', 'javascript', 'lua', 'nix', 'python', 'svelte',
     'tsx', 'twig', 'typescript', 'vim', 'vimdoc', 'markdown', 'markdown_inline',
-    'clojure', 'regex', 'bash'
+    'clojure', 'regex', 'bash',
+    'git_config', 'gitcommit', 'git_rebase', 'gitignore', 'gitattributes'
   },
   highlight = {
     enable = true
