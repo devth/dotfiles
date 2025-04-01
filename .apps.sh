@@ -6,11 +6,13 @@ set -xe
   # sudo xcodebuild -license accept
   # install homebrew
   echo "NOTE: Xcode must be installed"
+  set +e
   which brew > /dev/null 2>&1
   if [ $? -eq 1 ]; then
     xcode-select --install
     brew -v || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
+  set -e
 # }}}
 
 # Tools {{{
