@@ -211,7 +211,8 @@ return {
   },
 
   -- Markdown preview
-  { "iamcco/markdown-preview.nvim", build = "cd app && yarn install" },
+  -- Disabled since I don't use it much
+  -- { "iamcco/markdown-preview.nvim", build = "cd app && yarn install" },
 
   -- Comments
   { "svermeulen/vim-subversive" },
