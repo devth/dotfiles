@@ -1,6 +1,13 @@
+# disable fish's friendly greeting message
+set -g fish_greeting ""
+# english por favor
 set -x LANG en_US.UTF-8
-eval "$(zoxide init zsh --cmd j)"
+# fish 🤝 homebrew
 fish_add_path /opt/homebrew/bin
+# setup zoxide (autojump replacement)
+zoxide init fish | source
+
+# always use neovim
 alias vim=nvim
 
 # ASDF configuration code
@@ -17,3 +24,8 @@ end
 set --erase _asdf_shims
 # ASDF shell completions
 asdf completion fish > ~/.config/fish/completions/asdf.fish
+
+# git aliases
+alias gs="git status"
+alias gd="git diff"
+alias gca="git commit -a"
