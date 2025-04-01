@@ -3,10 +3,14 @@ set -xe
 # Setup / Homebrew {{{
   open ./assets/Monaco%20for%20Powerline.otf
   mkdir -p ~/.bin # this is in PATH - can put stuff here
-  echo "NOTE: Xcode must be installed"
   # sudo xcodebuild -license accept
   # install homebrew
-  brew -v || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  echo "NOTE: Xcode must be installed"
+  which brew > /dev/null 2>&1
+  if [ $? -eq 1 ]; then
+    xcode-select --install
+    brew -v || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
 # }}}
 
 # Tools {{{
