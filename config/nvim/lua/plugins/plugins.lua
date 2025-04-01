@@ -152,7 +152,12 @@ return {
   { "kyazdani42/nvim-tree.lua" },
 
   -- Utils
+  -- TODO - remove in favor of toggleterm
   { "kassio/neoterm" },
+  {'akinsho/toggleterm.nvim', version = "*", opts = {
+    --[[ things you want to change go here]]
+  }}
+
   { "akinsho/toggleterm.nvim" },
   { "kevinhwang91/nvim-bqf" },
   {
