@@ -10,7 +10,7 @@ set -xe
   which brew > /dev/null 2>&1
   if [ $? -eq 1 ]; then
     xcode-select --install
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
   set -e
 # }}}
