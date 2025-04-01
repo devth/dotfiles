@@ -28,4 +28,5 @@ asdf completion fish > ~/.config/fish/completions/asdf.fish
 # git aliases
 alias gs="git status"
 alias gd="git diff"
-alias gca="git commit -a"
+alias gca="git commit -a -m"
+alias gp="git push"
