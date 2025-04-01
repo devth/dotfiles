@@ -132,7 +132,6 @@ set -x
 # Cloud tools {{{
 
   brew install kubectx
-  brew install kubens
   brew install kubernetes-helm
   # brew install terraform
   # brew install awscli

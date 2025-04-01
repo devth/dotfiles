@@ -25,6 +25,38 @@ set --erase _asdf_shims
 # ASDF shell completions
 asdf completion fish > ~/.config/fish/completions/asdf.fish
 
+
+
+# fish prompt
+# function fish_prompt
+#   # interactive user name @ host name, date/time in YYYY-mm-dd format and path
+#   echo (date '+%Y-%m-%d %H:%M:%S') (pwd)
+#   echo "❯ "
+# end
+
+function fish_prompt
+    set -l cyan (set_color cyan)
+    set -l yellow (set_color yellow)
+    set -l green (set_color green)
+    set -l blue (set_color blue)
+    set -l normal (set_color normal)
+    set -l red (set_color red)
+
+    echo
+    echo $cyan(whoami)$normal' at '$yellow(date '+%m/%d %H:%M:%S')$normal
+    if type -q kubectx && type -q kubens
+        echo '☸ '$blue(kubectx -c)'/'(kubens -c)$normal
+    else
+        echo
+    end
+    set -l git_branch ''
+    if git rev-parse --git-dir > /dev/null 2>&1
+        set git_branch $red(git branch --show-current)$normal' '
+    end
+    echo -n $git_branch'❯ '
+end
+
+
 # git aliases
 alias gs="git status"
 alias gd="git diff"
@@ -32,3 +64,8 @@ alias gca="git commit -a -m"
 alias gp="git push"
 alias g="git"
 alias gpr='git pull --rebase && git --no-pager hist @{1}.. && echo'
+
+# k8s aliases
+alias kx="kubectx"
+alias kn="kubens"
+alias k="kubectl"
