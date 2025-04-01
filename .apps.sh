@@ -103,7 +103,6 @@ set -xe
   # brew install dash --cask
   # open ~/Dropbox/Licenses/license-dash4.dash-license
 
-  brew tap homebrew/cask-fonts
   # Powerline fonts!
   brew install --cask \
     font-fira-code \
@@ -116,8 +115,8 @@ set -xe
     font-office-code-pro \
     font-pt-mono \
     font-raleway font-roboto \
-    font-source-code-pro font-source-code-pro-for-powerline \
-    font-source-sans-pro
+    font-source-code-pro \
+    font-source-code-pro-for-powerline
 
   # quicklook
   brew install qlcolorcode qlstephen qlmarkdown quicklook-json qlimagesize suspicious-package apparency quicklookase qlvideo
