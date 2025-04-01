@@ -31,3 +31,4 @@ alias gd="git diff"
 alias gca="git commit -a -m"
 alias gp="git push"
 alias g="git"
+alias gpr='git pull --rebase && git --no-pager hist @{1}.. && echo'
