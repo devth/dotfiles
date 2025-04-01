@@ -17,8 +17,6 @@ set -xe
 
 # Tools {{{
   brew install zsh
-  # use neovim instead (see below)
-  # brew install vim --with-override-system-vi
   brew install git
   # brew install tmux
   # brew install reattach-to-user-namespace
@@ -27,7 +25,6 @@ set -xe
 # neovim {{{
   # brew install neovim --HEAD || brew reinstall neovim --HEAD
   brew install neovim
-  pip3 install neovim --upgrade
 # }}}
 
 # Utils {{{
@@ -54,99 +51,40 @@ set -xe
   brew install less
 # }}}
 
-# Languages TODO switch to asdf {{{
-
+# Languages - use asdf {{{
   brew install asdf
-
-  # brew install ruby
-  # nodejs
-  #
-  # This installs nvm, which we don't currently use.
-  # curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-  # nvm install node
-  # nvm use node
-  # nvm alias default node
-  # nvm is so slow 🐢. DO NOT WANT
-  #
-  # Installing via brew doesn't allow us to switch versions but at least it's
-  # not NVM. If we ever need to switch versions, investigate having multiple
-  # versions with node and switching between them?
-  # brew install nodejs
-  # brew install yarn --without-node
-  # maybe someday we'll switch to Nix 🦄
-
-  # brew install python
-  # brew install python3
-  # brew install golang
-
 # }}}
 
-# Database {{{
-  # brew install postgres
-  # brew services start postgresql
-# }}}
-
-
-# Security {{{
-
-  # brew install vault
-  # brew install git-crypt
-  # brew install cfssl
-  # echo "Note: openssl is keg only and requires an explicit PATH in ~/.zshrc"
-  # shellcheck disable=SC2016
-  # echo 'export PATH="/usr/local/opt/openssl/bin:$PATH" >> ~/.zshrc'
-  # echo 'export PATH="/usr/local/opt/openssl/bin:$PATH"' >> ~/.zshrc
-  # brew info openssl
-  # brew install --force openssl
-  # brew link --force openssl
-
-# }}}
 
 # json {{{
-
   brew install jq
   # brew install jsonnet
-
 # }}}
 
 # Clojure {{{
-  brew install leiningen
-  brew install borkdude/brew/clj-kondo
+  # brew install leiningen
+  # brew install borkdude/brew/clj-kondo
 # }}}
 
 # File searching and management {{{
-
   brew install ag
   brew install ack
   brew install tree
   brew install ripgrep
   brew install fd
   brew install fzf
-
 # }}}
 
 # Custom taps {{{
 
+  # github cli
   brew install github/gh/gh
-
-  # brew tap codeclimate/formulae
-  # brew install codeclimate
-
-  # brew tap johanhaleby/kubetail
-  # brew install kubetail
-
   brew tap thoughtbot/formulae
   brew install rcm
-
-  # required by vim tiagofumo/vim-nerdtree-syntax-highlight plugin
-
 # }}}
 
 # Brew Cask {{{
-
-
   brew install selfcontrol
-
   # brew install docker
   # brew install docker-machine
   brew install iterm2
@@ -156,23 +94,14 @@ set -xe
   # brew install --cask spotify
   brew install --cask alfred
   brew install --cask caffeine
+
   # brew install --cask slack
   # brew install --cask istat-menus
-
   # get license from gmail
   # brew install --cask airfoil
 
   # brew install dash --cask
   # open ~/Dropbox/Licenses/license-dash4.dash-license
-
-  # brew cask install virtualbox
-  # brew cask install vagrant
-
-  # brew cask install gitter
-
-  # brew cask install gpg-suite
-
-  # rest client
 
   brew tap homebrew/cask-fonts
   # Powerline fonts!
@@ -220,17 +149,10 @@ set -xe
 # }}}
 
 # Manual steps (TODO automate these) {{{
-
 # iTerm2 prefs (do not use native full screen, fonts, colors)
-#
 # System Preferences
 # - Touchpad: 3 finger swipe left to go back/forward
-#
 # Configure istat-menus
-#
-# Configure IRC to connect to firrre:
-# https://firrre.com/connect/
-
 # }}}
 
 
