@@ -34,7 +34,8 @@ set -x
   brew install graphviz
   brew install asciinema
   brew install cheat
-  brew install autojump
+  # brew install autojump
+  brew install zoxide
   brew install sdcv
   brew install hub
   brew install watchman

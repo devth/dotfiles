@@ -158,13 +158,11 @@ EOF
 
 
 " Images 3rd/image.nvim {{{
-lua <<EOF
-
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
-
-require("image").setup({})
-EOF
+" lua <<EOF
+" package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
+" package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
+" require("image").setup({})
+" EOF
 " }}}
 
 
@@ -1099,13 +1097,13 @@ local telescope = require("telescope")
 local lga_actions = require("telescope-live-grep-args.actions")
 
 
-local image_preview = require('telescopeimage').telescope_image_preview()
+-- local image_preview = require('telescopeimage').telescope_image_preview()
 
 
 telescope.setup {
   defaults = {
-      file_previewer = image_preview.file_previewer,
-      buffer_previewer_maker = image_preview.buffer_previewer_maker,
+      -- file_previewer = image_preview.file_previewer,
+      -- buffer_previewer_maker = image_preview.buffer_previewer_maker,
   },
   extensions = {
     live_grep_args = {
