@@ -14,7 +14,7 @@ set -x
 # }}}
 
 # Tools {{{
-  brew install zsh
+  # brew install zsh
   brew install git
   brew install gpg
   # brew install tmux
@@ -94,7 +94,6 @@ set -x
   # brew install --cask spotify
   brew install --cask alfred
   brew install --cask caffeine
-
   brew install --cask 1password-cli
   # brew install --cask slack
   # brew install --cask istat-menus

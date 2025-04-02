@@ -34,15 +34,6 @@ set -xe
   defaults write com.apple.finder CreateDesktop -bool false
   defaults write com.apple.finder CreateDesktop false
 
-  # Set login shell to ZSH
-  if [ -n "$ZSH_VERSION" ]; then
-    # assume Zsh
-    echo "Shell is zsh"
-  else
-    # asume something else
-    chsh -s /bin/zsh
-  fi
-
   # Link dotfiles from Dropbox
   echo "TODO install these without dropbox!"
   # ln -sfn ~/Dropbox/dotfiles/.oh-my-zsh ~/.oh-my-zsh

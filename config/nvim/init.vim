@@ -244,7 +244,7 @@ EOF
   " autocmd DirChanged * echomsg string(v:event)
 
   " turn on spelling for certain files
-  autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
+  " autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
   autocmd BufRead,BufNewFile *.md set cursorline cursorcolumn
 
   autocmd FileType gitcommit setlocal spell complete+=kspell
