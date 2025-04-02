@@ -35,15 +35,16 @@ asdf completion fish > ~/.config/fish/completions/asdf.fish
 # end
 
 function fish_prompt
-    set -l cyan (set_color cyan)
+    set -l cyan (set_color brcyan)
     set -l yellow (set_color yellow)
     set -l green (set_color green)
     set -l blue (set_color blue)
     set -l normal (set_color normal)
     set -l red (set_color red)
+    set -l magenta (set_color magenta)
 
     echo
-    echo $cyan(whoami)$normal' at '$yellow(date '+%m/%d %H:%M:%S')$normal
+    echo $cyan(whoami)$normal' at '$yellow(date '+%m/%d %H:%M:%S')$normal' in '$cyan(prompt_pwd)
     if type -q kubectx && type -q kubens
         echo '☸ '$blue(kubectx -c)'/'(kubens -c)$normal
     else
@@ -51,7 +52,7 @@ function fish_prompt
     end
     set -l git_branch ''
     if git rev-parse --git-dir > /dev/null 2>&1
-        set git_branch $red(git branch --show-current)$normal' '
+        set git_branch $magenta(git branch --show-current)$normal' '
     end
     echo -n $git_branch'❯ '
 end
