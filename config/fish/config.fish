@@ -5,7 +5,7 @@ set -x LANG en_US.UTF-8
 # fish 🤝 homebrew
 fish_add_path /opt/homebrew/bin
 # setup zoxide (autojump replacement)
-zoxide init fish | source
+zoxide init --cmd j fish | source
 
 # always use neovim
 alias vim=nvim
