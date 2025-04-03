@@ -60,14 +60,19 @@ end
 
 # git aliases
 alias gs="git status"
+alias gb="git branch"
 alias gd="git diff"
 alias gca="git commit -a -m"
 alias gp="git push"
 alias g="git"
 alias gpr='git pull --rebase && git --no-pager hist @{1}.. && echo'
 alias gpc='git push -u origin (git rev-parse --abbrev-ref HEAD)'
+# git checkout master (or default branch)
+alias gcm 'git checkout (git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2)'
+alias gtrigger "g co -b redeploy && git ci --allow-empty -m 'Trigger' && gpc && gh pr create --fill && gh pr merge -s -d --admin"
 
 # k8s aliases
 alias kx="kubectx"
 alias kn="kubens"
 alias k="kubectl"
+

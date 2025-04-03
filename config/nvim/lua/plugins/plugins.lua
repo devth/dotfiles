@@ -157,6 +157,7 @@ return {
   -- TODO - remove in favor of toggleterm
   { "kassio/neoterm" },
   {'akinsho/toggleterm.nvim', version = "*", opts = {
+    shade_terminals = false,
     --[[ things you want to change go here]]
     }
   },

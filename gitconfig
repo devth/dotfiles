@@ -1,7 +1,7 @@
 [core]
   excludesfile = ~/.gitignore_global
   editor = nvim
-  pager = delta
+  pager = cat
 [interactive]
   diffFilter = delta --color-only --features=interactive
 [delta]
