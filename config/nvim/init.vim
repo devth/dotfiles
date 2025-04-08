@@ -39,7 +39,7 @@ EOF
   set scrolloff=3
   syntax on
   filetype plugin indent on
-  set shell=/bin/zsh
+  set shell=/opt/homebrew/bin/fish
   " set shellcmdflag=-l
   set history=1000
   set undolevels=1000
@@ -110,6 +110,10 @@ EOF
 
   " Set correct filetypes
   autocmd BufNewFile,BufRead Jenkinsfile set syntax=groovy
+
+  " pythong's a weirdo: don't wrap
+  autocmd FileType python set textwidth=0
+  autocmd FileType python set formatoptions-=t
 
 
   " }}}
@@ -268,7 +272,7 @@ EOF
   highlight TermCursor ctermfg=red guifg=red
 
   " tbone replacement using neoterm plugin
-  nmap <leader>twl <s-v>:TREPLSendLine<cr>
+  " nmap <leader>twl <s-v>:TREPLSendLine<cr>
   nmap gxx <s-v>:TREPLSendLine<cr>
   vmap gx :TREPLSendSelection<cr>
 
@@ -403,29 +407,29 @@ EOF
   "         \ hi NeomakeWarningSign ctermfg=yellow
   " augroup END
 
-  fun! CustomizeDarkColors()
-    " " Remove background on vertical splits
-    " " Hide the ~ characters at end of files
-    " " Customize Folds
-    " if &background == 'dark'
-    "   hi VertSplit ctermbg=0 ctermfg=0 guibg=#FAF2DC
-    "   hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
-    "   hi ColorColumn ctermbg=black
-    "   hi Folded cterm=bold ctermfg=cyan ctermbg=black
-    "   hi FoldColumn cterm=reverse
-    "   hi fmrkr ctermbg=black ctermfg=black
-    " else
-    "   hi NonText ctermbg=7 ctermfg=7
-    "   hi ColorColumn ctermbg=7
-    "   hi VertSplit ctermbg=7 ctermfg=7
-    "   hi fmrkr ctermbg=7 ctermfg=7
-    " endif
-  endfun
+  " fun! CustomizeDarkColors()
+  "   " " Remove background on vertical splits
+  "   " " Hide the ~ characters at end of files
+  "   " " Customize Folds
+  "   " if &background == 'dark'
+  "   "   hi VertSplit ctermbg=0 ctermfg=0 guibg=#FAF2DC
+  "   "   hi NonText cterm=NONE gui=NONE guibg=NONE guifg=#FAF2DC ctermbg=0 ctermfg=0
+  "   "   hi ColorColumn ctermbg=black
+  "   "   hi Folded cterm=bold ctermfg=cyan ctermbg=black
+  "   "   hi FoldColumn cterm=reverse
+  "   "   hi fmrkr ctermbg=black ctermfg=black
+  "   " else
+  "   "   hi NonText ctermbg=7 ctermfg=7
+  "   "   hi ColorColumn ctermbg=7
+  "   "   hi VertSplit ctermbg=7 ctermfg=7
+  "   "   hi fmrkr ctermbg=7 ctermfg=7
+  "   " endif
+  " endfun
 
-  augroup vimrc
-    autocmd!
-    autocmd ColorScheme * call CustomizeDarkColors()
-  augroup END
+  " augroup vimrc
+  "   autocmd!
+  "   autocmd ColorScheme * call CustomizeDarkColors()
+  " augroup END
 
   " Create syntax fmrkr for folds
   autocmd BufRead,BufNewFile * syn match fmrkr '"*{{{\|"*}}}' |
@@ -434,7 +438,7 @@ EOF
   " colorscheme solarized
   colorscheme solarized
 
-  set termguicolors " https://github.com/overcache/NeoSolarized
+  " set termguicolors " https://github.com/overcache/NeoSolarized
   set colorcolumn=80
   " default background color - can be toggled
   set bg=dark
@@ -680,41 +684,23 @@ require("telescope").load_extension("live_grep_args")
 -- telescope for code actions
 require("telescope").load_extension("ui-select")
 
-
 -- David-Kunz/jester
-map('n', '<leader>tt', ':lua require"jester".run({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
-map('n', '<leader>t_', ':lua require"jester".run_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
-map('n', '<leader>tf', ':lua require"jester".run_file({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
--- map('n', '<leader>dd', ':lua require"jester".debug({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
-map('n', '<leader>d_', ':lua require"jester".debug_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
--- map('n', '<leader>df', ':lua require"jester".debug_file({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
-map('n', '<leader>dq', ':lua require"jester".terminate()<cr>')
+-- map('n', '<leader>tt', ':lua require"jester".run({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- map('n', '<leader>t_', ':lua require"jester".run_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- map('n', '<leader>tf', ':lua require"jester".run_file({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- -- map('n', '<leader>dd', ':lua require"jester".debug({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- map('n', '<leader>d_', ':lua require"jester".debug_last({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- -- map('n', '<leader>df', ':lua require"jester".debug_file({ path_to_jest = "/opt/homebrew/bin/jest" })<cr>')
+-- map('n', '<leader>dq', ':lua require"jester".terminate()<cr>')
 
 EOF
 
 " }}}
 
-" vim-test {{{
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
-" }}}
 
 " LSP {{{
 
 lua << EOF
-
-
--- local cfg = {}
--- require "lsp_signature".setup(cfg)
-
--- https://github.com/ray-x/navigator.lua
--- require'navigator'.setup()
-
--- from https://jose-elias-alvarez.medium.com/configuring-neovims-lsp-client-for-typescript-development-5789d58ea9c
--- updated 1/15/2022
 
 
 local lspconfig = require("lspconfig")
@@ -724,64 +710,10 @@ local buf_map = function(bufnr, mode, lhs, rhs, opts)
     })
 end
 
-local on_attach = function(client, bufnr)
-    vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
-    vim.cmd("command! LspFormatting lua vim.lsp.buf.format { timeout_ms = 5000 }")
-    vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
-    vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
-    vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
-    vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
-    vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
-    vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
-    vim.cmd("command! LspDiagPrev lua vim.diagnostic.goto_prev()")
-    vim.cmd("command! LspDiagNext lua vim.diagnostic.goto_next()")
-    vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
-    vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
-    buf_map(bufnr, "n", "gd", ":LspDef<CR>")
-    buf_map(bufnr, "n", "gr", ":LspRename<CR>")
-    buf_map(bufnr, "n", "gl", ":LspRefs<CR>")
-    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
-    -- buf_map(bufnr, "n", "K", ":LspHover<CR>")
-    buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
-    buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
-    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
-    -- buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
-    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
-    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
 
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-          -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
-          -- this can be super slow - consider formatting manually instead
-          -- vim.lsp.buf.formatting_sync()
-          vim.lsp.buf.format({ async = false })
-        end,
-      })
-    end
-
-end
 
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
--- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/pylsp.lua
--- lspconfig.pylsp.setup{}
--- lspconfig.pyright.setup{}
--- lspconfig.gopls.setup{}
-
--- these seem too slow so disable them:
--- lspconfig.ruby_lsp.setup({})
--- lspconfig.rubocop.setup{}
-
--- this will use biome for formatting too but it doesn't load format or lint.
--- errors into diagnostics. none-ls is required for that.
--- lspconfig.biome.setup{}
-
 lspconfig.yamlls.setup {}
 
 -- this replaces lspconfig ts_ls
@@ -809,42 +741,46 @@ require("typescript-tools").setup {
 -- require'lspconfig'.jedi_language_server.setup{}
 require'lspconfig'.pyright.setup{}
 
--- require'lspconfig'.ts_ls.setup{
---   on_attach = function(client, bufnr)
---     -- disable formatting so it doesn't conflict with eslint / prettier
---     client.server_capabilities.documentFormattingProvider = false
---     client.server_capabilities.documentRangeFormatting = false
---     -- only config typescript-tools after attaching to a TS language server
---     -- local ts_utils = require("nvim-lsp-ts-utils")
---     -- ts_utils.setup({})
---     -- ts_utils.setup_client(client)
---     -- this command is broken until https://github.com/pmizio/typescript-tools.nvim/issues/295 is fixed
---     buf_map(bufnr, "n", "gs", ":TSToolsOrganizeImports<CR>")
---     -- buf_map(bufnr, "n", "gi", ":TSLspRenameFile<CR>")
---     -- buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
---     on_attach(client, bufnr)
---   end,
--- }
+require'lspconfig'.ruff.setup{}
 
-
--- lspconfig.tsserver.setup({
---   flags = {
---     debounce_text_changes = 500,
---   },
---   capabilities = capabilities,
---   on_attach = function(client, bufnr)
---     -- disable formatting so it doesn't conflict with eslint / prettier
---     client.server_capabilities.documentFormattingProvider = false
---     client.server_capabilities.documentRangeFormatting = false
---     local ts_utils = require("nvim-lsp-ts-utils")
---     ts_utils.setup({})
---     ts_utils.setup_client(client)
---     buf_map(bufnr, "n", "gs", ":TSToolsOrganizeImports<CR>")
---     buf_map(bufnr, "n", "gi", ":TSLspRenameFile<CR>")
---     buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
---     on_attach(client, bufnr)
---   end,
--- })
+local on_attach = function(client, bufnr)
+    vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
+    vim.cmd("command! LspFormatting lua vim.lsp.buf.format { timeout_ms = 5000 }")
+    vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
+    vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
+    vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
+    vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
+    vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
+    vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
+    vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
+    vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
+    buf_map(bufnr, "n", "gd", ":LspDef<CR>")
+    buf_map(bufnr, "n", "gr", ":LspRename<CR>")
+    buf_map(bufnr, "n", "gl", ":LspRefs<CR>")
+    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
+    -- buf_map(bufnr, "n", "K", ":LspHover<CR>")
+    -- use [d ]d instead
+    -- buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
+    -- buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
+    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
+    -- buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
+    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
+    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+          -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+          -- this can be super slow - consider formatting manually instead
+          -- vim.lsp.buf.formatting_sync()
+          vim.lsp.buf.format({ async = false })
+        end,
+      })
+    end
+end
 
 
 -- replaced null_ls with none-ls following biome's instructions
@@ -1076,11 +1012,9 @@ EOF
   nnoremap <leader>fg <cmd>Telescope live_grep<cr>
   nnoremap <leader>fb <cmd>Telescope buffers<cr>
   nnoremap <leader>fd <cmd>Telescope lsp_definitions<cr>
-  nnoremap <leader>fa <cmd>Telescope lsp_code_actions<cr>
   nnoremap <leader>fs <cmd>Telescope lsp_document_symbols<cr>
   nnoremap <leader>fw <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
   nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-  nnoremap <leader>fl <cmd>Telescope git_files<cr>
   nnoremap <leader>tgb <cmd>Telescope git_branches<cr>
   nnoremap <leader>tts <cmd>Telescope treesitter<cr>
 
@@ -1410,21 +1344,21 @@ let g:jsx_ext_required = 0
   " :call dispatch#start("kitty @ send-text --match title:left ls")
   " :call dispatch#start("kitty @ send-text --match title:left ls")
 
-function! TerminalH()
-  let line=getline('.')
-  " execute "Spawn! kitty @ send-text --match title:left ".line."\r"
-  " execute "!kitty  @ send-text --match title:left " . line . "\r"
-  let ignore = system("kitty  @ send-text --match title:left " . line . "\r", "")
-  echo ignore
-endfunction
-nnoremap <leader>twh :call TerminalH()<cr>
+" function! TerminalH()
+"   let line=getline('.')
+"   " execute "Spawn! kitty @ send-text --match title:left ".line."\r"
+"   " execute "!kitty  @ send-text --match title:left " . line . "\r"
+"   let ignore = system("kitty  @ send-text --match title:left " . line . "\r", "")
+"   echo ignore
+" endfunction
+" nnoremap <leader>twh :call TerminalH()<cr>
 
-function! TerminalL()
-  let line=getline('.')
-  " execute "Spawn! kitty @ send-text --match title:ia ".line."\r"
-  let result = system("kitty @ send-text --match title:right " . line . "\r")
-endfunction
-nnoremap <leader>twl :call TerminalL()<cr>
+" function! TerminalL()
+"   let line=getline('.')
+"   " execute "Spawn! kitty @ send-text --match title:ia ".line."\r"
+"   let result = system("kitty @ send-text --match title:right " . line . "\r")
+" endfunction
+" nnoremap <leader>twl :call TerminalL()<cr>
 
 " nmap <leader>twl <s-v>:Dispatch
 

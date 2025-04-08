@@ -156,13 +156,35 @@ return {
   -- Utils
   -- TODO - remove in favor of toggleterm
   { "kassio/neoterm" },
-  {'akinsho/toggleterm.nvim', version = "*", opts = {
-    shade_terminals = false,
-    --[[ things you want to change go here]]
-    }
+
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    opts = {
+      -- size = 20,
+      shade_terminals = false,
+      open_mapping = [[<c-t>]],
+      -- direction = "float",
+      -- float_opts = { border = "curved" },
+    },
+    keys = {
+      { "<c-t>", "<cmd>exe v:count1 . 'ToggleTerm'<cr>", desc = "Toggle Terminal" },
+      { "<leader>tg", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Horizontal Terminal" },
+      { "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", desc = "Vertical Terminal" },
+      { "<leader>twh", ":ToggleTermSendCurrentLine<cr>", desc = "Send Current Line" },
+      { "<leader>twh", ":'<,'>ToggleTermSendVisualLines<cr>", mode = "v", desc = "Send Selected Lines" },
+    },
+  },
+  {
+    "ryanmsnyder/toggleterm-manager.nvim",
+    dependencies = {
+      "akinsho/nvim-toggleterm.lua",
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim", -- only needed because it's a dependency of telescope
+    },
+    config = true,
   },
 
-  { "akinsho/toggleterm.nvim" },
   { "kevinhwang91/nvim-bqf" },
   {
     "gbprod/yanky.nvim",
@@ -421,19 +443,17 @@ return {
     "frankroeder/parrot.nvim",
     event = "VeryLazy",
     dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim', 'mrjones2014/op.nvim' },
-    -- optionally include "folke/noice.nvim" or "rcarriga/nvim-notify" for beautiful notifications
     config = function()
-      local xai_api_key = require("op").get_secret("xAI", "api_key_neovim")
       require("parrot").setup {
-        -- Providers must be explicitly added to make them available.
         providers = {
           xai = {
-            api_key = xai_api_key,
+            api_key = { "op", "read", "op://personal/xAI/api_key_neovim", "--no-newline" }
           },
         },
       }
     end,
+    keys = {
+      { "<c-g><c-g>", "<cmd>PrtChatNew<cr>", mode = { "n", "v" } },
+    },
   },
-
-
 }
