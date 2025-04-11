@@ -57,6 +57,30 @@ function fish_prompt
     echo -n $git_branch'❯ '
 end
 
+# git helpers
+function fzf-git-branch
+    git rev-parse HEAD >/dev/null 2>&1 || return
+    git branch --color=always --all --sort=-committerdate |
+        grep -v HEAD |
+        fzf --height 50% --ansi --no-multi --preview-window right:65% \
+            --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" (echo {} | sed "s/.* //")' |
+        sed "s/.* //"
+end
+
+function fzf-git-checkout
+    git rev-parse HEAD >/dev/null 2>&1 || return
+    set branch (fzf-git-branch)
+    if test -z "$branch"
+        echo "No branch selected."
+        return
+    end
+    if string match -q 'remotes/*' "$branch"
+        git checkout --track $branch
+    else
+        git checkout $branch
+    end
+end
+
 
 # git aliases
 alias gs="git status"
@@ -70,6 +94,8 @@ alias gpc='git push -u origin (git rev-parse --abbrev-ref HEAD)'
 # git checkout master (or default branch)
 alias gcm 'git checkout (git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2)'
 alias gtrigger "g co -b redeploy && git ci --allow-empty -m 'Trigger' && gpc && gh pr create --fill && gh pr merge -s -d --admin"
+
+alias gco='fzf-git-checkout'
 
 # k8s aliases
 alias kx="kubectx"

@@ -173,6 +173,8 @@ return {
       { "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", desc = "Vertical Terminal" },
       { "<leader>twh", ":ToggleTermSendCurrentLine<cr>", desc = "Send Current Line" },
       { "<leader>twh", ":'<,'>ToggleTermSendVisualLines<cr>", mode = "v", desc = "Send Selected Lines" },
+      { "<leader>twl", ":ToggleTermSendCurrentLine 2<cr>", desc = "Send Current Line to 2nd term" },
+      { "<leader>twl", ":'<,'>ToggleTermSendVisualLines 2<cr>", mode = "v", desc = "Send Selected Lines to 2nd term" },
     },
   },
   {
@@ -445,10 +447,30 @@ return {
     dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim', 'mrjones2014/op.nvim' },
     config = function()
       require("parrot").setup {
+        system_prompt = {
+          chat = "Keep your answer very consice and to the point",
+        },
         providers = {
           xai = {
             api_key = { "op", "read", "op://personal/xAI/api_key_neovim", "--no-newline" }
           },
+        },
+        hooks = {
+          -- TODO could this take a prompt?
+          Buff = function(prt, params)
+            local template = [[
+              Respond with an extremely consice answer.
+              Review the entire code in this file, carefully examine it.
+              Keep your explanation short and to the point and format it using markdown:
+
+              ```{{filetype}}
+              {{filecontent}}
+              ```
+            ]]
+            local model_obj = prt.get_model("command")
+            prt.logger.info("Outlining file with model: " .. model_obj.name)
+            prt.Prompt(params, prt.ui.Target.vnew, model_obj, nil, template)
+          end,
         },
       }
     end,

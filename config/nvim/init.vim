@@ -349,6 +349,19 @@ EOF
 " Lualine {{{
 
 lua << EOF
+
+-- define function and formatting of the information
+local function parrot_status()
+  local status_info = require("parrot.config").get_status_info()
+  local status = ""
+  if status_info.is_chat then
+    status = status_info.prov.chat.name
+  else
+    status = status_info.prov.command.name
+  end
+  return string.format("%s(%s)", status, status_info.model)
+end
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -372,7 +385,7 @@ require('lualine').setup {
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'mode', 'nvim_treesitter#statusline(90)'},
     lualine_x = {'searchcount', 'fileformat', 'filesize', 'filetype'},
-    lualine_y = {'progress'},
+    lualine_y = { parrot_status, 'progress'},
     lualine_z = {'location'}
   },
   inactive_sections = {
@@ -380,7 +393,7 @@ require('lualine').setup {
     lualine_b = {},
     lualine_c = {'filename'},
     lualine_x = {'location'},
-    lualine_y = {},
+    lualine_y = { parrot_status },
     lualine_z = {}
   },
   tabline = {},
@@ -861,8 +874,9 @@ lua <<EOF
       { name = "codeium", priority = 900 },
       -- https://www.reddit.com/r/neovim/comments/so4g5e/comment/hw7i5n0/
       { name = "nvim_lsp_signature_help" },
-      { name = 'vsnip' }, -- For vsnip users.
       { name = 'calc' },
+      { name = "parrot_completion" },
+      { name = "parrot" },
       {
         name = 'buffer',
         option = {
@@ -870,7 +884,8 @@ lua <<EOF
             return vim.api.nvim_list_bufs()
           end
         }
-      }
+      },
+      { name = 'vsnip' }, -- For vsnip users.
       -- { name = 'luasnip' }, -- For luasnip users.
       -- { name = 'ultisnips' }, -- For ultisnips users.
       -- { name = 'snippy' }, -- For snippy users.

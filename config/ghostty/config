@@ -4,3 +4,5 @@ theme = dark:Builtin Solarized Dark,light:Builtin Solarized Light
 font-family = FiraCode Nerd Font Mono Retina
 
 mouse-hide-while-typing
+
+window-decoration = true
