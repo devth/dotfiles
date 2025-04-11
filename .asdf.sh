@@ -15,6 +15,11 @@ asdf plugin add rust
 asdf install rust latest
 asdf set rust latest --home
 
+# ruby
+asdf plugin add ruby
+asdf install ruby 3.3.6
+asdf set ruby 3.3.6 --home
+
 # post asdf-setup:
 ## python stuff
 pip3 install neovim --upgrade
