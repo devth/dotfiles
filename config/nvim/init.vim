@@ -1033,11 +1033,6 @@ EOF
   nnoremap <leader>tgb <cmd>Telescope git_branches<cr>
   nnoremap <leader>tts <cmd>Telescope treesitter<cr>
 
-  " nnoremap \ <cmd>Telescope live_grep<cr>
-  nnoremap \ <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
-  " keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-
-  nnoremap <leader>* <cmd>Telescope grep_string<cr>
 
   " :lua require'telescope.builtin'.planets{}
   " :nnoremap <Leader>pp :lua require'telescope.builtin'.planets{}
@@ -1045,7 +1040,6 @@ EOF
 lua <<EOF
 local telescope = require("telescope")
 local lga_actions = require("telescope-live-grep-args.actions")
-
 
 -- local image_preview = require('telescopeimage').telescope_image_preview()
 
@@ -1068,6 +1062,7 @@ telescope.setup {
         },
       },
       additional_args = { "-." },
+      -- vimgrep_arguments = { "rg", "--hidden" },
       -- ... also accepts theme settings, for example:
       -- theme = "dropdown", -- use dropdown theme
       -- theme = { }, -- use own theme spec
@@ -1078,8 +1073,14 @@ telescope.setup {
     }
   }
 }
+
+telescope.load_extension("live_grep_args")
 EOF
 
+" nnoremap \ <cmd>Telescope live_grep<cr>
+nnoremap \ <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+" keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+nnoremap <leader>* <cmd>Telescope grep_string<cr>
 
 " }}}
 
