@@ -34,27 +34,44 @@ asdf completion fish > ~/.config/fish/completions/asdf.fish
 #   echo "❯ "
 # end
 
+
+
 function fish_prompt
-    set -l cyan (set_color brcyan)
+    # must capture immediately
+    set -l last_status $status
+    set -l cyan (set_color cyan)
     set -l yellow (set_color yellow)
     set -l green (set_color green)
     set -l blue (set_color blue)
     set -l normal (set_color normal)
     set -l red (set_color red)
     set -l magenta (set_color magenta)
+    set -l bold (set_color --bold)
 
     echo
-    echo $cyan(whoami)$normal' at '$yellow(date '+%m/%d %H:%M:%S')$normal' in '$cyan(prompt_pwd)
+    echo $cyan$bold(whoami)$normal' at '$yellow(date '+%m/%d %H:%M:%S')$normal' in '$cyan(prompt_pwd)
     if type -q kubectx && type -q kubens
         echo '☸ '$blue(kubectx -c)'/'(kubens -c)$normal
     else
         echo
     end
+
+    # Display the captured status here
+    set -l status_display ''
+    if test $last_status -eq 0
+        # don't show status if zero exit code
+        # set status_display (set_color normal)$last_status
+    else
+        set status_display (set_color --bold red)'✖ ['$last_status']'$normal' '
+    end
+
+    # git branch
     set -l git_branch ''
     if git rev-parse --git-dir > /dev/null 2>&1
         set git_branch $magenta(git branch --show-current)$normal' '
     end
-    echo -n $git_branch'❯ '
+
+    echo -n $status_display$git_branch'❯ '
 end
 
 # git helpers
