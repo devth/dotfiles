@@ -111,11 +111,14 @@ alias gpc='git push -u origin (git rev-parse --abbrev-ref HEAD)'
 # git checkout master (or default branch)
 alias gcm 'git checkout (git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2)'
 alias gtrigger "g co -b redeploy && git ci --allow-empty -m 'Trigger' && gpc && gh pr create --fill && gh pr merge -s -d --admin"
-
 alias gco='fzf-git-checkout'
+# githu cli
+alias ghprv="gh pr view --web"
 
 # k8s aliases
 alias kx="kubectx"
 alias kn="kubens"
 alias k="kubectl"
-
+function ksecret
+    kubectl get secret $argv[1] -o json | jq -r '.data | map_values(@base64d)'
+end

@@ -125,7 +125,38 @@ EOF
 " lua vim settings {{{
 lua <<EOF
 -- consider disabling this - it causes too much layout shift
-vim.diagnostic.config({virtual_lines = { current_line = true}})
+-- vim.diagnostic.config({virtual_lines = { current_line = true}})
+
+-- diagnostics are useful but layout shift is a deal breaker.
+-- use Trouble instead?
+vim.diagnostic.config({
+    underline = true,
+    update_in_insert = false,
+    virtual_lines = false,
+    virtual_text = {
+      spacing = 4,
+      source = "if_many",
+      prefix = "●",
+      -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+      -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+      -- prefix = "icons",
+    },
+    severity_sort = true,
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = "", -- nf-fa-times_circle
+        [vim.diagnostic.severity.WARN]  = "", -- nf-fa-exclamation_triangle
+        [vim.diagnostic.severity.HINT]  = "", -- nf-fa-lightbulb_o
+        [vim.diagnostic.severity.INFO]  = "", -- nf-fa-info_circle
+      },
+    },
+})
+-- show a popup with diagnostics when hovering
+vim.o.updatetime = 250
+vim.cmd [[
+autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})
+]]
+
 EOF
 
 " }}}
@@ -583,23 +614,6 @@ set foldlevel=20
 
 " }}}
 
-" Trouble {{{
-
-lua << EOF
-require("trouble").setup {
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  -- refer to the configuration section below
-}
-EOF
-
-nnoremap <leader>xx <cmd>TroubleToggle<cr>
-nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
-nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
-nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
-nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
-nnoremap gR <cmd>TroubleToggle lsp_references<cr>
-" }}}
 
 " DAP {{{
 
@@ -767,6 +781,7 @@ local on_attach = function(client, bufnr)
     vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
     vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
     vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
+    -- TODO remove all these and use lsp-wide mappings
     buf_map(bufnr, "n", "gd", ":LspDef<CR>")
     buf_map(bufnr, "n", "gr", ":LspRename<CR>")
     buf_map(bufnr, "n", "gl", ":LspRefs<CR>")
@@ -775,7 +790,7 @@ local on_attach = function(client, bufnr)
     -- use [d ]d instead
     -- buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
     -- buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
-    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
+    -- buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
     -- buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
     buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
     buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
