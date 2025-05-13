@@ -195,7 +195,7 @@ return {
 
   -- Utils
   -- TODO - remove in favor of toggleterm
-  { "kassio/neoterm" },
+  -- { "kassio/neoterm" },
 
   {
     "akinsho/toggleterm.nvim",

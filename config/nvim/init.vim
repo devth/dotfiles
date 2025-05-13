@@ -297,41 +297,7 @@ EOF
 
 " Vim terminal {{{
 
-  " NeoVim Terminal Mode
-  tnoremap <C-[> <C-\><C-n>
-  tnoremap jj <C-\><C-n>
   highlight TermCursor ctermfg=red guifg=red
-
-  " tbone replacement using neoterm plugin
-  " nmap <leader>twl <s-v>:TREPLSendLine<cr>
-  nmap gxx <s-v>:TREPLSendLine<cr>
-  vmap gx :TREPLSendSelection<cr>
-
-
-  " vmap <leader>twl :TREPLSendLine<cr>
-
-  " neoterm configuration
-  " let g:neoterm_position = 'vertical'
-  " Don't try to auto load a term
-  let g:neoterm_auto_repl_cmd = 0
-  let g:neoterm_default_mod = 'vertical'
-  let g:neoterm_term_per_tab = 1
-
-  nmap gxt :Ttoggle<cr>
-
-  " Use gx{text-object} in normal mode
-  " nmap gx <Plug>(neoterm-repl-send)
-
-  " Send selected contents in visual mode.
-  " xmap gx <Plug>(neoterm-repl-send)
-
-  " Send line - can use 2gxx to send 2 lines
-  " nmap gxx <Plug>(neoterm-repl-send-line)
-
-  " Toggle term visibility
-  " nmap gxt :Ttoggle<cr><c-w>=
-
-
 
 " }}}
 
