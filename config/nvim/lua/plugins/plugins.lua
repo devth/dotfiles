@@ -142,9 +142,11 @@ return {
     },
     config = function()
         require("codeium").setup({
+          enable_chat = true,
         })
     end
   },
+
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-buffer" },
   { "hrsh7th/cmp-path" },
@@ -348,28 +350,6 @@ return {
             },
           })
         end,
-        -- grok = function()
-        --   return require("codecompanion.adapters").extend("openai_compatible", {
-        --     url = "https://api.x.ai/v1/chat/completions",
-        --     api_key = "cmd:op read op://personal/xAI/api_key_neovim --no-newline",
-        --     -- headers = {
-        --     --   ["Content-Type"] = "application/json",
-        --     --   ["Authorization"] = "Bearer ${api_key}",
-        --     -- },
-        --     build_params = function(self, prompt, params, model)
-        --       return {
-        --         model = model or "grok-beta",
-        --         messages = { { role = "user", content = prompt } },
-        --         temperature = params.temperature or 0.7,
-        --         max_tokens = params.max_tokens or 2048,
-        --       }
-        --     end,
-        --     model_list = {
-        --       "grok-2-1212",
-        --       "grok-beta",
-        --     }
-        --   })
-        -- end,
         novita = function()
           return require("codecompanion.adapters").extend("openai_compatible", {
             env = {
@@ -492,7 +472,19 @@ return {
         },
         providers = {
           xai = {
-            api_key = { "op", "read", "op://personal/xAI/api_key_neovim", "--no-newline" }
+            api_key = { "op", "read", "op://personal/xAI/api_key_neovim", "--no-newline" },
+            models = {
+              "grok-3-beta",
+              "grok-3-mini-beta",
+            },
+            params = {
+              chat = { model = "grok-3-beta" },
+              command = { model = "grok-3-beta" },
+            },
+            topic = {
+              model = "grok-3-mini-beta",
+              params = { max_tokens = 32 },
+            },
           },
         },
         hooks = {
