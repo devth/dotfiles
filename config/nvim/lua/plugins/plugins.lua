@@ -507,7 +507,7 @@ return {
       }
     end,
     keys = {
-      { "<c-g><c-g>", "<cmd>PrtChatNew<cr>", mode = { "n", "v" } },
+      { "<c-g><c-g>", "<cmd>'<,'>PrtChatNew<cr>", mode = { "n", "v" } },
     },
   },
 }
