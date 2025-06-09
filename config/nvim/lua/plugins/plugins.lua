@@ -35,7 +35,11 @@ return {
 
   { "nvimtools/none-ls.nvim", },
   { "nvimtools/none-ls-extras.nvim" },
-  { "pmizio/typescript-tools.nvim" },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+  },
 
   -- this isn't that great. maybe there's a good CLI based solution?
   -- {
@@ -489,7 +493,10 @@ return {
         },
         providers = {
           xai = {
+            name = "xai",
             api_key = { "op", "read", "op://personal/xAI/api_key_neovim", "--no-newline" },
+            endpoint = "https://api.x.ai/v1/chat/completions",
+            model_endpoint = "https://api.x.ai/v1/language-models",
             models = {
               "grok-3-beta",
               "grok-3-mini-beta",

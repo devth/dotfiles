@@ -169,6 +169,7 @@ EOF
 " }}}
 
 
+
 " Images 3rd/image.nvim {{{
 " lua <<EOF
 " package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"

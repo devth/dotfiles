@@ -1,3 +1,4 @@
 python 3.13.2 --home
 rust 1.85.1 --home
-ruby 3.3.6 --home
+ruby 3.3.8
+nodejs 20.18.3
