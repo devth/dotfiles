@@ -169,29 +169,6 @@ EOF
 " }}}
 
 
-" Mason / LSP must be before lspconfig below {{{
-lua <<EOF
-  require("mason").setup()
-  require("mason-lspconfig").setup {
-    ensure_installed = {
-      "biome",
-      "ts_ls",
-      "kotlin_language_server",
-      "ruby_lsp",
-      "rubocop",
-      "sorbet",
-      "yamlls",
-      "pyright",
-      "ruff",
-      -- "jedi_language_server",
-    },
-    automatic_installation = true
-  }
-EOF
-" }}}
-"
-
-
 " Images 3rd/image.nvim {{{
 " lua <<EOF
 " package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
@@ -837,7 +814,8 @@ null_ls.setup({
     -- use prettier instead of lsp formatting
     -- null_ls.builtins.formatting.prettier,
 
-    null_ls.builtins.formatting.biome
+      null_ls.builtins.formatting.biome,
+      null_ls.builtins.formatting.terragrunt_fmt,
     },
     on_attach = on_attach,
   }

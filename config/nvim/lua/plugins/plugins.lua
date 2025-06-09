@@ -10,7 +10,24 @@ return {
   { "tpope/vim-git" },
 
   -- LSP
-  { "williamboman/mason.nvim" },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "tsserver",
+        "biome",
+        "kotlin_language_server",
+        "ruby_lsp",
+        "rubocop",
+        "sorbet",
+        "yamlls",
+        "pyright",
+        "ruff",
+        -- "jedi_language_server",
+      },
+      automatic_installation = true
+    }
+  },
   { "williamboman/mason-lspconfig.nvim" },
   { "neovim/nvim-lspconfig" },
   -- remove this in favor of snacks.nvim

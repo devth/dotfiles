@@ -6,9 +6,12 @@ set -x LANG en_US.UTF-8
 fish_add_path /opt/homebrew/bin
 # setup zoxide (autojump replacement)
 zoxide init --cmd j fish | source
+# iced clojure support
+fish_add_path ~/.local/share/nvim/lazy/vim-iced/bin
 
 # always use neovim
 alias vim=nvim
+alias vi=nvim
 
 # ASDF configuration code
 if test -z $ASDF_DATA_DIR
@@ -122,3 +125,4 @@ alias k="kubectl"
 function ksecret
     kubectl get secret $argv[1] -o json | jq -r '.data | map_values(@base64d)'
 end
+
