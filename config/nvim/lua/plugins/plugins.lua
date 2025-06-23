@@ -22,18 +22,19 @@ return {
         "sorbet",
         "yamlls",
         "pyright",
+        "stylua",
         "ruff",
         -- "jedi_language_server",
       },
-      automatic_installation = true
-    }
+      automatic_installation = true,
+    },
   },
   { "williamboman/mason-lspconfig.nvim" },
   { "neovim/nvim-lspconfig" },
   -- remove this in favor of snacks.nvim
   -- { "3rd/image.nvim" },
 
-  { "nvimtools/none-ls.nvim", },
+  { "nvimtools/none-ls.nvim" },
   { "nvimtools/none-ls-extras.nvim" },
   {
     "pmizio/typescript-tools.nvim",
@@ -116,7 +117,7 @@ return {
       --   If not available, we use `mini` as the fallback
       -- These notifications are too noisy and persistent. disable for now.
       "rcarriga/nvim-notify",
-      }
+    },
   },
   {
     -- lsp outline on the right
@@ -132,22 +133,23 @@ return {
       outline_window = {
         width = 15,
         focus_on_open = false,
-      }
+      },
     },
   },
 
   -- clojure
   -- TODO switch to the successor thing
-  { "liquidz/vim-iced",
+  {
+    "liquidz/vim-iced",
     dependencies = {
-      "guns/vim-sexp"
+      "guns/vim-sexp",
     },
     config = function()
       -- Disable vim-sexp default mappings
       vim.g.sexp_enable_insert_mappings = 0
       vim.g.sexp_mappings = {}
       -- Disable automatic filetype activation
-      vim.g.sexp_filetypes = ''
+      vim.g.sexp_filetypes = ""
     end,
   },
 
@@ -158,14 +160,14 @@ return {
   {
     "Exafunction/codeium.nvim",
     dependencies = {
-        "nvim-lua/plenary.nvim",
-        "hrsh7th/nvim-cmp",
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
     },
     config = function()
-        require("codeium").setup({
-          enable_chat = true,
-        })
-    end
+      require("codeium").setup({
+        enable_chat = true,
+      })
+    end,
   },
 
   { "hrsh7th/cmp-nvim-lsp" },
@@ -229,15 +231,51 @@ return {
       open_mapping = [[<c-t>]],
       -- direction = "float",
       -- float_opts = { border = "curved" },
+
+      -- on_create = function(term)
+      --   if term.id == 2 then
+      --     term.direction = "vertical"
+      --   end
+      -- end,
     },
     keys = {
       { "<c-t>", "<cmd>exe v:count1 . 'ToggleTerm'<cr>", desc = "Toggle Terminal" },
       { "<leader>tg", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Horizontal Terminal" },
       { "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", desc = "Vertical Terminal" },
       { "<leader>twh", ":ToggleTermSendCurrentLine<cr>", desc = "Send Current Line" },
-      { "<leader>twh", ":'<,'>ToggleTermSendVisualLines<cr>", mode = "v", desc = "Send Selected Lines" },
-      { "<leader>twl", ":ToggleTermSendCurrentLine 2<cr>", desc = "Send Current Line to 2nd term" },
-      { "<leader>twl", ":'<,'>ToggleTermSendVisualLines 2<cr>", mode = "v", desc = "Send Selected Lines to 2nd term" },
+      {
+        "<leader>twh",
+        ":'<,'>ToggleTermSendVisualLines<cr>",
+        mode = "v",
+        desc = "Send Selected Lines",
+      },
+      {
+        "<leader>twl",
+        function()
+          local cfg = require("toggleterm.config").get()
+          local old_direction, old_size = cfg.direction, cfg.size
+          cfg.direction, cfg.size = "vertical", 90
+
+          require("toggleterm").send_lines_to_terminal("single_line", true, {
+            go_back = true,
+            term_id = 2,
+          })
+
+          cfg.direction, cfg.size = old_direction, old_size
+        end,
+        desc = "Send current line to terminal 2 without stealing focus",
+      },
+      vim.keymap.set("v", "<leader>twl", function()
+        local cfg = require("toggleterm.config").get()
+        local old_direction, old_size = cfg.direction, cfg.size
+        cfg.direction, cfg.size = "vertical", 90
+        require("toggleterm").send_lines_to_terminal("visual_selection", true, {
+          go_back = true,
+          term_id = 2,
+        })
+
+        cfg.direction, cfg.size = old_direction, old_size
+      end, { desc = "Send visual selection to terminal 2" }),
     },
   },
   {
@@ -259,18 +297,59 @@ return {
       -- refer to the configuration section below
     },
     keys = {
-      { "<leader>y", function() require("telescope").extensions.yank_history.yank_history({ }) end, desc = "Open Yank History" },
+      {
+        "<leader>y",
+        function()
+          require("telescope").extensions.yank_history.yank_history({})
+        end,
+        desc = "Open Yank History",
+      },
       { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank text" },
       { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after cursor" },
-      { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before cursor" },
-      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after selection" },
-      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before selection" },
-      { "<c-p>", "<Plug>(YankyPreviousEntry)", desc = "Select previous entry through yank history" },
+      {
+        "P",
+        "<Plug>(YankyPutBefore)",
+        mode = { "n", "x" },
+        desc = "Put yanked text before cursor",
+      },
+      {
+        "gp",
+        "<Plug>(YankyGPutAfter)",
+        mode = { "n", "x" },
+        desc = "Put yanked text after selection",
+      },
+      {
+        "gP",
+        "<Plug>(YankyGPutBefore)",
+        mode = { "n", "x" },
+        desc = "Put yanked text before selection",
+      },
+      {
+        "<c-p>",
+        "<Plug>(YankyPreviousEntry)",
+        desc = "Select previous entry through yank history",
+      },
       { "<c-n>", "<Plug>(YankyNextEntry)", desc = "Select next entry through yank history" },
-      { "]p", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
-      { "[p", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
-      { "]P", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
-      { "[P", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
+      {
+        "]p",
+        "<Plug>(YankyPutIndentAfterLinewise)",
+        desc = "Put indented after cursor (linewise)",
+      },
+      {
+        "[p",
+        "<Plug>(YankyPutIndentBeforeLinewise)",
+        desc = "Put indented before cursor (linewise)",
+      },
+      {
+        "]P",
+        "<Plug>(YankyPutIndentAfterLinewise)",
+        desc = "Put indented after cursor (linewise)",
+      },
+      {
+        "[P",
+        "<Plug>(YankyPutIndentBeforeLinewise)",
+        desc = "Put indented before cursor (linewise)",
+      },
       { ">p", "<Plug>(YankyPutIndentAfterShiftRight)", desc = "Put and indent right" },
       { "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", desc = "Put and indent left" },
       { ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put before and indent right" },
@@ -325,18 +404,18 @@ return {
 
   -- Statusline
   {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' }
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 
   -- GitHub CI
   {
-    'topaxi/pipeline.nvim',
+    "topaxi/pipeline.nvim",
     keys = {
-      { '<leader>ci', '<cmd>Pipeline<cr>', desc = 'Open pipeline.nvim' },
+      { "<leader>ci", "<cmd>Pipeline<cr>", desc = "Open pipeline.nvim" },
     },
     -- optional, you can also install and use `yq` instead.
-    build = 'make',
+    build = "make",
     ---@type pipeline.Config
     opts = {},
   },
@@ -382,7 +461,7 @@ return {
             },
             schema = {
               model = {
-                default = "deepseek/deepseek-r1-turbo",  -- define llm model to be used
+                default = "deepseek/deepseek-r1-turbo", -- define llm model to be used
               },
               temperature = {
                 order = 2,
@@ -473,11 +552,10 @@ return {
   },
 
   {
-    'mrjones2014/op.nvim',
+    "mrjones2014/op.nvim",
     build = "make install",
     config = function()
-      require("op").setup({
-      })
+      require("op").setup({})
     end,
   },
 
@@ -485,9 +563,9 @@ return {
   {
     "frankroeder/parrot.nvim",
     event = "VeryLazy",
-    dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim', 'mrjones2014/op.nvim' },
+    dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim", "mrjones2014/op.nvim" },
     config = function()
-      require("parrot").setup {
+      require("parrot").setup({
         system_prompt = {
           chat = "Keep your answer very consice and to the point",
         },
@@ -498,15 +576,15 @@ return {
             endpoint = "https://api.x.ai/v1/chat/completions",
             model_endpoint = "https://api.x.ai/v1/language-models",
             models = {
-              "grok-3-beta",
-              "grok-3-mini-beta",
+              "grok-3",
+              "grok-3-mini",
             },
             params = {
-              chat = { model = "grok-3-beta" },
-              command = { model = "grok-3-beta" },
+              chat = { model = "grok-3" },
+              command = { model = "grok-3" },
             },
             topic = {
-              model = "grok-3-mini-beta",
+              model = "grok-3-mini",
               params = { max_tokens = 32 },
             },
           },
@@ -528,11 +606,12 @@ return {
             prt.Prompt(params, prt.ui.Target.vnew, model_obj, nil, template)
           end,
         },
-      }
+      })
     end,
     keys = {
-      { "<c-g><c-g>", "<cmd>'<,'>PrtChatNew<cr>", mode = { "n", "v" } },
-      { "<c-g>t", "<cmd>PrtChatToggle<cr>",  mode = { "n", "v" } },
+      { "<c-g><c-g>", "<cmd>PrtChatNew<cr>", mode = "n", desc = "Start new chat in normal mode" },
+      { "<c-g><c-g>", ":'<,'>PrtChatNew<cr>", mode = "v", desc = "Start new chat with selection" },
+      { "<c-g>t", "<cmd>PrtChatToggle<cr>", mode = { "n", "v" }, desc = "Toggle chat window" },
     },
   },
 }

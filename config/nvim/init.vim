@@ -276,6 +276,7 @@ EOF
 " Vim terminal {{{
 
   highlight TermCursor ctermfg=red guifg=red
+  lua vim.keymap.set("t", "<C-[>", [[<C-\><C-n>]], { noremap = true, silent = true })
 
 " }}}
 
@@ -795,7 +796,21 @@ local on_attach = function(client, bufnr)
           -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
           -- this can be super slow - consider formatting manually instead
           -- vim.lsp.buf.formatting_sync()
-          vim.lsp.buf.format({ async = false })
+              -- save current view (cursor, scroll, etc.)
+          local view = vim.fn.winsaveview()
+
+          -- join undo block (no new undo step)
+          pcall(vim.cmd, "silent! undojoin")
+
+          -- run formatting
+          vim.lsp.buf.format({
+            bufnr = bufnr,
+            async = false,
+            timeout_ms = 1000,
+          })
+
+          -- restore view
+          vim.fn.winrestview(view)
         end,
       })
     end
@@ -817,6 +832,9 @@ null_ls.setup({
 
       null_ls.builtins.formatting.biome,
       null_ls.builtins.formatting.terragrunt_fmt,
+
+      -- stylua formatting for Lua
+      null_ls.builtins.formatting.stylua,
     },
     on_attach = on_attach,
   }
