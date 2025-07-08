@@ -448,70 +448,9 @@ return {
             env = {
               api_key = "cmd:op read op://personal/xAI/api_key_neovim --no-newline",
             },
-          })
-        end,
-        novita = function()
-          return require("codecompanion.adapters").extend("openai_compatible", {
-            env = {
-              url = "https://api.novita.ai", -- optional: default value is ollama url http://127.0.0.1:11434
-              -- api_key = "OpenAI_API_KEY", -- optional: if your endpoint is authenticated
-              api_key = "cmd:op read op://personal/Novita/api_key_neovim --no-newline",
-              chat_url = "/v3/openai/chat/completions", -- optional: default value, override if different
-              models_endpoint = "/v3/openai/models", -- optional: attaches to the end of the URL to form the endpoint to retrieve models
-            },
             schema = {
               model = {
-                default = "deepseek/deepseek-r1-turbo", -- define llm model to be used
-              },
-              temperature = {
-                order = 2,
-                mapping = "parameters",
-                type = "number",
-                optional = true,
-                default = 0.8,
-                desc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.",
-                validate = function(n)
-                  return n >= 0 and n <= 2, "Must be between 0 and 2"
-                end,
-              },
-              max_completion_tokens = {
-                order = 3,
-                mapping = "parameters",
-                type = "integer",
-                optional = true,
-                default = nil,
-                desc = "An upper bound for the number of tokens that can be generated for a completion.",
-                validate = function(n)
-                  return n > 0, "Must be greater than 0"
-                end,
-              },
-              stop = {
-                order = 4,
-                mapping = "parameters",
-                type = "string",
-                optional = true,
-                default = nil,
-                desc = "Sets the stop sequences to use. When this pattern is encountered the LLM will stop generating text and return. Multiple stop patterns may be set by specifying multiple separate stop parameters in a modelfile.",
-                validate = function(s)
-                  return s:len() > 0, "Cannot be an empty string"
-                end,
-              },
-              logit_bias = {
-                order = 5,
-                mapping = "parameters",
-                type = "map",
-                optional = true,
-                default = nil,
-                desc = "Modify the likelihood of specified tokens appearing in the completion. Maps tokens (specified by their token ID) to an associated bias value from -100 to 100. Use https://platform.openai.com/tokenizer to find token IDs.",
-                subtype_key = {
-                  type = "integer",
-                },
-                subtype = {
-                  type = "integer",
-                  validate = function(n)
-                    return n >= -100 and n <= 100, "Must be between -100 and 100"
-                  end,
-                },
+                default = "grok-3", -- Ensure this is the latest model name, e.g., "grok-3-reasoning" or check xAI's API
               },
             },
           })
@@ -522,6 +461,7 @@ return {
         cmd = { adapter = "xai" },
         chat = {
           adapter = "xai",
+          model = "grok-3",
           slash_commands = {
             ["file"] = {
               -- Location to the slash command in CodeCompanion
@@ -560,58 +500,58 @@ return {
   },
 
   -- try parrot.nvim as an alternative to codecompanion
-  {
-    "frankroeder/parrot.nvim",
-    event = "VeryLazy",
-    dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim", "mrjones2014/op.nvim" },
-    config = function()
-      require("parrot").setup({
-        system_prompt = {
-          chat = "Keep your answer very consice and to the point",
-        },
-        providers = {
-          xai = {
-            name = "xai",
-            api_key = { "op", "read", "op://personal/xAI/api_key_neovim", "--no-newline" },
-            endpoint = "https://api.x.ai/v1/chat/completions",
-            model_endpoint = "https://api.x.ai/v1/language-models",
-            models = {
-              "grok-3",
-              "grok-3-mini",
-            },
-            params = {
-              chat = { model = "grok-3" },
-              command = { model = "grok-3" },
-            },
-            topic = {
-              model = "grok-3-mini",
-              params = { max_tokens = 32 },
-            },
-          },
-        },
-        hooks = {
-          -- TODO could this take a prompt?
-          Buff = function(prt, params)
-            local template = [[
-              Respond with an extremely consice answer.
-              Review the entire code in this file, carefully examine it.
-              Keep your explanation short and to the point and format it using markdown:
+  -- {
+  --   "frankroeder/parrot.nvim",
+  --   event = "VeryLazy",
+  --   dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim", "mrjones2014/op.nvim" },
+  --   config = function()
+  --     require("parrot").setup({
+  --       system_prompt = {
+  --         chat = "Keep your answer very consice and to the point",
+  --       },
+  --       providers = {
+  --         xai = {
+  --           name = "xai",
+  --           api_key = { "op", "read", "op://personal/xAI/api_key_neovim", "--no-newline" },
+  --           endpoint = "https://api.x.ai/v1/chat/completions",
+  --           model_endpoint = "https://api.x.ai/v1/language-models",
+  --           models = {
+  --             "grok-3",
+  --             "grok-3-mini",
+  --           },
+  --           params = {
+  --             chat = { model = "grok-3" },
+  --             command = { model = "grok-3" },
+  --           },
+  --           topic = {
+  --             model = "grok-3-mini",
+  --             params = { max_tokens = 32 },
+  --           },
+  --         },
+  --       },
+  --       hooks = {
+  --         -- TODO could this take a prompt?
+  --         Buff = function(prt, params)
+  --           local template = [[
+  --             Respond with an extremely consice answer.
+  --             Review the entire code in this file, carefully examine it.
+  --             Keep your explanation short and to the point and format it using markdown:
 
-              ```{{filetype}}
-              {{filecontent}}
-              ```
-            ]]
-            local model_obj = prt.get_model("command")
-            prt.logger.info("Outlining file with model: " .. model_obj.name)
-            prt.Prompt(params, prt.ui.Target.vnew, model_obj, nil, template)
-          end,
-        },
-      })
-    end,
-    keys = {
-      { "<c-g><c-g>", "<cmd>PrtChatNew<cr>", mode = "n", desc = "Start new chat in normal mode" },
-      { "<c-g><c-g>", ":'<,'>PrtChatNew<cr>", mode = "v", desc = "Start new chat with selection" },
-      { "<c-g>t", "<cmd>PrtChatToggle<cr>", mode = { "n", "v" }, desc = "Toggle chat window" },
-    },
-  },
+  --             ```{{filetype}}
+  --             {{filecontent}}
+  --             ```
+  --           ]]
+  --           local model_obj = prt.get_model("command")
+  --           prt.logger.info("Outlining file with model: " .. model_obj.name)
+  --           prt.Prompt(params, prt.ui.Target.vnew, model_obj, nil, template)
+  --         end,
+  --       },
+  --     })
+  --   end,
+  --   keys = {
+  --     { "<c-g><c-g>", "<cmd>PrtChatNew<cr>", mode = "n", desc = "Start new chat in normal mode" },
+  --     { "<c-g><c-g>", ":'<,'>PrtChatNew<cr>", mode = "v", desc = "Start new chat with selection" },
+  --     { "<c-g>t", "<cmd>PrtChatToggle<cr>", mode = { "n", "v" }, desc = "Toggle chat window" },
+  --   },
+  -- },
 }
