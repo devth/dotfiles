@@ -20,7 +20,8 @@ return {
         "ruby_lsp",
         "rubocop",
         "sorbet",
-        "yamlls",
+        -- this is too slow
+        -- "yamlls",
         "pyright",
         "stylua",
         "ruff",

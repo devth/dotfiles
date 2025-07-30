@@ -733,7 +733,8 @@ end
 
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-lspconfig.yamlls.setup {}
+-- disabled - too slow
+-- lspconfig.yamlls.setup {}
 
 -- this replaces lspconfig ts_ls
 require("typescript-tools").setup {
@@ -835,6 +836,14 @@ null_ls.setup({
 
       -- stylua formatting for Lua
       null_ls.builtins.formatting.stylua,
+
+      -- ruby (make sure to use the built in bundled gems)
+      null_ls.builtins.formatting.rubocop.with({
+        command = "bundle",
+        args = { "exec", "rubocop", "-a", "--stdin", "$FILENAME" },
+        timeout = 5000,
+      }),
+      -- null_ls.builtins.diagnostics.rubocop
     },
     on_attach = on_attach,
   }
