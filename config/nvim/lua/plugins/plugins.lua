@@ -473,6 +473,18 @@ return {
               },
             },
           },
+          keymaps = {
+            send = {
+              modes = { n = "<C-s>", i = "<C-s>" },
+              opts = {},
+            },
+            close = {
+              modes = { n = "<C-c>", i = "<C-c>" },
+              opts = {},
+            },
+            cycle_buffers = false
+            -- Add further custom keymaps here
+          }
         },
         inline = {
           adapter = "xai",
