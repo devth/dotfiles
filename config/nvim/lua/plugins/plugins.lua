@@ -441,8 +441,21 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
+    keys = {
+      {
+        "cc",
+        function()
+          vim.cmd("CodeCompanionChat")
+        end,
+        mode = { "n", "v" },
+        desc = "Open CodeCompanion Chat",
+      },
+    },
     opts = {
       show_defaults = false,
+      -- disable the default keybindings which conflict with nvim, such as <s-[>
+      -- and ?
+      disable_defaults = true,
       adapters = {
         xai = function()
           return require("codecompanion.adapters").extend("xai", {
@@ -474,18 +487,18 @@ return {
               },
             },
           },
-          keymaps = {
-            send = {
-              modes = { n = "<C-s>", i = "<C-s>" },
-              opts = {},
-            },
-            close = {
-              modes = { n = "<C-c>", i = "<C-c>" },
-              opts = {},
-            },
-            cycle_buffers = false
-            -- Add further custom keymaps here
-          }
+          -- keymaps = {
+          --   send = {
+          --     modes = { n = "<C-s>", i = "<C-s>" },
+          --     opts = {},
+          --   },
+          --   close = {
+          --     modes = { n = "<C-c>", i = "<C-c>" },
+          --     opts = {},
+          --   },
+          --   cycle_buffers = false,
+          --   -- Add further custom keymaps here
+          -- },
         },
         inline = {
           adapter = "xai",
