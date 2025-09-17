@@ -3,7 +3,8 @@ set -g fish_greeting ""
 # english por favor
 set -x LANG en_US.UTF-8
 # fish 🤝 homebrew
-fish_add_path /opt/homebrew/bin
+set -x PATH /opt/homebrew/bin $PATH
+# fish_add_path /opt/homebrew/bin
 # setup zoxide (autojump replacement)
 zoxide init --cmd j fish | source
 # iced clojure support

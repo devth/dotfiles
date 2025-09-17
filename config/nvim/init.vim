@@ -763,30 +763,34 @@ require'lspconfig'.pyright.setup{}
 
 require'lspconfig'.ruff.setup{}
 
+require("lspconfig").ruby_lsp.setup({ capabilities = capabilities })
+
 local on_attach = function(client, bufnr)
-    vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
-    vim.cmd("command! LspFormatting lua vim.lsp.buf.format { timeout_ms = 5000 }")
-    vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
-    vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
-    -- vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
-    vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
-    vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
-    vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
-    vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
-    vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
-    -- TODO remove all these and use lsp-wide mappings
-    buf_map(bufnr, "n", "gd", ":LspDef<CR>")
-    -- buf_map(bufnr, "n", "gr", ":LspRename<CR>")
-    buf_map(bufnr, "n", "gl", ":LspRefs<CR>")
-    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
-    -- buf_map(bufnr, "n", "K", ":LspHover<CR>")
-    -- use [d ]d instead
-    -- buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
-    -- buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
-    -- buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
-    -- buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
-    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
-    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
+    -- disabled Wed Sep 17 17:19:33 MDT 2025
+    -- if you don't miss anything just delete this
+    -- vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
+    -- vim.cmd("command! LspFormatting lua vim.lsp.buf.format { timeout_ms = 5000 }")
+    -- vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
+    -- vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
+    -- -- vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
+    -- vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
+    -- vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
+    -- vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
+    -- vim.cmd("command! LspDiagLine lua vim.diagnostic.open_float()")
+    -- vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
+    -- -- TODO remove all these and use lsp-wide mappings
+    -- buf_map(bufnr, "n", "gd", ":LspDef<CR>")
+    -- -- buf_map(bufnr, "n", "gr", ":LspRename<CR>")
+    -- buf_map(bufnr, "n", "gl", ":LspRefs<CR>")
+    -- buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>")
+    -- -- buf_map(bufnr, "n", "K", ":LspHover<CR>")
+    -- -- use [d ]d instead
+    -- -- buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>")
+    -- -- buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>")
+    -- -- buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>")
+    -- -- buf_map(bufnr, "n", "<Leader>fo", ":LspFormatting<CR>")
+    -- buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
+    -- buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
       vim.api.nvim_create_autocmd("BufWritePre", {
@@ -838,11 +842,12 @@ null_ls.setup({
       null_ls.builtins.formatting.stylua,
 
       -- ruby (make sure to use the built in bundled gems)
-      null_ls.builtins.formatting.rubocop.with({
-        command = "bundle",
-        args = { "exec", "rubocop", "-a", "--stdin", "$FILENAME" },
-        timeout = 5000,
-      }),
+      -- this times out. it probably doesn't work with rvm.
+      -- null_ls.builtins.formatting.rubocop.with({
+      --   command = "bundle",
+      --   args = { "exec", "rubocop", "-a", "--stdin", "$FILENAME" },
+      --   timeout = 9000,
+      -- }),
       -- null_ls.builtins.diagnostics.rubocop
     },
     on_attach = on_attach,
