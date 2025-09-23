@@ -14,6 +14,8 @@ fish_add_path ~/.local/share/nvim/lazy/vim-iced/bin
 alias vim=nvim
 alias vi=nvim
 
+set EDITOR nvim
+
 # ASDF configuration code
 # if test -z $ASDF_DATA_DIR
 #   set _asdf_shims "$HOME/.asdf/shims"

@@ -759,11 +759,17 @@ require("typescript-tools").setup {
 
 -- python lsp
 -- require'lspconfig'.jedi_language_server.setup{}
-require'lspconfig'.pyright.setup{}
+-- require'lspconfig'.pyright.setup{}
+-- require'lspconfig'.ruff.setup{}
+-- require'lspconfig'.biome.setup{}
+-- require'lspconfig'.sorbet.setup{}
+-- require("lspconfig").ruby_lsp.setup{}
 
-require'lspconfig'.ruff.setup{}
-
-require("lspconfig").ruby_lsp.setup({ capabilities = capabilities })
+vim.lsp.enable('pyright')
+vim.lsp.enable('ruff')
+vim.lsp.enable('biome')
+vim.lsp.enable('sorbet')
+vim.lsp.enable('ruby_lsp')
 
 local on_attach = function(client, bufnr)
     -- disabled Wed Sep 17 17:19:33 MDT 2025
