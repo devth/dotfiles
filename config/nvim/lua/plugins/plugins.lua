@@ -117,7 +117,8 @@ return {
       --   `nvim-notify` is only needed, if you want to use the notification view.
       --   If not available, we use `mini` as the fallback
       -- These notifications are too noisy and persistent. disable for now.
-      "rcarriga/nvim-notify",
+      -- "rcarriga/nvim-notify",
+      "ibhagwan/fzf-lua",
     },
   },
   {

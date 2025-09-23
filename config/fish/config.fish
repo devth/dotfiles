@@ -39,6 +39,10 @@ set EDITOR nvim
 #   echo "❯ "
 # end
 
+set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+set -x ANDROID_HOME $HOME/Library/Android/sdk
+set -x PATH $PATH $ANDROID_HOME/emulator
+set -x PATH $PATH $ANDROID_HOME/platform-tools
 
 
 function fish_prompt

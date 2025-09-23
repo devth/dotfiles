@@ -840,8 +840,13 @@ null_ls.setup({
 
     -- use prettier instead of lsp formatting
     -- null_ls.builtins.formatting.prettier,
-
       null_ls.builtins.formatting.biome,
+      -- this isn't a valid diagnostic:
+      -- null_ls.builtins.diagnostics.biome.with({
+      --   command = "biome", -- Verify this matches your global install
+      --   args = { "check", "--formatter-enabled=false", "$FILENAME" },
+      -- }),
+
       null_ls.builtins.formatting.terragrunt_fmt,
 
       -- stylua formatting for Lua
