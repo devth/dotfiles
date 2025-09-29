@@ -30,7 +30,13 @@ return {
       automatic_installation = true,
     },
   },
-  { "williamboman/mason-lspconfig.nvim" },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    lazy = false,
+    opts = {
+      auto_install = true,
+    },
+  },
   { "neovim/nvim-lspconfig" },
   -- remove this in favor of snacks.nvim
   -- { "3rd/image.nvim" },
