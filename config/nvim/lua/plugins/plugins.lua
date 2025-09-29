@@ -88,6 +88,30 @@ return {
     },
   },
 
+  -- linting
+  {
+    "mfussenegger/nvim-lint",
+    config = function()
+      local lint = require("lint")
+      lint.linters_by_ft = {
+        javascript = { "biomejs" },
+        typescript = { "biomejs" },
+        javascriptreact = { "biomejs" },
+        typescriptreact = { "biomejs" },
+        json = { "biomejs" },
+        jsonc = { "biomejs" },
+      }
+
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+        callback = function()
+          -- try_lint without arguments runs the linters defined in
+          -- `linters_by_ft` for the current filetype
+          require("lint").try_lint()
+        end,
+      })
+    end,
+  },
+
   -- nice ui messages
   {
     "folke/noice.nvim",
@@ -435,6 +459,57 @@ return {
   --   },
   --   -- See Commands section for default commands if you want to lazy load on them
   -- },
+
+  {
+    "NickvanDyke/opencode.nvim",
+    dependencies = {
+      -- Recommended for better prompt input, and required to use `opencode.nvim`'s embedded terminal — otherwise optional
+      { "folke/snacks.nvim", opts = { input = { enabled = true } } },
+    },
+    config = function()
+      vim.g.opencode_opts = {
+        -- Your configuration, if any — see `lua/opencode/config.lua`
+      }
+
+      -- Required for `opts.auto_reload`
+      vim.opt.autoread = true
+
+      -- Recommended/example keymaps
+      vim.keymap.set("n", "<leader>ot", function()
+        require("opencode").toggle()
+      end, { desc = "Toggle embedded" })
+      vim.keymap.set("n", "<leader>oA", function()
+        require("opencode").ask()
+      end, { desc = "Ask" })
+      vim.keymap.set("n", "<leader>oa", function()
+        require("opencode").ask("@cursor: ")
+      end, { desc = "Ask about this" })
+      vim.keymap.set("v", "<leader>oa", function()
+        require("opencode").ask("@selection: ")
+      end, { desc = "Ask about selection" })
+      vim.keymap.set("n", "<leader>oe", function()
+        require("opencode").prompt("Explain @cursor and its context")
+      end, { desc = "Explain this code" })
+      vim.keymap.set("n", "<leader>o+", function()
+        require("opencode").prompt("@buffer", { append = true })
+      end, { desc = "Add buffer to prompt" })
+      vim.keymap.set("v", "<leader>o+", function()
+        require("opencode").prompt("@selection", { append = true })
+      end, { desc = "Add selection to prompt" })
+      vim.keymap.set("n", "<leader>on", function()
+        require("opencode").command("session_new")
+      end, { desc = "New session" })
+      vim.keymap.set("n", "<S-C-u>", function()
+        require("opencode").command("messages_half_page_up")
+      end, { desc = "Messages half page up" })
+      vim.keymap.set("n", "<S-C-d>", function()
+        require("opencode").command("messages_half_page_down")
+      end, { desc = "Messages half page down" })
+      vim.keymap.set({ "n", "v" }, "<leader>os", function()
+        require("opencode").select()
+      end, { desc = "Select prompt" })
+    end,
+  },
 
   {
     "olimorris/codecompanion.nvim",
