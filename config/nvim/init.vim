@@ -124,38 +124,47 @@ EOF
 
 " lua vim settings {{{
 lua <<EOF
--- consider disabling this - it causes too much layout shift
--- vim.diagnostic.config({virtual_lines = { current_line = true}})
-
--- diagnostics are useful but layout shift is a deal breaker.
--- use Trouble instead?
 vim.diagnostic.config({
-    underline = true,
-    update_in_insert = false,
-    virtual_lines = false,
-    virtual_text = {
-      spacing = 4,
-      source = "if_many",
-      prefix = "●",
-      -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-      -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-      -- prefix = "icons",
+  underline = true,
+  update_in_insert = true,
+  -- disable virtual_lines since they cause too much layout shift
+  virtual_lines = false,
+  virtual_text = {
+    spacing = 2,
+    source = "if_many",
+    prefix = "●",
+    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+    -- prefix = "icons",
+  },
+  float = {
+    border = "rounded",
+    source = "always",
+    focusable = false,
+    style = "minimal",
+    header = "",
+    prefix = "",
+  },
+  severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "", -- nf-fa-times_circle
+      [vim.diagnostic.severity.WARN]  = "", -- nf-fa-exclamation_triangle
+      [vim.diagnostic.severity.HINT]  = "", -- nf-fa-lightbulb_o
+      [vim.diagnostic.severity.INFO]  = "", -- nf-fa-info_circle
     },
-    severity_sort = true,
-    signs = {
-      text = {
-        [vim.diagnostic.severity.ERROR] = "", -- nf-fa-times_circle
-        [vim.diagnostic.severity.WARN]  = "", -- nf-fa-exclamation_triangle
-        [vim.diagnostic.severity.HINT]  = "", -- nf-fa-lightbulb_o
-        [vim.diagnostic.severity.INFO]  = "", -- nf-fa-info_circle
-      },
-    },
+  },
 })
--- show a popup with diagnostics when hovering
--- vim.o.updatetime = 250
--- vim.cmd [[
--- autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})
--- ]]
+
+-- Faster CursorHold trigger (default is 4000)
+vim.o.updatetime = 300
+
+-- Show full diagnostic info when hovering
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focus = false })
+  end,
+})
 
 EOF
 
@@ -535,6 +544,18 @@ require'nvim-treesitter.configs'.setup {
         ["<leader>dF"] = "@class.outer",
       },
     },
+    keymaps = {
+      -- You can use the capture groups defined in textobjects.scm
+      ["af"] = "@function.outer",
+      ["if"] = "@function.inner",
+      ["ac"] = "@class.outer",
+      -- You can optionally set descriptions to the mappings (used in the desc parameter of
+      -- nvim_buf_set_keymap) which plugins like which-key display
+      ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+      -- You can also use captures from other query groups like `locals.scm`
+      ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+    },
+
     move = {
       enable = true,
       set_jumps = true, -- whether to set jumps in the jumplist
@@ -768,8 +789,9 @@ require("typescript-tools").setup {
 vim.lsp.enable('pyright')
 vim.lsp.enable('ruff')
 vim.lsp.enable('biome')
-vim.lsp.enable('sorbet')
-vim.lsp.enable('ruby_lsp')
+
+-- vim.lsp.enable('sorbet')
+-- vim.lsp.enable('ruby_lsp')
 
 local on_attach = function(client, bufnr)
     -- disabled Wed Sep 17 17:19:33 MDT 2025

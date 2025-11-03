@@ -14,18 +14,25 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
+        -- typescript
         "tsserver",
         "biome",
-        "kotlin_language_server",
+
+        -- ruby
         "ruby_lsp",
-        "rubocop",
-        "sorbet",
+        -- don't need rubocop or sorbet - ruby_ls handles both
+        -- "rubocop",
+        -- "sorbet",
+
         -- this is too slow
         -- "yamlls",
+
+        -- pythonggggggg
         "pyright",
-        "stylua",
         "ruff",
-        -- "jedi_language_server",
+
+        -- lua
+        "stylua",
       },
       automatic_installation = true,
     },
@@ -35,6 +42,16 @@ return {
     lazy = false,
     opts = {
       auto_install = true,
+      handlers = {
+        function(server)
+          require("lspconfig")[server].setup({})
+        end,
+        ruby_lsp = function()
+          require("lspconfig").ruby_lsp.setup({
+            init_options = { env = { RUBY_LSP_NO_EXECUTABLE_HOOKS = "1" } },
+          })
+        end,
+      },
     },
   },
   { "neovim/nvim-lspconfig" },
@@ -469,8 +486,9 @@ return {
   {
     "NickvanDyke/opencode.nvim",
     dependencies = {
-      -- Recommended for better prompt input, and required to use `opencode.nvim`'s embedded terminal — otherwise optional
-      { "folke/snacks.nvim", opts = { input = { enabled = true } } },
+      -- Recommended for `ask()` and `select()`.
+      -- Required for default `toggle()` implementation.
+      { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
     },
     config = function()
       vim.g.opencode_opts = {
