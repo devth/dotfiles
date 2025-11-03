@@ -887,6 +887,17 @@ null_ls.setup({
   }
 )
 
+-- sort imports automatically
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = { "*.js", "*.ts", "*.jsx", "*.tsx" },
+--   callback = function()
+--     vim.lsp.buf.execute_command({
+--       command = "biome/organizeImports",
+--       arguments = { vim.api.nvim_buf_get_name(0) },
+--     })
+--   end,
+-- })
+
 EOF
 
 " au BufEnter * typescript require'completion'.on_attach()
