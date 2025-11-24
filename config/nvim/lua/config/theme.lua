@@ -1,8 +1,12 @@
 local function get_system_theme()
-  local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null")
+  local handle = io.popen(
+    "osascript -e 'tell app \"System Events\" to tell appearance preferences to get dark mode' 2>/dev/null"
+  )
   local result = handle and handle:read("*a") or ""
-  if handle then handle:close() end
-  return result:match("Dark") and "dark" or "light"
+  if handle then
+    handle:close()
+  end
+  return result:match("true") and "dark" or "light"
 end
 
 local function set_theme()
