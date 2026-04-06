@@ -12,8 +12,8 @@
 " Plugins {{{
 
 lua <<EOF
-  vim.g.sexp_enable_insert_mappings = 0
-  vim.g.sexp_mappings = {}
+  vim.g.sexp_enable_insert_mode_mappings = 0
+  vim.g.sexp_mappings = vim.empty_dict()
   vim.g.sexp_filetypes = ''
 EOF
 
@@ -336,17 +336,6 @@ EOF
 lua << EOF
 
 -- define function and formatting of the information
-local function parrot_status()
-  local status_info = require("parrot.config").get_status_info()
-  local status = ""
-  if status_info.is_chat then
-    status = status_info.prov.chat.name
-  else
-    status = status_info.prov.command.name
-  end
-  return string.format("%s(%s)", status, status_info.model)
-end
-
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -368,9 +357,9 @@ require('lualine').setup {
   sections = {
     lualine_a = {'filename'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'mode', 'nvim_treesitter#statusline(90)'},
+    lualine_c = {'mode'},
     lualine_x = {'searchcount', 'fileformat', 'filesize', 'filetype'},
-    lualine_y = { parrot_status, 'progress'},
+    lualine_y = {'progress'},
     lualine_z = {'location'}
   },
   inactive_sections = {
@@ -378,7 +367,7 @@ require('lualine').setup {
     lualine_b = {},
     lualine_c = {'filename'},
     lualine_x = {'location'},
-    lualine_y = { parrot_status },
+    lualine_y = {},
     lualine_z = {}
   },
   tabline = {},
@@ -515,22 +504,6 @@ local treesitter = require('nvim-treesitter')
 local treesitter_group = vim.api.nvim_create_augroup('devth_treesitter', { clear = true })
 
 treesitter.setup({})
-local installed_treesitter_languages = treesitter.get_installed()
-local missing_treesitter_languages = vim.tbl_filter(function(lang)
-  return not vim.list_contains(installed_treesitter_languages, lang)
-end, treesitter_languages)
-
-if #missing_treesitter_languages > 0 then
-  vim.api.nvim_create_autocmd('VimEnter', {
-    group = treesitter_group,
-    once = true,
-    callback = function()
-      if #vim.api.nvim_list_uis() > 0 then
-        treesitter.install(missing_treesitter_languages)
-      end
-    end,
-  })
-end
 
 vim.api.nvim_create_autocmd('FileType', {
   group = treesitter_group,
@@ -632,6 +605,10 @@ end)
 vim.keymap.set('n', '<leader>dF', function()
   peek_textobject('@class.outer')
 end)
+
+vim.api.nvim_create_user_command('TSInstallConfigured', function()
+  treesitter.install(treesitter_languages)
+end, {})
 
 -- https://github.com/windwp/nvim-ts-autotag?tab=readme-ov-file#setup
 require('nvim-ts-autotag').setup({

@@ -196,8 +196,8 @@ return {
     },
     config = function()
       -- Disable vim-sexp default mappings
-      vim.g.sexp_enable_insert_mappings = 0
-      vim.g.sexp_mappings = {}
+      vim.g.sexp_enable_insert_mode_mappings = 0
+      vim.g.sexp_mappings = vim.empty_dict()
       -- Disable automatic filetype activation
       vim.g.sexp_filetypes = ""
     end,
@@ -243,7 +243,7 @@ return {
   { "tpope/vim-surround" },
   -- do we need this?
   { "tpope/vim-unimpaired" },
-  { "norcalli/nvim-colorizer.lua" },
+  { "catgoose/nvim-colorizer.lua" },
 
   -- Colors
   { "ishan9299/nvim-solarized-lua" },
@@ -652,14 +652,6 @@ return {
   --     },
   --   },
   -- },
-
-  {
-    "mrjones2014/op.nvim",
-    build = "make install",
-    config = function()
-      require("op").setup({})
-    end,
-  },
 
   -- try parrot.nvim as an alternative to codecompanion
   -- {
