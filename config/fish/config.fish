@@ -32,7 +32,12 @@ set -x ANDROID_HOME $HOME/Library/Android/sdk
 set -x PATH $PATH $ANDROID_HOME/emulator
 set -x PATH $PATH $ANDROID_HOME/platform-tools
 
-set -xg HEVY_API_KEY "39999315-894e-46c0-a8f7-a2edb0494f99"
+function hevy_key
+    if test -z "$HEVY_API_KEY"
+        set -xg HEVY_API_KEY (op read "op://Personal/dh3oeww2t6q5hytdastivnk4gm/api_key")
+    end
+    echo $HEVY_API_KEY
+end
 
 function stripe_key
     if test -z "$STRIPE_API_KEY"
