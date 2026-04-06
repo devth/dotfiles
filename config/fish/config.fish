@@ -9,6 +9,7 @@ set -x PATH /opt/homebrew/bin $PATH
 zoxide init --cmd j fish | source
 # iced clojure support
 fish_add_path ~/.local/share/nvim/lazy/vim-iced/bin
+fish_add_path "/Users/devth/.bun/bin"
 
 # always use neovim
 alias vim=nvim
@@ -30,6 +31,15 @@ set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 set -x ANDROID_HOME $HOME/Library/Android/sdk
 set -x PATH $PATH $ANDROID_HOME/emulator
 set -x PATH $PATH $ANDROID_HOME/platform-tools
+
+set -xg HEVY_API_KEY "39999315-894e-46c0-a8f7-a2edb0494f99"
+
+function stripe_key
+    if test -z "$STRIPE_API_KEY"
+        set -xg STRIPE_API_KEY (op read "op://Personal/u5v6jgvkobauhpnxxrtg66s2ke/devth-read-rlm-fundraiser-2025")
+    end
+    echo $STRIPE_API_KEY
+end
 
 
 function fish_prompt
@@ -120,4 +130,16 @@ function ksecret
     kubectl get secret $argv[1] -o json | jq -r '.data | map_values(@base64d)'
 end
 
+function oc
+    opencode --port $argv 2>/dev/null
+end
+
+# function poc
+#   export GOOGLE_APPLICATION_CREDENTIALS=/Users/devth/pronto/google-cloud/pronto-expo-ce3ba228be87.json
+#   export GOOGLE_CLOUD_PROJECT=pronto-expo
+#   export VERTEX_LOCATION=global
+#   oc
+# end
+
+alias sb="supabase"
 

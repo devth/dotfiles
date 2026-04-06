@@ -786,8 +786,8 @@ require("typescript-tools").setup {
 -- require'lspconfig'.sorbet.setup{}
 -- require("lspconfig").ruby_lsp.setup{}
 
-vim.lsp.enable('pyright')
-vim.lsp.enable('ruff')
+-- vim.lsp.enable('pyright')
+-- vim.lsp.enable('ruff')
 vim.lsp.enable('biome')
 
 -- vim.lsp.enable('sorbet')
@@ -1101,6 +1101,7 @@ EOF
 
   " Find files using Telescope command-line sugar.
   nnoremap <leader>ff <cmd>Telescope find_files<cr>
+  nnoremap <leader><space> <cmd>Telescope find_files<cr>
   nnoremap <leader>p <cmd>Telescope git_files<cr>
   nnoremap <leader>fg <cmd>Telescope live_grep<cr>
   nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -1346,14 +1347,6 @@ nnoremap <leader>* <cmd>Telescope grep_string<cr>
   " }}}
 
 " }}}
-
-" easy-align {{{
-  " Start interactive EasyAlign in visual mode (e.g. vipga)
-  xmap ga <Plug>(EasyAlign)
-  " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-  nmap ga <Plug>(EasyAlign)
-" }}}
-"
 
 " " yoink {{{
 " nmap <c-n> <plug>(YoinkPostPasteSwapBack)

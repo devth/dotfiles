@@ -15,7 +15,8 @@ return {
     opts = {
       ensure_installed = {
         -- typescript
-        "tsserver",
+        -- use typescript-tools instead
+        -- "tsserver",
         "biome",
 
         -- ruby
@@ -277,7 +278,8 @@ return {
     opts = {
       -- size = 20,
       shade_terminals = false,
-      open_mapping = [[<c-t>]],
+      -- this doesn't do anything?
+      open_mapping = [[<c-/>]],
       -- direction = "float",
       -- float_opts = { border = "curved" },
 
@@ -288,7 +290,7 @@ return {
       -- end,
     },
     keys = {
-      { "<c-t>", "<cmd>exe v:count1 . 'ToggleTerm'<cr>", desc = "Toggle Terminal" },
+      { "<c-/>", "<cmd>exe v:count1 . 'ToggleTerm'<cr>", desc = "Toggle Terminal" },
       { "<leader>tg", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Horizontal Terminal" },
       { "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", desc = "Vertical Terminal" },
       { "<leader>twh", ":ToggleTermSendCurrentLine<cr>", desc = "Send Current Line" },
@@ -498,121 +500,158 @@ return {
       -- Required for `opts.auto_reload`
       vim.opt.autoread = true
 
-      -- Recommended/example keymaps
+      -- Recommended/example keymaps.
+
       vim.keymap.set({ "n", "x" }, "<leader>oa", function()
         require("opencode").ask("@this: ", { submit = true })
       end, { desc = "Ask about this" })
+
+      -- vim.keymap.set({ "n", "x" }, "<C-a>", function()
+      --   require("opencode").ask("@this: ", { submit = true })
+      -- end, { desc = "Ask opencode" })
+
       vim.keymap.set({ "n", "x" }, "<leader>os", function()
         require("opencode").select()
-      end, { desc = "Select prompt" })
-      vim.keymap.set({ "n", "x" }, "<leader>o+", function()
+      end, { desc = "Select opencode prompt" })
+
+      -- vim.keymap.set({ "n", "x" }, "<C-x>", function()
+      --   require("opencode").select()
+      -- end, { desc = "Execute opencode action…"
+
+      vim.keymap.set({ "n", "x" }, "ga", function()
         require("opencode").prompt("@this")
-      end, { desc = "Add this" })
-      vim.keymap.set("n", "<leader>ot", function()
+      end, { desc = "Add to opencode" })
+
+      vim.keymap.set({ "n", "t" }, "<C-.>", function()
         require("opencode").toggle()
-      end, { desc = "Toggle embedded" })
-      vim.keymap.set("n", "<leader>oc", function()
-        require("opencode").command()
-      end, { desc = "Select command" })
-      vim.keymap.set("n", "<leader>on", function()
-        require("opencode").command("session_new")
-      end, { desc = "New session" })
-      vim.keymap.set("n", "<leader>oi", function()
-        require("opencode").command("session_interrupt")
-      end, { desc = "Interrupt session" })
-      vim.keymap.set("n", "<leader>oA", function()
-        require("opencode").command("agent_cycle")
-      end, { desc = "Cycle selected agent" })
+      end, { desc = "Toggle opencode" })
+
       vim.keymap.set("n", "<S-C-u>", function()
-        require("opencode").command("messages_half_page_up")
-      end, { desc = "Messages half page up" })
+        require("opencode").command("session.half.page.up")
+      end, { desc = "opencode half page up" })
+
       vim.keymap.set("n", "<S-C-d>", function()
-        require("opencode").command("messages_half_page_down")
-      end, { desc = "Messages half page down" })
+        require("opencode").command("session.half.page.down")
+      end, { desc = "opencode half page down" })
+
+      vim.keymap.set("n", "+", "<C-a>", { desc = "Increment", noremap = true })
+      vim.keymap.set("n", "-", "<C-x>", { desc = "Decrement", noremap = true })
+
+      -- Recommended/example keymaps (old)
+      -- vim.keymap.set({ "n", "x" }, "<leader>oa", function()
+      --   require("opencode").ask("@this: ", { submit = true })
+      -- end, { desc = "Ask about this" })
+      -- vim.keymap.set({ "n", "x" }, "<leader>os", function()
+      --   require("opencode").select()
+      -- end, { desc = "Select prompt" })
+      -- vim.keymap.set({ "n", "x" }, "<leader>o+", function()
+      --   require("opencode").prompt("@this")
+      -- end, { desc = "Add this" })
+      -- vim.keymap.set("n", "<leader>ot", function()
+      --   require("opencode").toggle()
+      -- end, { desc = "Toggle embedded" })
+      -- vim.keymap.set("n", "<leader>oc", function()
+      --   require("opencode").command()
+      -- end, { desc = "Select command" })
+      -- vim.keymap.set("n", "<leader>on", function()
+      --   require("opencode").command("session_new")
+      -- end, { desc = "New session" })
+      -- vim.keymap.set("n", "<leader>oi", function()
+      --   require("opencode").command("session_interrupt")
+      -- end, { desc = "Interrupt session" })
+      -- vim.keymap.set("n", "<leader>oA", function()
+      --   require("opencode").command("agent_cycle")
+      -- end, { desc = "Cycle selected agent" })
+      -- vim.keymap.set("n", "<S-C-u>", function()
+      --   require("opencode").command("messages_half_page_up")
+      -- end, { desc = "Messages half page up" })
+      -- vim.keymap.set("n", "<S-C-d>", function()
+      --   require("opencode").command("messages_half_page_down")
+      -- end, { desc = "Messages half page down" })
     end,
   },
 
-  {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    keys = {
-      {
-        "cc",
-        function()
-          vim.cmd("CodeCompanionChat")
-        end,
-        mode = { "n", "v" },
-        desc = "Open CodeCompanion Chat",
-      },
-    },
-    opts = {
-      show_defaults = false,
-      -- disable the default keybindings which conflict with nvim, such as <s-[>
-      -- and ?
-      disable_defaults = true,
-      adapters = {
-        xai = function()
-          return require("codecompanion.adapters").extend("xai", {
-            env = {
-              api_key = "cmd:op read op://personal/xAI/api_key_neovim --no-newline",
-            },
-            schema = {
-              model = {
-                default = "grok-3", -- Ensure this is the latest model name, e.g., "grok-3-reasoning" or check xAI's API
-              },
-            },
-          })
-        end,
-      },
-      strategies = {
-        agent = { adapter = "xai" },
-        cmd = { adapter = "xai" },
-        chat = {
-          adapter = "xai",
-          model = "grok-3",
-          slash_commands = {
-            ["file"] = {
-              -- Location to the slash command in CodeCompanion
-              callback = "strategies.chat.slash_commands.file",
-              description = "Select a file using Telescope",
-              opts = {
-                provider = "telescope", -- Other options include 'default', 'mini_pick', 'fzf_lua', snacks
-                contains_code = true,
-              },
-            },
-          },
-          -- keymaps = {
-          --   send = {
-          --     modes = { n = "<C-s>", i = "<C-s>" },
-          --     opts = {},
-          --   },
-          --   close = {
-          --     modes = { n = "<C-c>", i = "<C-c>" },
-          --     opts = {},
-          --   },
-          --   cycle_buffers = false,
-          --   -- Add further custom keymaps here
-          -- },
-        },
-        inline = {
-          adapter = "xai",
-          keymaps = {
-            accept_change = {
-              modes = { n = "ga" },
-              description = "Accept the suggested change",
-            },
-            reject_change = {
-              modes = { n = "gr" },
-              description = "Reject the suggested change",
-            },
-          },
-        },
-      },
-    },
-  },
+  -- {
+  --   "olimorris/codecompanion.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --   },
+  --   keys = {
+  --     {
+  --       "cc",
+  --       function()
+  --         vim.cmd("CodeCompanionChat")
+  --       end,
+  --       mode = { "n", "v" },
+  --       desc = "Open CodeCompanion Chat",
+  --     },
+  --   },
+  --   opts = {
+  --     show_defaults = false,
+  --     -- disable the default keybindings which conflict with nvim, such as <s-[>
+  --     -- and ?
+  --     disable_defaults = true,
+  --     adapters = {
+  --       xai = function()
+  --         return require("codecompanion.adapters").extend("xai", {
+  --           env = {
+  --             api_key = "cmd:op read op://personal/xAI/api_key_neovim --no-newline",
+  --           },
+  --           schema = {
+  --             model = {
+  --               default = "grok-3", -- Ensure this is the latest model name, e.g., "grok-3-reasoning" or check xAI's API
+  --             },
+  --           },
+  --         })
+  --       end,
+  --     },
+  --     strategies = {
+  --       agent = { adapter = "xai" },
+  --       cmd = { adapter = "xai" },
+  --       chat = {
+  --         adapter = "xai",
+  --         model = "grok-3",
+  --         slash_commands = {
+  --           ["file"] = {
+  --             -- Location to the slash command in CodeCompanion
+  --             callback = "strategies.chat.slash_commands.file",
+  --             description = "Select a file using Telescope",
+  --             opts = {
+  --               provider = "telescope", -- Other options include 'default', 'mini_pick', 'fzf_lua', snacks
+  --               contains_code = true,
+  --             },
+  --           },
+  --         },
+  --         -- keymaps = {
+  --         --   send = {
+  --         --     modes = { n = "<C-s>", i = "<C-s>" },
+  --         --     opts = {},
+  --         --   },
+  --         --   close = {
+  --         --     modes = { n = "<C-c>", i = "<C-c>" },
+  --         --     opts = {},
+  --         --   },
+  --         --   cycle_buffers = false,
+  --         --   -- Add further custom keymaps here
+  --         -- },
+  --       },
+  --       inline = {
+  --         adapter = "xai",
+  --         keymaps = {
+  --           accept_change = {
+  --             modes = { n = "ga" },
+  --             description = "Accept the suggested change",
+  --           },
+  --           reject_change = {
+  --             modes = { n = "gr" },
+  --             description = "Reject the suggested change",
+  --           },
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
 
   {
     "mrjones2014/op.nvim",

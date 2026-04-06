@@ -1,8 +1,10 @@
 
-theme = dark:Builtin Solarized Dark,light:Builtin Solarized Light
+theme = dark:iTerm2 Solarized Dark,light:iTerm2 Solarized Light
 
 font-family = FiraCode Nerd Font Mono Retina
 
 mouse-hide-while-typing
+
+font-size = 16
 
 window-decoration = true

@@ -3,3 +3,4 @@
 .env
 ctags
 tags
+firebase-debug.log
